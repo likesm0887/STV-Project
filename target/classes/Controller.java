@@ -13,8 +13,9 @@ import java.net.URL;
 
 public class Controller {
     public void execute() throws IOException, InterruptedException {
+        
         setUpAppium();
-        MobileElement elementOne = (MobileElement)  createAppium().findElementByAccessibilityId("SomeAccessibilityID");
+        //MobileElement elementOne = (MobileElement)  createAppium().findElementByAccessibilityId("SomeAccessibilityID");
 
     }
     private AppiumDriverLocalService service;
