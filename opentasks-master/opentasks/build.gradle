@@ -1,0 +1,110 @@
+apply plugin: 'com.android.application'
+if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
+    apply plugin: 'com.github.triplet.play'
+}
+// commit number is only relevant to the application project
+
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION.toInteger()
+    defaultConfig {
+        applicationId "org.dmfs.tasks"
+        minSdkVersion MIN_SDK_VERSION.toInteger()
+        targetSdkVersion TARGET_SDK_VERSION.toInteger()
+        versionName version
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    if (project.hasProperty("DMFS_RELEASE_KEYSTORE")) {
+        signingConfigs {
+            release {
+                storeFile file(DMFS_RELEASE_KEYSTORE)
+                storePassword DMFS_RELEASE_KEYSTORE_PASSWORD
+                keyAlias DMFS_RELEASE_KEY_ALIAS
+                keyPassword DMFS_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            if (project.hasProperty("DMFS_RELEASE_KEYSTORE")) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled true
+            proguardFiles 'proguard.cfg'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    productFlavors {
+    }
+
+    lintOptions {
+        disable 'MissingTranslation' // TODO
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':opentasks-provider')
+    implementation deps.support_appcompat
+    implementation deps.support_design
+    implementation(deps.xml_magic) {
+        // xmlpull is part of the runtime, so don't pull it in here
+        exclude group: 'xmlpull', module: 'xmlpull'
+    }
+    implementation deps.android_dashclock
+    implementation deps.color_picker
+    implementation(deps.codeka_carrot) {
+        exclude module: 'iterators' // TODO Remove when iterators have been removed from codeka:carrot
+    }
+    implementation(deps.android_carrot) {
+        exclude module: 'carrot'
+        exclude group: 'com.android.support'
+        exclude module: 'iterators'
+        exclude module: 'jems'
+    }
+    implementation deps.jems
+    implementation deps.datetime
+    implementation deps.bolts_color
+
+    testImplementation deps.junit
+    testImplementation deps.robolectric
+    testImplementation deps.jems_testing
+
+    androidTestImplementation(deps.support_test_runner) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation(deps.support_test_rules) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    implementation project(path: ':opentaskspal')
+}
+
+if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
+    play {
+        serviceAccountCredentials = file(PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS)
+        // the track is determined automatically by the version number format
+        switch (version){
+            case ~/^(\d+)(\.\d+)*(-\d+-[\w\d]+)?-dirty$/:
+                // work in progress goes to the internal track
+                track = "internal"
+                break
+            case ~/^(\d+)(\.\d+)*-\d+-[\w\d]+$/:
+                // untagged commits go to alpha
+                track = "alpha"
+                break
+            case ~/^(\d+)(\.\d+)*$/:
+                // tagged commits to go beta, from where they get promoted to releases
+                track = "beta"
+                break
+            default:
+                throw new IllegalArgumentException("Unrecognized version format")
+        }
+    }
+}
