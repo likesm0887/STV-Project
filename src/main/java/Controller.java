@@ -12,10 +12,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class Controller {
+    private  AndroidDriver driver;
+
+
+
+
     public void execute() throws IOException, InterruptedException {
         
         setUpAppium();
-        //MobileElement elementOne = (MobileElement)  createAppium().findElementByAccessibilityId("SomeAccessibilityID");
+        driver=createAppium();
+        driver.launchApp();
+        MobileElement elementTwo = (MobileElement) driver.findElementByClassName("android.widget.ImageView");
+        elementTwo.click();
+
+        service.stop();
 
     }
     private AppiumDriverLocalService service;
@@ -29,8 +39,8 @@ public class Controller {
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Android device");
-        cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,"ws.xsoh.etar");
-        cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,"com.android.calendar.AllInOneActivity");
+        cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,"org.dmfs.tasks");
+        cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,"org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
         cap.setCapability("newCommandTimeout",10000);
         return new AndroidDriver(new URL("http://0.0.0.0:5000/wd/hub"), cap);
