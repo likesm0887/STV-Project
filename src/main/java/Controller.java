@@ -38,7 +38,8 @@ public class Controller {
     {
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Android device");
+        cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Android Emulator");
+        cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,"9");
         cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE,"org.dmfs.tasks");
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,"org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
