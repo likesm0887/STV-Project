@@ -16,14 +16,20 @@ import java.net.URL;
 public class Controller {
     private  AndroidDriver driver;
 
+    private final String PACKAGE_NAME="org.dmfs.tasks";
 
+    public void launchApp() throws IOException {
+        String[] initInstrActivityCmd = {"adb", "-s", "emulator-5554", "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", PACKAGE_NAME + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
+        proc.start();
 
-
+    }
     public void execute() throws IOException, InterruptedException {
         
         setUpAppium();
         driver=createAppium();
-        driver.launchApp();
+        launchApp();
+        Thread.sleep(4000);
         MobileElement elementTwo = (MobileElement) driver.findElementByClassName("android.widget.ImageView");
         elementTwo.click();
 
