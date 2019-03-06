@@ -31,15 +31,6 @@
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
-        <sourceDirectory>src</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src</directory>
-                <includes>
-                    <include>**/*.java</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>
