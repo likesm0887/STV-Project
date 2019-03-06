@@ -39,7 +39,7 @@ public class Controller {
     private AppiumDriverLocalService service;
     private  void setUpAppium() throws IOException , InterruptedException
     {
-        this.service = new AppiumServiceBuilder().usingPort(5000).build();
+        this.service = new AppiumServiceBuilder().usingPort(5700).build();
         this.service.start();
     }
     private AndroidDriver createAppium() throws MalformedURLException
@@ -52,6 +52,6 @@ public class Controller {
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,"org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
         cap.setCapability("newCommandTimeout",10000);
-        return new AndroidDriver(new URL("http://0.0.0.0:5000/wd/hub"), cap);
+        return new AndroidDriver(new URL("http://0.0.0.0:5700/wd/hub"), cap);
     }
 }
