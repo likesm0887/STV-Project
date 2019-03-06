@@ -31,8 +31,8 @@
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>src</testSourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/java</directory>
