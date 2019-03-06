@@ -32,10 +32,9 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>src</testSourceDirectory>
         <resources>
             <resource>
-                <directory>src/main/java</directory>
+                <directory>src</directory>
                 <includes>
                     <include>**/*.java</include>
                 </includes>
