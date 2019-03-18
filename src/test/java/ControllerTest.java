@@ -1,3 +1,5 @@
+package java;
+
 import adapter.AppiumAdapter;
 import adapter.ScreenSize;
 import entity.xPath.NodeAttribute;

@@ -1,11 +1,11 @@
 package contorller;
-import Adapter.AppiumAdapter;
-import Adapter.DeviceDriver;
+import adapter.AppiumAdapter;
+import adapter.DeviceDriver;
 import java.io.IOException;
 
 public class Controller {
     public void execute() throws IOException, InterruptedException {
-        DeviceDriver appiumAdapter = new AppiumAdapter();
+       // DeviceDriver appiumAdapter = new AppiumAdapter();
 
     }
 }

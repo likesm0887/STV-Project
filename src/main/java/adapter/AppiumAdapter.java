@@ -15,8 +15,7 @@ import java.util.List;
 
 public class AppiumAdapter {
     private AndroidDriver driver;
-    private final int SERVER_PORT = 50000;
-
+    private final int SERVER_PORT = 5700;
     public AppiumAdapter() {
         driver = getDriver();
     }
@@ -78,9 +77,9 @@ public class AppiumAdapter {
         }
     }
 
-    public ScreenSize getScreenSize() {
+    public adapter.ScreenSize getScreenSize() {
         Dimension size = driver.manage().window().getSize();
-        return new ScreenSize(size.width, size.height);
+        return new adapter.ScreenSize(size.width, size.height);
     }
 
     public void scrollVertical(int x, int fromY, int toY) {
