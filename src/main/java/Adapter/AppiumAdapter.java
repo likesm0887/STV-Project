@@ -1,37 +1,36 @@
-import io.appium.java_client.MobileElement;
+package Adapter;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Controller {
+public class AppiumAdapter implements DeviceDriver {
+    private AppiumDriverLocalService service;
     private  AndroidDriver driver;
-
-
-
-
-    public void execute() throws IOException, InterruptedException {
-        
+    private final String PACKAGE_NAME="org.dmfs.tasks";
+    public AppiumAdapter() throws IOException, InterruptedException {
         setUpAppium();
         driver=createAppium();
-        driver.launchApp();
-        MobileElement elementTwo = (MobileElement) driver.findElementByClassName("android.widget.ImageView");
-        elementTwo.click();
-
-        service.stop();
+    }
+    @Override
+    public void find() {
 
     }
-    private AppiumDriverLocalService service;
-    private  void setUpAppium() throws IOException , InterruptedException
+
+    @Override
+    public void click() {
+
+    }
+    private  void setUpAppium() throws IOException, InterruptedException
     {
-        this.service = new AppiumServiceBuilder().usingPort(5000).build();
+        this.service = new AppiumServiceBuilder().usingPort(5700).build();
         this.service.start();
     }
     private AndroidDriver createAppium() throws MalformedURLException
@@ -44,6 +43,14 @@ public class Controller {
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY,"org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
         cap.setCapability("newCommandTimeout",10000);
-        return new AndroidDriver(new URL("http://0.0.0.0:5000/wd/hub"), cap);
+        return new AndroidDriver(new URL("http://0.0.0.0:5700/wd/hub"), cap);
+    }
+    @Override
+    public void launchApp() throws IOException, InterruptedException {
+        String[] initInstrActivityCmd = {"adb", "-s", "emulator-5554", "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", PACKAGE_NAME + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
+        proc.start();
+        Thread.sleep(4000);
+
     }
 }

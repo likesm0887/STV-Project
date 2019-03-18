@@ -104,3 +104,6 @@ lint/tmp/
 # lint/reports/
 target
 *.class
+.idea/encodings.xml
+.idea/compiler.xml
+.idea/misc.xml
