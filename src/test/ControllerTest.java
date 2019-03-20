@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +26,7 @@ public class ControllerTest {
     private static AndroidDriver driver;
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws IOException, InterruptedException {
         ConfigReader configReader = new ConfigReader();
         adapter = new AppiumAdapter(configReader.getConfig());
         driver = adapter.getDriver();
@@ -67,6 +68,7 @@ public class ControllerTest {
 
     @Test
     public void switchTabs() {
+        driver.launchApp();
         List<MobileElement> tabs = driver.findElements(By.className("android.support.v7.app.ActionBar$Tab"));
         tabs.forEach(each -> each.click());
     }

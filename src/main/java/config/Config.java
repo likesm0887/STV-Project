@@ -5,6 +5,15 @@ public class Config {
     private int androidVersion = 0;
     private int appiumPort = 0;
 
+    public String getSerialNumber() {
+        return SerialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        SerialNumber = serialNumber;
+    }
+
+    private String SerialNumber = "" ;
     public String getDevicesName() {
         return devicesName;
     }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
         <!--DeviceName option :Android Device , Android Emulator-->
-        <DeviceName>Android Device</DeviceName>
-        <AndroidVersion>8</AndroidVersion>>
-        <AppiumPort>5700</AppiumPort>
+        <DeviceName>Android Emulator</DeviceName>
+        <SerialNumber>emulator-5554</SerialNumber>
+        <AndroidVersion>9</AndroidVersion>>
+        <AppiumPort>5500</AppiumPort>
 </configuration>

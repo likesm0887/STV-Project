@@ -20,6 +20,7 @@ public class ConfigReader {
         config.setDevicesName(configMap.get("DeviceName"));
         config.setAndroidVersion(Integer.parseInt(configMap.get("AndroidVersion")));
         config.setAppiumPort(Integer.parseInt(configMap.get("AppiumPort")));
+        config.setSerialNumber(configMap.get("SerialNumber"));
         return config;
     }
     private  Map<String, String> configMap = new LinkedHashMap<>();
