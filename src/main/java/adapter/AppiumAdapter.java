@@ -1,5 +1,6 @@
 package adapter;
 
+import config.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
@@ -15,23 +16,25 @@ import java.util.List;
 
 public class AppiumAdapter {
     private AndroidDriver driver;
-    private final int SERVER_PORT = 5700;
-    public AppiumAdapter() {
+    private Config config;
+
+    public AppiumAdapter(Config config) {
+        this.config = config;
         driver = getDriver();
     }
 
     public AndroidDriver getDriver() {
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
-        cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Android Emulator");
-        cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "9");
+        cap.setCapability(MobileCapabilityType.DEVICE_NAME, config.getDevicesName());
+        cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, config.getAndroidVersion());
         cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "org.dmfs.tasks");
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
         cap.setCapability("newCommandTimeout", 10000);
         URL serverUrl = null;
         try {
-            serverUrl = new URL("http://0.0.0.0:" + SERVER_PORT + "/wd/hub");
+            serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

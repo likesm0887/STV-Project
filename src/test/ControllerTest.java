@@ -1,7 +1,6 @@
-package java;
-
 import adapter.AppiumAdapter;
 import adapter.ScreenSize;
+import config.ConfigReader;
 import entity.xPath.NodeAttribute;
 import entity.xPath.XPathBuilder;
 import io.appium.java_client.MobileElement;
@@ -21,22 +20,21 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class ControllerTest {
-    private static final int SERVER_PORT = 50000;
     private static AppiumDriverLocalService service;
     private static AppiumAdapter adapter;
     private static AndroidDriver driver;
 
     @BeforeClass
     public static void setUpClass() {
-        setUpAppiumService();
-        adapter = new AppiumAdapter();
+        ConfigReader configReader = new ConfigReader();
+        adapter = new AppiumAdapter(configReader.getConfig());
         driver = adapter.getDriver();
     }
-
+/*
     @AfterClass
     public static void tearDownClass() {
         service.stop();
-    }
+    }*/
 
     @Before
     public void setUp() {
@@ -49,10 +47,7 @@ public class ControllerTest {
 //        driver.closeApp();
 //    }
 
-    private static void setUpAppiumService() {
-        service = new AppiumServiceBuilder().usingPort(SERVER_PORT).build();
-        service.start();
-    }
+
 
     @Test
     public void environmentTest() {
