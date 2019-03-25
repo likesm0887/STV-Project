@@ -7,8 +7,6 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +27,7 @@ public class ControllerTest {
     public static void setUpClass() throws IOException, InterruptedException {
         ConfigReader configReader = new ConfigReader();
         adapter = new AppiumAdapter(configReader.getConfig());
-        driver = adapter.getDriver();
+        driver = adapter.createAndroidDriver();
     }
 /*
     @AfterClass

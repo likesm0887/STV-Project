@@ -2,28 +2,38 @@ package adapter;
 
 import config.Config;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class AppiumAdapter {
+public class AppiumAdapter implements DeviceDriver {
     private AndroidDriver driver;
     private Config config;
+    private AppiumDriverLocalService appiumDriverLocalService;
 
     public AppiumAdapter(Config config) throws IOException, InterruptedException {
         this.config = config;
-        setUpAppium();
-        driver = getDriver();
+
+        createAppiumService();
+
+        startAppiumService();
+
+        driver = createAndroidDriver();
     }
 
     public void launchApp() throws IOException, InterruptedException {
@@ -31,9 +41,27 @@ public class AppiumAdapter {
         ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
         proc.start();
         Thread.sleep(4000);
-
     }
-    public AndroidDriver getDriver() {
+
+    public AndroidDriver createAndroidDriver() {
+        DesiredCapabilities cap = createDesiredCapabilities();
+
+        URL serverUrl = createServerUrl();
+
+        return new AndroidDriver(serverUrl, cap);
+    }
+
+    private URL createServerUrl() {
+        URL serverUrl = null;
+        try {
+            serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return serverUrl;
+    }
+
+    private DesiredCapabilities createDesiredCapabilities() {
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, config.getDevicesName());
@@ -42,20 +70,23 @@ public class AppiumAdapter {
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
         cap.setCapability("newCommandTimeout", 10000);
-        URL serverUrl = null;
-        try {
-            serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        AndroidDriver driver = new AndroidDriver(serverUrl, cap);
-        return driver;
-    }
-    private  void setUpAppium() throws IOException, InterruptedException
-    {
-       new AppiumServiceBuilder().usingPort(config.getAppiumPort()).build().start();
+        return cap;
     }
 
+    private void createAppiumService() {
+        appiumDriverLocalService = new AppiumServiceBuilder()
+                                    .usingPort(config.getAppiumPort())
+                                    .build();
+    }
+
+    private void startAppiumService() throws IOException, InterruptedException
+    {
+        appiumDriverLocalService.start();
+    }
+
+    public void closeAppiumService() {
+        appiumDriverLocalService.stop();
+    }
 
     public MobileElement findElement(String xPath, MobileElement... parent) {
         MobileElement element = parent.length > 0 ?
@@ -112,4 +143,54 @@ public class AppiumAdapter {
         TouchAction action = new TouchAction(driver);
         action.longPress(startX, startY).moveTo(endX, endY).release().perform();
     }
+
+    @Override
+    public MobileElement findElement(String xPath) {
+        return (MobileElement)this.driver.findElement(By.xpath(xPath));
+    }
+
+    @Override
+    public List<MobileElement> findElements(String xPath) {
+        return this.driver.findElements(By.xpath(xPath));
+    }
+
+    @Override
+    public void clickElement(String xPath) {
+        this.findElement(xPath).click();
+    }
+
+    @Override
+    public void typeText(String xPath, String value) {
+        this.findElement(xPath).sendKeys(value);
+    }
+
+    @Override
+    public void swipeElement(String xPath, SwipeElementDirection swipeDirection) {
+        this.findElement(xPath).swipe(swipeDirection, 100, 100, 100);
+    }
+
+    @Override
+    public void rotation(ScreenOrientation screenOrientation) {
+
+    }
+
+    @Override
+    public void restartApp() {
+
+    }
+
+    @Override
+    public void launchApplication() {
+        this.driver.launchApp();
+    }
+
+
+    @Override
+    public void waitUntilElementShow(String xPath) {
+
+        WebDriverWait wait = new WebDriverWait(this.driver, 30);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By
+                .xpath(xPath)));
+    }
+
 }

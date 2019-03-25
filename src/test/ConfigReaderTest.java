@@ -14,9 +14,9 @@ public class ConfigReaderTest {
     @Test
     public void readConfigTest()
     {
-        Config config =configReader.getConfig();
+        Config config = configReader.getConfig();
         Assert.assertEquals(config.getDevicesName(),"Android Emulator");
-        Assert.assertEquals(config.getAndroidVersion(),9);
+        Assert.assertEquals(config.getAndroidVersion(),8);
         Assert.assertEquals(config.getAppiumPort(),5700);
     }
 }

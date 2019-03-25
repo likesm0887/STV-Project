@@ -18,7 +18,6 @@ public class XPathNode {
         } else {
             throw new IllegalStateException("method at() can be used only one time");
         }
-
     }
 
     public void and(NodeAttribute attribute, String value) {
