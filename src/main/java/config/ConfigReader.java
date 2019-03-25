@@ -10,21 +10,23 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ConfigReader {
-    public  Map<String, String> getConfigMap() {
+    public Map<String, String> getConfigMap() {
         return configMap;
     }
-    public  Config getConfig()
-    {
+
+    public Config getConfig() {
         readConfig();
-        Config config = new Config();
-        config.setDevicesName(configMap.get("DeviceName"));
-        config.setAndroidVersion(Integer.parseInt(configMap.get("AndroidVersion")));
-        config.setAppiumPort(Integer.parseInt(configMap.get("AppiumPort")));
-        config.setSerialNumber(configMap.get("SerialNumber"));
+        Config config = new Config(
+                configMap.get("DeviceName"),
+                configMap.get("SerialNumber"),
+                Integer.parseInt(configMap.get("AndroidVersion")),
+                Integer.parseInt(configMap.get("AppiumPort")));
         return config;
     }
-    private  Map<String, String> configMap = new LinkedHashMap<>();
-    private   void readConfig() {
+
+    private Map<String, String> configMap = new LinkedHashMap<>();
+
+    private void readConfig() {
         File pathConfigFile;
         Element element, rootElement = null;
         final String CONFIG_DIR_PATH = "configuration/";
@@ -43,7 +45,7 @@ public class ConfigReader {
             }
             for (int i = 0; i < rootElement.elements().size(); i++) {
                 element = (Element) rootElement.elements().get(i);
-                if (element.elements().size() > 0){ // does element contain sub elements
+                if (element.elements().size() > 0) { // does element contain sub elements
                     // put elements, include category one and innerElements
                     configMap.put(element.getName(), "\n"); // The element is a category element by recognizing "\n"
                     for (int j = 0; j < element.elements().size(); j++) {

@@ -16,21 +16,23 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class AppiumAdapter {
     private AndroidDriver driver;
     private Config config;
 
     public AppiumAdapter(Config config) throws IOException, InterruptedException {
         this.config = config;
+        sleep(5000);
         setUpAppium();
         driver = getDriver();
     }
 
     public void launchApp() throws IOException, InterruptedException {
         String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
-        ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
-        proc.start();
-        Thread.sleep(4000);
+        executeCmd(initInstrActivityCmd);
+        sleep(4000);
 
     }
     public AndroidDriver getDriver() {
@@ -51,11 +53,16 @@ public class AppiumAdapter {
         AndroidDriver driver = new AndroidDriver(serverUrl, cap);
         return driver;
     }
+
+
+    private void executeCmd(String... cmd) throws IOException, InterruptedException {
+        ProcessBuilder proc = new ProcessBuilder(cmd);
+        Process p = proc.start();
+    }
     private  void setUpAppium() throws IOException, InterruptedException
     {
        new AppiumServiceBuilder().usingPort(config.getAppiumPort()).build().start();
     }
-
 
     public MobileElement findElement(String xPath, MobileElement... parent) {
         MobileElement element = parent.length > 0 ?
@@ -89,7 +96,7 @@ public class AppiumAdapter {
 
     public void waitFor(int millis) {
         try {
-            Thread.sleep(millis);
+            sleep(millis);
         } catch (InterruptedException e) {
 
         }

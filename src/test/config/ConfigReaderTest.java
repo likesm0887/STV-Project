@@ -1,3 +1,5 @@
+package config;
+
 import config.Config;
 import config.ConfigReader;
 import org.junit.Assert;
@@ -17,6 +19,6 @@ public class ConfigReaderTest {
         Config config =configReader.getConfig();
         Assert.assertEquals(config.getDevicesName(),"Android Emulator");
         Assert.assertEquals(config.getAndroidVersion(),9);
-        Assert.assertEquals(config.getAppiumPort(),5700);
+        Assert.assertEquals(config.getAppiumPort(),5500);
     }
 }
