@@ -50,27 +50,6 @@ public class mainActivityTest {
         mainActivity.clickAllTabBar(MainActivity.TAB_BAR);
     }
 
-    mainActivity click TASK_LABEL
-
-
-
-    class Command {
-        void execute() {
-
-        }
-    }
-
-
-
-    class ClickCommand extends Command {
-        ClickCommand(ActivityAttribute activityAttribute) {
-
-        }
-
-        void execute() {
-            mainActivity.clickElement(mainActivity);
-        }
-    }
 
 
     @Test

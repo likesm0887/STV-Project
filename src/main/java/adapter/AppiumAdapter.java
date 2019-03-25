@@ -20,8 +20,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import static java.lang.Thread.sleep;
 
 public class AppiumAdapter implements DeviceDriver {
+
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
@@ -29,6 +31,7 @@ public class AppiumAdapter implements DeviceDriver {
     public AppiumAdapter(Config config) throws IOException, InterruptedException {
         this.config = config;
 
+        sleep(5000);
         createAppiumService();
 
         startAppiumService();
@@ -44,9 +47,24 @@ public class AppiumAdapter implements DeviceDriver {
     }
 
     public AndroidDriver createAndroidDriver() {
+        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+
         DesiredCapabilities cap = createDesiredCapabilities();
 
         URL serverUrl = createServerUrl();
+        try {
+            executeCmd(initInstrActivityCmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return new AndroidDriver(serverUrl, cap);
     }
@@ -79,7 +97,17 @@ public class AppiumAdapter implements DeviceDriver {
                                     .build();
     }
 
-    private void startAppiumService() throws IOException, InterruptedException
+    private void startAppiumService() throws IOException, InterruptedException {
+        appiumDriverLocalService.start();
+    }
+
+    private void executeCmd(String... cmd) throws IOException, InterruptedException {
+        ProcessBuilder proc = new ProcessBuilder(cmd);
+        Process p = proc.start();
+    }
+
+
+    private  void setUpAppium() throws IOException, InterruptedException
     {
         appiumDriverLocalService.start();
     }
@@ -120,7 +148,7 @@ public class AppiumAdapter implements DeviceDriver {
 
     public void waitFor(int millis) {
         try {
-            Thread.sleep(millis);
+            sleep(millis);
         } catch (InterruptedException e) {
 
         }

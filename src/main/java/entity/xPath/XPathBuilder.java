@@ -19,23 +19,35 @@ public class XPathBuilder {
         return this;
     }
 
+    @Deprecated
     public XPathBuilder at(NodeAttribute attribute, String value) {
-        currentNode.at(attribute, value);
+        return which(attribute, value);
+    }
+
+    public XPathBuilder which(NodeAttribute attribute, String value) {
+        checkCurrentNode();
+        currentNode.which(attribute, value);
         return this;
     }
 
     public XPathBuilder and(NodeAttribute attribute, String value) {
+        checkCurrentNode();
         currentNode.and(attribute, value);
         return this;
     }
 
     public XPathBuilder or(NodeAttribute attribute, String value) {
+        checkCurrentNode();
         currentNode.or(attribute, value);
         return this;
     }
 
     public String toString() {
-        StringJoiner sj = new StringJoiner("/", "//", "");
+        return build();
+    }
+
+    public String build() {
+        StringJoiner sj = new StringJoiner("//", "//", "");
         nodes.forEach(each -> sj.add(each.getFullFormat()));
         return sj.toString();
     }
@@ -47,7 +59,7 @@ public class XPathBuilder {
 
     public void checkCurrentNode() {
         if (currentNode == null) {
-            throw new IllegalStateException("Should append a node before doing the operation");
+            throw new IllegalStateException("Should append a node before doing operations");
         }
     }
 }

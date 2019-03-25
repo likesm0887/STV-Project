@@ -1,3 +1,5 @@
+package config;
+
 import config.Config;
 import config.ConfigReader;
 import org.junit.Assert;

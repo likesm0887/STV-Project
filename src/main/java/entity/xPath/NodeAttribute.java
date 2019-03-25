@@ -7,13 +7,13 @@ public enum NodeAttribute {
     CONTENT_DESC("content-desc"),
     CLASS("class");
 
-    private String text;
+    private String value;
 
-    private NodeAttribute(String text) {
-        this.text = text;
+    private NodeAttribute(String value) {
+        this.value = value;
     }
 
     public String getValue() {
-        return text;
+        return value;
     }
 }
