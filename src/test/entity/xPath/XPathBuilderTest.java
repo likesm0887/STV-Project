@@ -56,11 +56,6 @@ import org.junit.Test;
 //    }
 //
 //    @Test
-//    public void buildTabBarXPath() {
-//
-//    }
-//
-//    @Test
 //    public void buildQuickAddTaskButtonXPath() {
 //        xPathBuilder.append("*")
 //                .at(NodeAttribute.CLASS, "android.widget.ImageView")
