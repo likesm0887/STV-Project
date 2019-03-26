@@ -1,6 +1,6 @@
 package config;
 
-import com.sun.javadoc.Doc;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -8,7 +8,6 @@ import org.dom4j.io.SAXReader;
 
 import java.io.File;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ConfigReader {

@@ -1,0 +1,15 @@
+MainActivity Click TASK_LABEL      5
+
+MainActivity Click SETTING_BUTTON 1
+
+MainActivity Click TASK_LABEL
+
+MainActivity Click SETTING_BUTTON 1
+
+MainActivity Click TASK_LABEL
+
+MainActivity Click SETTING_BUTTON 6 7
+
+MainActivity Click TASK_LABEL
+MainActivity Click SETTING_BUTTON      5
+
