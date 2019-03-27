@@ -21,7 +21,7 @@ public class Controller {
     private  AndroidDriver driver;
     private String ADB_PATH ="C:\\Users\\hong\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe";
     public void execute() throws IOException, InterruptedException {
-        
+
         ConfigReader configReader = new ConfigReader();
         AppiumAdapter adapter = new AppiumAdapter(configReader.getConfig());
         String[] stopCmd = {ADB_PATH,"shell", "am", "force-stop", "org.dmfs.tasks"};
