@@ -1,14 +1,15 @@
+
 @echo off
 echo [Creating a Html jacocoTestReport] ------------------------------------------------------------
 SET testAppName=opentasks-master
 SET projectPath=D:\Public\jenkins\workspace\STV-Project
-SET Path=D:\Public\jenkins\workspace\STV-Project\%testAppName%
+SET Path=D:\Public\jenkins\workspace\STV-Project\opentasks-master
 SET logPath=%Path%CodeCoverage
 
-if %Path%\opentasks\build\outputs\code-coverage\connected  mkdir %Path%\opentasks\build\outputs\code-coverage\connected
-
+if not exist %Path%\opentasks\build\outputs\code-coverage\connected mkdir %Path%\opentasks\build\outputs\code-coverage\connected
+if  exist %Path%\opentasks\build\outputs\code-coverage\connected del /F /S %Path%\opentasks\build\outputs\code-coverage\connected\*.ec
 C:\Windows\System32\xcopy.exe  %projectPath%\CodeCoverage   %Path%\opentasks\build\outputs\code-coverage\connected
 D:
-cd %Path%
-call C:\gradle-5.3-all\gradle-5.3\bin\gradle gradle jacocoTestReport
+cd %projectPath%\%testAppName%
+C:\gradle-5.3-all\gradle-5.3\bin\gradle jacocoTestReport
 echo [Create done] ------------------------------------------------------------
