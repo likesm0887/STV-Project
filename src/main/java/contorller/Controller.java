@@ -19,10 +19,12 @@ public class Controller {
     private  AppiumDriverLocalService service;
     private  AppiumAdapter adapter;
     private  AndroidDriver driver;
+    private String ADB_PATH ="C:\\Users\\hong\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe";
     public void execute() throws IOException, InterruptedException {
+        
         ConfigReader configReader = new ConfigReader();
         AppiumAdapter adapter = new AppiumAdapter(configReader.getConfig());
-        String[] stopCmd = {"adb","shell", "am", "force-stop", "org.dmfs.tasks"};
+        String[] stopCmd = {ADB_PATH,"shell", "am", "force-stop", "org.dmfs.tasks"};
         adapter.executeCmd(stopCmd);
         sleep(1000);
         adapter.launchApp();
@@ -62,7 +64,7 @@ public class Controller {
         assertEquals(1, elements.size());
         assertEquals("quick add", elements.get(0).getText());
         driver = adapter.getDriver();
-        String[] stopTestBroadcastCmd = {"adb","shell", "am", "broadcast", "-a", "\"test\""};
+        String[] stopTestBroadcastCmd = {ADB_PATH,"shell", "am", "broadcast", "-a", "\"test\""};
         sleep(10000);
         adapter.executeCmd(stopTestBroadcastCmd);
         sleep(1000);
