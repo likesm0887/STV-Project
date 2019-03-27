@@ -23,7 +23,7 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class AppiumAdapter implements DeviceDriver {
-
+    private String ADB_PATH ="C:\\Users\\hong\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe";
     public AndroidDriver getDriver() {
         return driver;
     }
@@ -43,14 +43,14 @@ public class AppiumAdapter implements DeviceDriver {
         driver.closeApp();
        // String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
         Thread.sleep(1000);
-        String[] initInstrActivityCmd = {"adb", "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
+        String[] initInstrActivityCmd = {ADB_PATH, "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
         ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
         proc.start();
         Thread.sleep(1000);
     }
 
     public AndroidDriver createAndroidDriver() {
-        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
 
         DesiredCapabilities cap = createDesiredCapabilities();
 
