@@ -24,26 +24,29 @@ import static java.lang.Thread.sleep;
 
 public class AppiumAdapter implements DeviceDriver {
 
+    public AndroidDriver getDriver() {
+        return driver;
+    }
+
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
 
     public AppiumAdapter(Config config) throws IOException, InterruptedException {
         this.config = config;
-
-        sleep(5000);
         createAppiumService();
-
         startAppiumService();
-
         driver = createAndroidDriver();
     }
 
     public void launchApp() throws IOException, InterruptedException {
-        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        driver.closeApp();
+       // String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        Thread.sleep(1000);
+        String[] initInstrActivityCmd = {"adb", "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
         ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
         proc.start();
-        Thread.sleep(4000);
+        Thread.sleep(1000);
     }
 
     public AndroidDriver createAndroidDriver() {
@@ -101,7 +104,7 @@ public class AppiumAdapter implements DeviceDriver {
         appiumDriverLocalService.start();
     }
 
-    private void executeCmd(String... cmd) throws IOException, InterruptedException {
+    public void executeCmd(String... cmd) throws IOException, InterruptedException {
         ProcessBuilder proc = new ProcessBuilder(cmd);
         Process p = proc.start();
     }
