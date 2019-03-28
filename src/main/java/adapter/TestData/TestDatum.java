@@ -1,7 +1,5 @@
 package adapter.TestData;
 
-import java.util.Objects;
-
 public class TestDatum {
     private String component;
     private String xPath;
