@@ -1,6 +1,6 @@
 package contorller;
+
 import adapter.AppiumAdapter;
-import adapter.DeviceDriver;
 import config.ConfigReader;
 import coverage.CodeCovergerator;
 import entity.xPath.NodeAttribute;
@@ -47,7 +47,7 @@ public class Controller {
         builder.append("android.widget.EditText")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/input")
                 .and(NodeAttribute.TEXT, "Title");
-        adapter.sendKeysAtElement(builder.toString(), "quick add");
+        adapter.typeText(builder.toString(), "quick add");
 
         builder.clean();
         builder.append("android.widget.TextView")

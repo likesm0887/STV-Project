@@ -12,22 +12,17 @@ public interface DeviceDriver {
     List<MobileElement> findElements(String xPath);
     void clickElement(String xPath);
     void typeText(String xPath, String value);
-    void swipeElement(String xPath, SwipeElementDirection swipeDirection);
-    void rotation(ScreenOrientation screenOrientation);
+    void swipeElement(String xPath, SwipeElementDirection direction, int offset);
+    MobileElement waitForElement(String xPath);
+    MobileElement waitForElement(String xPath, int timeOutInSeconds);
+    List<MobileElement> waitForElements(String xPath);
+    void waitAndClickElement(String xPath);
+    void waitAndTypeText(String xPath, String text);
+
+    void pressBackKey();
+    void rotate(ScreenOrientation screenOrientation);
+    void waitFor(int millis);
     void restartApp();
     void launchApplication();
     void waitUntilElementShow(String xPath);
-
-//
-//
-//
-//    MobileElement find(String xpath);
-//
-//
-//    MobileElement findByClassName(String xpath);
-//
-//    MobileElement findByName(String name);
-//
-//    void click(String name) throws InterruptedException;
-//    void launchApp() throws IOException, InterruptedException;
 }

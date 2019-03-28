@@ -46,8 +46,6 @@ public class ControllerTest {
 //        driver.closeApp();
 //    }
 
-
-
     @Test
     public void environmentTest() {
         MobileElement elementTwo = (MobileElement) driver.findElementByClassName("android.widget.ImageView");
@@ -81,17 +79,6 @@ public class ControllerTest {
     }
 
     @Test
-    public void scrolling() {
-        ScreenSize size = adapter.getScreenSize();
-        int y = (int) (size.getHeight() * 0.5);
-        int fromX = 1059;
-        int toX = 105;
-        for (int i = 0; i < 6; i++)
-            driver.swipe(fromX, y, toX, y, 500);
-//            adapter.scrollHorizontal(y, fromX, toX);
-    }
-
-    @Test
     public void quicklyAddTask() {
         XPathBuilder builder = new XPathBuilder();
         builder.append("android.widget.TextView")
@@ -111,7 +98,7 @@ public class ControllerTest {
         builder.append("android.widget.EditText")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/input")
                 .and(NodeAttribute.TEXT, "Title");
-        adapter.sendKeysAtElement(builder.toString(), "quick add");
+        adapter.typeText(builder.toString(), "quick add");
 
         builder.clean();
         builder.append("android.widget.TextView")
@@ -142,16 +129,16 @@ public class ControllerTest {
         builder.append("android.widget.EditText")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/text1")
                 .and(NodeAttribute.TEXT, "Title");
-        adapter.sendKeysAtElement(builder.toString(), "New Task");
+        adapter.typeText(builder.toString(), "New Task");
 
-        adapter.clickBack();
+        adapter.pressBackKey();
 
         builder.clean();
         builder.append("android.widget.EditText")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/text1")
                 .and(NodeAttribute.INDEX, "1");
 
-        adapter.sendKeysAtElement(builder.toString(), "todo 1");
+        adapter.typeText(builder.toString(), "todo 1");
 
         builder.clean();
         builder.append("android.widget.TextView")
