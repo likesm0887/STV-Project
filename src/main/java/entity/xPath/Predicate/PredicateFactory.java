@@ -2,8 +2,6 @@ package entity.xPath.Predicate;
 
 import entity.xPath.NodeAttribute;
 
-import java.util.Objects;
-
 public class PredicateFactory {
     public Predicate createUnaryPredicate(NodeAttribute attribute, String value) {
         return new UnaryPredicate(attribute, value);

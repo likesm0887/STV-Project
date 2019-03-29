@@ -3,16 +3,15 @@ package adapter;
 import config.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,30 +19,30 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+
 import static java.lang.Thread.sleep;
 
 public class AppiumAdapter implements DeviceDriver {
-
+    private final int DEFAULT_TIMEOUT = 10;
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
 
-    public AppiumAdapter(Config config) throws IOException, InterruptedException {
+    public AppiumAdapter(Config config) {
         this.config = config;
-
-        sleep(5000);
         createAppiumService();
-
         startAppiumService();
-
         driver = createAndroidDriver();
     }
 
     public void launchApp() throws IOException, InterruptedException {
-        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        driver.closeApp();
+       // String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        Thread.sleep(1000);
+        String[] initInstrActivityCmd = {"adb", "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
         ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
         proc.start();
-        Thread.sleep(4000);
+        Thread.sleep(1000);
     }
 
     public AndroidDriver createAndroidDriver() {
@@ -54,9 +53,7 @@ public class AppiumAdapter implements DeviceDriver {
         URL serverUrl = createServerUrl();
         try {
             executeCmd(initInstrActivityCmd);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -67,6 +64,10 @@ public class AppiumAdapter implements DeviceDriver {
         }
 
         return new AndroidDriver(serverUrl, cap);
+    }
+
+    public AndroidDriver getDriver() {
+        return driver;
     }
 
     private URL createServerUrl() {
@@ -97,79 +98,22 @@ public class AppiumAdapter implements DeviceDriver {
                                     .build();
     }
 
-    private void startAppiumService() throws IOException, InterruptedException {
+    private void startAppiumService() {
         appiumDriverLocalService.start();
     }
 
-    private void executeCmd(String... cmd) throws IOException, InterruptedException {
+    public void executeCmd(String... cmd) throws IOException {
         ProcessBuilder proc = new ProcessBuilder(cmd);
         Process p = proc.start();
     }
 
 
-    private  void setUpAppium() throws IOException, InterruptedException
-    {
+    private  void setUpAppium() {
         appiumDriverLocalService.start();
     }
 
     public void closeAppiumService() {
         appiumDriverLocalService.stop();
-    }
-
-    public MobileElement findElement(String xPath, MobileElement... parent) {
-        MobileElement element = parent.length > 0 ?
-                parent[0].findElement(By.xpath(xPath)) :
-                (MobileElement) driver.findElement(By.xpath(xPath));
-        return element;
-    }
-
-    public List<MobileElement> findElements(String xPath, MobileElement... parent) {
-        List<MobileElement> elements = parent.length > 0 ?
-                parent[0].findElements(By.xpath(xPath)) :
-                driver.findElements(By.xpath(xPath));
-        return elements;
-    }
-
-    public MobileElement clickElement(String xPath, MobileElement... parent) {
-        MobileElement element = findElement(xPath, parent);
-        element.click();
-        return element;
-    }
-
-    public MobileElement sendKeysAtElement(String xPath, String keys, MobileElement... parent) {
-        MobileElement element = findElement(xPath, parent);
-        element.sendKeys(keys);
-        return element;
-    }
-
-    public void clickBack() {
-        driver.navigate().back();
-    }
-
-    public void waitFor(int millis) {
-        try {
-            sleep(millis);
-        } catch (InterruptedException e) {
-
-        }
-    }
-
-    public adapter.ScreenSize getScreenSize() {
-        Dimension size = driver.manage().window().getSize();
-        return new adapter.ScreenSize(size.width, size.height);
-    }
-
-    public void scrollVertical(int x, int fromY, int toY) {
-        scroll(x, fromY, x, toY);
-    }
-
-    public void scrollHorizontal(int y, int fromX, int toX) {
-        scroll(fromX, y, toX, y);
-    }
-
-    private void scroll(int startX, int startY, int endX, int endY) {
-        TouchAction action = new TouchAction(driver);
-        action.longPress(startX, startY).moveTo(endX, endY).release().perform();
     }
 
     @Override
@@ -193,13 +137,61 @@ public class AppiumAdapter implements DeviceDriver {
     }
 
     @Override
-    public void swipeElement(String xPath, SwipeElementDirection swipeDirection) {
-        this.findElement(xPath).swipe(swipeDirection, 100, 100, 100);
+    public void swipeElement(String xPath, SwipeElementDirection direction, int offset) {
+        final int DEFAULT_DURATION = 500;
+        findElement(xPath).swipe(direction, offset, offset, DEFAULT_DURATION);
     }
 
     @Override
-    public void rotation(ScreenOrientation screenOrientation) {
+    public MobileElement waitForElement(String xPath, int timeOutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+        MobileElement e = wait.until((ExpectedCondition<MobileElement>) webDriver -> webDriver.findElement(By.xpath(xPath)));
+        return e;
+    }
 
+    @Override
+    public MobileElement waitForElement(String xPath) {
+        return waitForElement(xPath, DEFAULT_TIMEOUT);
+    }
+
+    @Override
+    public List<MobileElement> waitForElements(String xPath) {
+        waitForElement(xPath);
+        return findElements(xPath);
+    }
+
+    @Override
+    public void waitAndClickElement(String xPath) {
+        MobileElement element = waitForElement(xPath, DEFAULT_TIMEOUT);
+        element.click();
+    }
+
+    @Override
+    public void waitAndTypeText(String xPath, String text) {
+        MobileElement element = waitForElement(xPath, DEFAULT_TIMEOUT);
+        element.sendKeys(text);
+    }
+
+    @Override
+    public void pressBackKey() {
+        driver.navigate().back();
+    }
+
+    @Override
+    public void rotate(ScreenOrientation screenOrientation) {
+        if (driver.getOrientation() == ScreenOrientation.PORTRAIT)
+            driver.rotate(ScreenOrientation.LANDSCAPE);
+        else
+            driver.rotate(ScreenOrientation.PORTRAIT);
+    }
+
+    @Override
+    public void waitFor(int millis) {
+        try {
+            sleep(millis);
+        } catch (InterruptedException e) {
+
+        }
     }
 
     @Override
@@ -220,5 +212,4 @@ public class AppiumAdapter implements DeviceDriver {
         wait.until(ExpectedConditions.presenceOfElementLocated(By
                 .xpath(xPath)));
     }
-
 }
