@@ -1,36 +1,52 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ScriptParser {
     private FileReader scriptFile;
     private BufferedReader bufferedReader;
     private List<Instruction> instructions = new ArrayList<>();
 
+
     public List<Instruction> parse(String ScriptPath) throws Exception {
+        String event;
+        String activity;
+        String attribute;
         readFile(ScriptPath);
         this.bufferedReader = new BufferedReader(scriptFile);
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
-            List<String> temp = new ArrayList<>(Arrays.asList(line.split(" ")));
+            List<String> temp = new ArrayList<>(Arrays.asList(line.split("\t+")));
             if (!"".equals(temp.get(0))) {
-                temp.removeAll(Collections.singleton(""));
-                if (temp.size() >= 4) {
-                    instructions.add(new Instruction(temp.get(0), temp.get(1), temp.get(2), temp.get(3)));
-                }
-               else {
-                instructions.add(new Instruction(temp.get(0), temp.get(1), temp.get(2)));
-                }
-             }
-           }
+                activity = temp.get(0);
+                event = temp.get(1);
+                attribute = temp.get(2);
+                instructions.add(new Instruction(activity, rexFilter(event), rexFilter(attribute), Optional.ofNullable(rex(event)), Optional.ofNullable(rex(attribute))));
+            }
+        }
         return instructions;
     }
 
     private void readFile(String ScriptPath) throws Exception {
         scriptFile = new FileReader(ScriptPath);
         if (!scriptFile.ready()) throw new Exception("Script Path cannot find");
+    }
+
+    private String rexFilter(String processString) {
+        return processString.replace("{" + rex(processString) + "}", "");
+    }
+
+    private String rex(String processString) {
+        String str = "(?<=\\{)(.+?)(?=\\})";
+        Pattern pattern = Pattern.compile(str);
+        try {
+            Matcher matcher = pattern.matcher(processString);
+            matcher.find();
+            return matcher.group(1);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

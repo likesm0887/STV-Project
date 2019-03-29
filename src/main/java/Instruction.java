@@ -1,22 +1,21 @@
+import java.util.Optional;
+
 public class Instruction {
     private String event ;
     private String activity;
     private String attribute;
+    private Optional<String> eventParameter;
+    private Optional<String> elementParameter;
 
 
 
-    private String parameter = " ";
-    public Instruction(String activity, String event, String attribute , String... parameter) {
+
+    public Instruction(String activity, String event, String attribute , Optional<String> eventParameter , Optional<String> elementParameter) {
         this.event = event;
         this.activity = activity;
         this.attribute = attribute;
-        if (parameter.length != 0)
-        {
-            this.parameter = parameter[0];
-        }
-    }
-    public String getParameter() {
-        return parameter;
+        this.eventParameter = !eventParameter.isPresent() ? Optional.empty() : Optional.of( eventParameter.get());
+        this.elementParameter = !elementParameter.isPresent() ? Optional.empty() : Optional.of( elementParameter.get());
     }
     public String getEvent() {
         return event;
@@ -29,7 +28,13 @@ public class Instruction {
     public String getAttribute() {
         return attribute;
     }
+    public Optional<String> getEventParameter() {
+        return eventParameter;
+    }
 
+    public Optional<String> getElementParameter() {
+        return elementParameter;
+    }
 
 }
 

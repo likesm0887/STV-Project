@@ -2,6 +2,9 @@ package entity.xPath;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 //import org.omg.CORBA.PUBLIC_MEMBER;
 //
 //import static org.hamcrest.CoreMatchers.equalTo;
@@ -85,9 +88,6 @@ import org.junit.Test;
 //        String result = "//*[@class='android.widget.TextView' and @resource-id='android:id/button1']";
 //        assertThat(xPathBuilder.toString(), equalTo(result));
 //    }
-import javax.xml.soap.Node;
-
-import static org.junit.Assert.*;
 
 public class XPathBuilderTest {
     private XPathBuilder builder;

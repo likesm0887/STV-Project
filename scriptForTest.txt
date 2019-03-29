@@ -1,15 +1,14 @@
-MainActivity Click TASK_LABEL      5
+MainActivity	Click	TASK_LABEL{5}
 
-MainActivity Click SETTING_BUTTON 1
+MainActivity	Type_Text{45 6@}	SETTING_BUTTON{1}
 
-MainActivity Click TASK_LABEL
+MainActivity	Click	TASK_LABEL
 
-MainActivity Click SETTING_BUTTON 1
+MainActivity	Click	SETTING_BUTTON
 
-MainActivity Click TASK_LABEL
+MainActivity	Type_Text{0}	SETTING_BUTTON
 
-MainActivity Click SETTING_BUTTON 6 7
+MainActivity	Click	SETTING_BUTTON{7}
 
-MainActivity Click TASK_LABEL
-MainActivity Click SETTING_BUTTON      5
-
+MainActivity	Click	TASK_LABEL
+MainActivity	Click	SETTING_BUTTON 5

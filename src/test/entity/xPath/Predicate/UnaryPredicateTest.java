@@ -3,7 +3,7 @@ package entity.xPath.Predicate;
 import entity.xPath.NodeAttribute;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class UnaryPredicateTest {
     @Test (expected = NullPointerException.class)
