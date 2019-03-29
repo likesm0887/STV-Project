@@ -10,7 +10,7 @@ public class TestDatum {
         this.component = component;
         this.xPath = xPath;
         this.variableKey = variableKey;
-        this.isVariableRequired = variableKey != null;
+        this.isVariableRequired = isVariableRequired(variableKey);
     }
 
     public String getXPath() {
@@ -21,5 +21,15 @@ public class TestDatum {
 
     public String getXPathWithVariable(String variable) {
         return xPath.replace(variableKey, variable);
+    }
+
+    private boolean isVariableRequired(String variableKey) {
+        if (variableKey == null || variableKey.isEmpty())
+            return false;
+        return true;
+    }
+
+    public String toString() {
+        return "Component: " + component + ", xPath: " + xPath + ", variableKey: " + variableKey;
     }
 }

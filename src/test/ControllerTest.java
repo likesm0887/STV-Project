@@ -1,5 +1,4 @@
 import adapter.AppiumAdapter;
-import adapter.ScreenSize;
 import config.ConfigReader;
 import entity.xPath.NodeAttribute;
 import entity.xPath.XPathBuilder;
