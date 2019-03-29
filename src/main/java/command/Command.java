@@ -3,7 +3,6 @@ package command;
 import adapter.DeviceDriver;
 
 public abstract class Command {
-
     protected DeviceDriver deviceDriver;
     protected String xPath;
 
@@ -13,5 +12,4 @@ public abstract class Command {
     }
 
     abstract void execute();
-
 }

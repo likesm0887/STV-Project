@@ -13,6 +13,6 @@ public class TypeTextCommand extends Command {
 
     @Override
     public void execute() {
-        this.deviceDriver.typeText(xPath, text);
+        this.deviceDriver.waitAndTypeText(xPath, text);
     }
 }

@@ -9,6 +9,6 @@ public class ClickCommand extends Command {
 
     @Override
     public void execute() {
-        this.deviceDriver.clickElement(xPath);
+        this.deviceDriver.waitAndClickElement(xPath);
     }
 }
