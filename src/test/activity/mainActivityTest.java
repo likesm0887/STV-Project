@@ -3,7 +3,6 @@ package activity;
 import adapter.AppiumAdapter;
 import config.ConfigReader;
 import entity.xPath.XPathBuilder;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
