@@ -42,4 +42,5 @@ public class CommandFactory {
     public Command createSwipeElementCommand(String xPath, SwipeElementDirection swipeElementDirection, int offset) {
         return new SwipeElementCommand(this.deviceDriver, xPath, swipeElementDirection, offset);
     }
+
 }

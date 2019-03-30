@@ -107,4 +107,6 @@ public class CommandFactoryTest {
 
         assertTrue(restartCommand instanceof RestartCommand);
     }
+
+
 }

@@ -3,6 +3,6 @@
         <!--DeviceName option :Android Device , Android Emulator-->
         <DeviceName>Android Emulator</DeviceName>
         <SerialNumber>emulator-5554</SerialNumber>
-        <AndroidVersion>8.1</AndroidVersion>>
-        <AppiumPort>5700</AppiumPort>
+        <AndroidVersion>8</AndroidVersion>>
+        <AppiumPort>50000</AppiumPort>
 </configuration>
