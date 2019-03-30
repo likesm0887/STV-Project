@@ -17,6 +17,7 @@ public class Instruction {
         this.eventParameter = !eventParameter.isPresent() ? Optional.empty() : Optional.of( eventParameter.get());
         this.elementParameter = !elementParameter.isPresent() ? Optional.empty() : Optional.of( elementParameter.get());
     }
+
     public String getEvent() {
         return event;
     }

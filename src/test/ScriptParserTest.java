@@ -62,5 +62,9 @@ public class ScriptParserTest {
         String testString = "Type_Text{45 6@}";
         Object[] arguments = new Object[]{testString};
         assertEquals("Type_Text", method.invoke(scriptParser, arguments));
+        testString = "Type_Text";
+        arguments = new Object[]{testString};
+        assertEquals("Type_Text",  method.invoke(scriptParser,arguments));
+
     }
 }
