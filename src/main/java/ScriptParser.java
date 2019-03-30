@@ -23,7 +23,7 @@ public class ScriptParser {
                 activity = temp.get(0);
                 event = temp.get(1);
                 attribute = temp.get(2);
-                instructions.add(new Instruction(activity, rexFilter(event), rexFilter(attribute), Optional.ofNullable(rex(event)), Optional.ofNullable(rex(attribute))));
+                instructions.add(new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
             }
         }
         return instructions;
@@ -34,11 +34,11 @@ public class ScriptParser {
         if (!scriptFile.ready()) throw new Exception("Script Path cannot find");
     }
 
-    private String rexFilter(String processString) {
-        return processString.replace("{" + rex(processString) + "}", "");
+    private String scriptFilterToParameter(String processString) {
+        return processString.replace("{" + curlyBracketsFilter(processString) + "}", "");
     }
 
-    private String rex(String processString) {
+    private String curlyBracketsFilter(String processString) {
         String str = "(?<=\\{)(.+?)(?=\\})";
         Pattern pattern = Pattern.compile(str);
         try {

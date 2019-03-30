@@ -14,7 +14,7 @@ public class InstructionTest {
          Optional<String> elementParameter =Optional.of(testString);
         Instruction instruction = new Instruction("MainActivity","Type_Text","SETTING_BUTTON",eventParameter,elementParameter);
         assertEquals("{45  6}",instruction.getEventParameter().get());
-        Instruction instructionHaveNull = new Instruction("MainActivity","Type_Text","SETTING_BUTTON",null,null);
+        Instruction instructionHaveNull = new Instruction("MainActivity","Type_Text","SETTING_BUTTON",Optional.empty(),Optional.empty());
         assertEquals(Optional.empty(),instructionHaveNull.getEventParameter());
 
     }
