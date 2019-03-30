@@ -11,7 +11,7 @@ public class XMLParserTest {
     @Test
     public void f() {
         String fileName = "";
-        XMLParser xmlParser = new XMLParser(fileName);
+//        XMLParser xmlParser = new XMLParser(fileName);
 //        xmlParser.readFile();
 
 //        System.out.println(xmlParser.getXMLSource());

@@ -11,5 +11,9 @@ public abstract class Command {
         this.xPath = xPath;
     }
 
+    public String getXpath() {
+        return xPath;
+    }
+
     abstract void execute();
 }

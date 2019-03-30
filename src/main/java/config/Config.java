@@ -4,7 +4,6 @@ public class Config {
     private String devicesName = "";
     private int androidVersion = 0;
     private int appiumPort = 0;
-    private String emulatorName = "";
     private String serialNumber = "";
     public Config(String devicesName, String serialNumber, int androidVersion, int appiumPort) {
         this.devicesName = devicesName;

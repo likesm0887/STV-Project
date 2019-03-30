@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @RunWith(JMock.class)
 public class CommandTest {
     protected Mockery context = new JUnit4Mockery();
-    private DeviceDriver mockDeviceDriver = context.mock(DeviceDriver.class);;
+    private DeviceDriver mockDeviceDriver = context.mock(DeviceDriver.class);
 
     protected String xPath = "//*[@class='a']";
 

@@ -9,21 +9,31 @@ public class ScriptParser {
     private BufferedReader bufferedReader;
     private List<Instruction> instructions = new ArrayList<>();
 
-
-    public List<Instruction> parse(String ScriptPath) throws Exception {
+    public ScriptParser(String ScriptPath) throws Exception {
+        readFile(ScriptPath);
+    }
+    public List<Instruction> parse() throws Exception {
         String event;
         String activity;
         String attribute;
-        readFile(ScriptPath);
         this.bufferedReader = new BufferedReader(scriptFile);
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
             List<String> temp = new ArrayList<>(Arrays.asList(line.split("\t+")));
             if (!"".equals(temp.get(0))) {
-                activity = temp.get(0);
-                event = temp.get(1);
-                attribute = temp.get(2);
-                instructions.add(new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
+                if(temp.size()==1 )
+                {
+                    event = temp.get(0);
+                    instructions.add(new Instruction("", scriptFilterToParameter(event), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty()));
+                }
+                else
+                {
+                    activity = temp.get(0);
+                    event = temp.get(1);
+                    attribute = temp.get(2);
+                    instructions.add(new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
+                }
+
             }
         }
         return instructions;

@@ -11,13 +11,14 @@ public class ScriptParserTest {
     private ScriptParser scriptParser;
     private List<Instruction> instructions;
     @Before
-    public void SetUp() {
-        scriptParser = new ScriptParser();
+    public void SetUp() throws Exception {
+        scriptParser = new ScriptParser("./src/test/resources/scriptForTest.txt");
+
     }
 
     @Test
     public void parse() throws Exception {
-        instructions = scriptParser.parse(System.getProperty("user.dir") + "\\scriptForTest.txt");
+        instructions = scriptParser.parse();
         Assert.assertEquals(instructions.get(0).getActivity(), "MainActivity");
         Assert.assertEquals(instructions.get(0).getEvent(), "Click");
         Assert.assertEquals(instructions.get(0).getAttribute(), "TASK_LABEL");
@@ -27,13 +28,14 @@ public class ScriptParserTest {
         Assert.assertEquals(instructions.get(1).getEvent(), "Type_Text");
         Assert.assertEquals(instructions.get(1).getEventParameter().get(), "45 6@");
         Assert.assertEquals(instructions.get(1).getAttribute(), "SETTING_BUTTON");
-        Assert.assertEquals(instructions.size(), 8);
+        Assert.assertEquals(instructions.size(), 11);
     }
 
     @Test(expected = Exception.class)
     public void parseforNotFindFile() throws Exception {
+        scriptParser = new ScriptParser("123");
         try {
-            instructions = scriptParser.parse("123");
+            instructions = scriptParser.parse();
         } catch (Exception e) {
             throw new Exception("系統找不到檔案");
         }
