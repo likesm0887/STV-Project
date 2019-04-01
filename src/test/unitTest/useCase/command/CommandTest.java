@@ -77,7 +77,7 @@ public class CommandTest {
         RestartCommand restartCommand = new RestartCommand(mockDeviceDriver);
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).restartApp();
+            oneOf(mockDeviceDriver).restartApp("CleanApp");
         }});
 
         restartCommand.execute();

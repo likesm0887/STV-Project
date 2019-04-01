@@ -18,15 +18,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
+import static org.junit.Assert.assertTrue;
 
 public class AppiumDriver implements DeviceDriver {
     private final int DEFAULT_TIMEOUT = 10;
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
+    private final String ADB_PATH = System.getenv("ANDROID_HOME") + "\\platform-tools\\adb.exe";
 
     public AppiumDriver(Config config) {
         this.config = config;
@@ -35,18 +38,38 @@ public class AppiumDriver implements DeviceDriver {
         driver = createAndroidDriver();
     }
 
+    public void stopApp() throws IOException {
+        String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
+        this.executeCmd(stopCmd);
+
+    }
+
+    private void clearAppData() throws IOException {
+        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
+        this.executeCmd(command);
+    }
+
+    public void restart(List<String> isCleanApp) throws IOException, InterruptedException {
+
+        stopApp();
+
+        if (!isCleanApp.isEmpty()) {
+            this.clearAppData();
+        }
+        launchApp();
+
+    }
+
     public void launchApp() throws IOException, InterruptedException {
-        driver.closeApp();
-       // String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
         Thread.sleep(1000);
-        String[] initInstrActivityCmd = {"adb", "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
+        String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
         ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
         proc.start();
         Thread.sleep(1000);
     }
 
     public AndroidDriver createAndroidDriver() {
-        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w","-r", "-e","debug","false","-e","class","''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
+        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-r", "-e", "debug", "false", "-e", "class", "''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
 
         DesiredCapabilities cap = createDesiredCapabilities();
 
@@ -94,8 +117,8 @@ public class AppiumDriver implements DeviceDriver {
 
     private void createAppiumService() {
         appiumDriverLocalService = new AppiumServiceBuilder()
-                                    .usingPort(config.getAppiumPort())
-                                    .build();
+                .usingPort(config.getAppiumPort())
+                .build();
     }
 
     private void startAppiumService() {
@@ -108,7 +131,7 @@ public class AppiumDriver implements DeviceDriver {
     }
 
 
-    private  void setUpAppium() {
+    private void setUpAppium() {
         appiumDriverLocalService.start();
     }
 
@@ -118,7 +141,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public MobileElement findElement(String xPath) {
-        return (MobileElement)this.driver.findElement(By.xpath(xPath));
+        return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
 
     @Override
@@ -195,7 +218,17 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void restartApp() {
+    public void restartApp(String... isCleanApp) {
+        List<String> inputList = Arrays.asList(isCleanApp);
+
+        try {
+            this.restart(inputList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
