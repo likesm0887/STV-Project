@@ -1,0 +1,6 @@
+View1	Click	folder_list{0}
+View2	Click	calendar-pick-date{123}
+View2	Click	calendar-ok
+View1	Click	tab_list
+View1	TypeText{456 }	folder_list{123}
+Restart
