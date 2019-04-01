@@ -4,19 +4,33 @@ import adapter.Instruction;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 public class ScriptParserTest {
     private ScriptParser scriptParser;
     private List<Instruction> instructions;
+
     @Before
     public void SetUp() throws Exception {
         scriptParser = new ScriptParser("./src/test/resources/scriptForTest.txt");
 
+    }
+
+    @Test
+    public void parseForOneLine() {
+        ScriptParser scriptParserForOneLine = new ScriptParser();
+        instructions = new ArrayList<>();
+        instructions.add(scriptParserForOneLine.parseForOneLine("createTasks\tTypeText{Add Task}\ttitle_editText"));
+        Assert.assertEquals(instructions.get(0).getActivity(), "createTasks");
+        Assert.assertEquals(instructions.get(0).getEvent(), "TypeText");
+        Assert.assertEquals(instructions.get(0).getAttribute(), "title_editText");
     }
 
     @Test
@@ -69,7 +83,7 @@ public class ScriptParserTest {
         assertEquals("Type_Text", method.invoke(scriptParser, arguments));
         testString = "Type_Text";
         arguments = new Object[]{testString};
-        assertEquals("Type_Text",  method.invoke(scriptParser,arguments));
+        assertEquals("Type_Text", method.invoke(scriptParser, arguments));
 
     }
 }
