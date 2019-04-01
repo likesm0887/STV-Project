@@ -7,9 +7,6 @@ public class Instruction {
     private Optional<String> eventParameter;
     private Optional<String> elementParameter;
 
-
-
-
     public Instruction(String activity, String event, String attribute , Optional<String> eventParameter , Optional<String> elementParameter) {
         this.event = event;
         this.activity = activity;
@@ -29,6 +26,7 @@ public class Instruction {
     public String getAttribute() {
         return attribute;
     }
+
     public Optional<String> getEventParameter() {
         return eventParameter;
     }
@@ -36,6 +34,5 @@ public class Instruction {
     public Optional<String> getElementParameter() {
         return elementParameter;
     }
-
 }
 

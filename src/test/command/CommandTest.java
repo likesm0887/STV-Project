@@ -45,7 +45,6 @@ public class CommandTest {
         typeTextCommand.execute();
     }
 
-    // need to modify interface
     @Test
     public void DriverSwipeElementWhenSwipeElementCommandExecute() {
         SwipeElementDirection swipeElementDirection = SwipeElementDirection.UP;
