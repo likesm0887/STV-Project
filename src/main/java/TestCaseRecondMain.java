@@ -1,5 +1,5 @@
-import adapter.AppiumAdapter;
-import config.ConfigReader;
+import adapter.device.AppiumDriver;
+import adapter.ConfigReader;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class TestCaseRecondMain {
     public static void main(String[] args) throws Exception {
         ConfigReader configReader = new ConfigReader();
-        AppiumAdapter appium = new AppiumAdapter(configReader.getConfig());
+        AppiumDriver appium = new AppiumDriver(configReader.getConfig());
 
         BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
         String xpath="";
