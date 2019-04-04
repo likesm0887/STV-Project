@@ -38,15 +38,10 @@ public class ControllerTest {
     }*/
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException, InterruptedException {
 //        driver.resetApp();
-        driver.launchApp();
+        adapter.launchApp();
     }
-
-//    @After
-//    public void tearDown() throws Exception {
-//        driver.closeApp();
-//    }
 
     @Test
     public void environmentTest() {

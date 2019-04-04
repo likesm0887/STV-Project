@@ -22,7 +22,10 @@ public interface DeviceDriver {
     void pressBackKey();
     void rotate(ScreenOrientation screenOrientation);
     void waitFor(int millis);
-    void restartApp();
+    // input "CleanApp" and the App's data will clean
+    // not type input the App's will not clean
+    void restartApp(String... isCleanApp);
+
     void launchApplication();
     void waitUntilElementShow(String xPath);
 }

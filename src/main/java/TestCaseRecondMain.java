@@ -24,9 +24,9 @@ public class TestCaseRecondMain {
             {
                 System.out.println("Not find");
             }
-            finally {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
+//            finally {
+//                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+//            }
         }
         while (!xpath.equals("exit"));
 

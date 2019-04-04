@@ -13,30 +13,38 @@ public class ScriptParser {
     private BufferedReader bufferedReader;
     private List<Instruction> instructions = new ArrayList<>();
 
+    public ScriptParser() {
+    }
+
     public ScriptParser(String ScriptPath) throws Exception {
         readFile(ScriptPath);
     }
-    public List<Instruction> parse() throws Exception {
+
+    public Instruction parseForOneLine(String scriptForOneLine) {
         String event;
         String activity;
         String attribute;
+        List<String> temp = new ArrayList<>(Arrays.asList(scriptForOneLine.split("\t+")));
+        if (!"".equals(temp.get(0))) {
+            if (temp.size() == 1) {
+                event = temp.get(0);
+                return new Instruction("", scriptFilterToParameter(event), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
+            } else {
+                activity = temp.get(0);
+                event = temp.get(1);
+                attribute = temp.get(2);
+                return (new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
+            }
+        }
+        return null;
+    }
+
+    public List<Instruction> parse() throws Exception {
         this.bufferedReader = new BufferedReader(scriptFile);
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
-            List<String> temp = new ArrayList<>(Arrays.asList(line.split("\t+")));
-            if (!"".equals(temp.get(0))) {
-                if(temp.size()==1 )
-                {
-                    event = temp.get(0);
-                    instructions.add(new Instruction("", scriptFilterToParameter(event), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty()));
-                }
-                else
-                {
-                    activity = temp.get(0);
-                    event = temp.get(1);
-                    attribute = temp.get(2);
-                    instructions.add(new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
-                }
+            if (!line.isEmpty()) {
+                instructions.add(parseForOneLine(line));
 
             }
         }

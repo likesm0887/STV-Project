@@ -32,7 +32,7 @@ public class ConfigReader {
     private void readConfig() {
         File pathConfigFile;
         Element element, rootElement = null;
-        final String CONFIG_DIR_PATH = "configuration/";
+        final String CONFIG_DIR_PATH = "config/";
         File folderConfig = new File(CONFIG_DIR_PATH);
         String[] listConfig = folderConfig.list();
 
@@ -49,11 +49,9 @@ public class ConfigReader {
                 e.printStackTrace();
             }
 
-
-
             for (int i = 0; i < rootElement.elements().size(); i++) {
                 element = (Element) rootElement.elements().get(i);
-                if (element.elements().size() > 0){ // does element contain sub elements
+                if (element.elements().size() > 0) { // does element contain sub elements
                     // put elements, include category one and innerElements
                     configMap.put(element.getName(), "\n"); // The element is a category element by recognizing "\n"
                     for (int j = 0; j < element.elements().size(); j++) {
