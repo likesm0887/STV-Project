@@ -15,5 +15,5 @@ public abstract class Command {
         return xPath;
     }
 
-    abstract void execute();
+    public abstract void execute();
 }

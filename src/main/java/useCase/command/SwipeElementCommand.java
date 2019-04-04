@@ -16,7 +16,7 @@ public class SwipeElementCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         this.deviceDriver.swipeElement(this.xPath, this.swipeElementDirection, this.offset);
     }
 }
