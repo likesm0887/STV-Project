@@ -45,7 +45,6 @@ public class ScriptParser {
             String line = bufferedReader.readLine();
             if (!line.isEmpty()) {
                 instructions.add(parseForOneLine(line));
-
             }
         }
         return instructions;
