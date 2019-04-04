@@ -11,16 +11,14 @@ import org.openqa.selenium.ScreenOrientation;
 
 import static org.junit.Assert.*;
 
-@RunWith(JMock.class)
 public class CommandFactoryTest {
-    Mockery context = new JUnit4Mockery();
     String xPath = "//*[@class='a']";
+
+    final DeviceDriver DUMMY_DRIVER = null;
 
     @Test
     public void createClickCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command clickCommand = commandFactory.createClickCommand(xPath);
 
@@ -29,11 +27,8 @@ public class CommandFactoryTest {
 
     @Test
     public void createTypeTextCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
         String text = "fuck up";
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
 
         Command typeTextCommand = commandFactory.createTypeTextCommand(xPath, text);
 
@@ -42,9 +37,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createFindElementCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command findElementCommand = commandFactory.createFindElementCommand(xPath);
 
@@ -52,10 +45,8 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void createFindElementListCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+    public void createFindElementListCommand()
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command findElementListCommand = commandFactory.createFindElementListCommand(xPath);
 
@@ -64,9 +55,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createLaunchCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command launchCommand = commandFactory.createLaunchCommand();
 
@@ -75,9 +64,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createRotationCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command rotationCommand = commandFactory.createRotationCommand(ScreenOrientation.LANDSCAPE);
 
@@ -86,11 +73,9 @@ public class CommandFactoryTest {
 
     @Test
     public void createSwipeElementCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
         int offset = 10;
 
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command swipeElementCommand = commandFactory.createSwipeElementCommand(xPath, SwipeElementDirection.UP, offset);
 
@@ -99,9 +84,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createRestartCommand() {
-        DeviceDriver mockDriver = context.mock(DeviceDriver.class);
-
-        CommandFactory commandFactory = new CommandFactory(mockDriver);
+        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command restartCommand = commandFactory.createRestartCommand();
 
