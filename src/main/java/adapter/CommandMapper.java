@@ -1,6 +1,7 @@
 package adapter;
 
 import entity.TestData;
+import entity.TestDatum;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
 
@@ -31,7 +32,6 @@ public class CommandMapper {
                 {
                     xPath =testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
                 }
-                System.out.println(xPath);
             }
             commands.add(commandCreate(instruction.getEvent(),xPath,instruction.getEvent()));
         }
