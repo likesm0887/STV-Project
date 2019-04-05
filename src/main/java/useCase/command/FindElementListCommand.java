@@ -12,7 +12,7 @@ public class FindElementListCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         List<MobileElement> mobileElements = this.deviceDriver.findElements(xPath);
     }
 }

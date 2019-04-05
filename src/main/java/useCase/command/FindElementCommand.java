@@ -9,7 +9,7 @@ public class FindElementCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         this.deviceDriver.findElement(this.xPath);
     }
 }

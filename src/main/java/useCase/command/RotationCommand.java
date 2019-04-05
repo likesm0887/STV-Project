@@ -12,7 +12,7 @@ public class RotationCommand extends Command {
     }
 
     @Override
-    void execute() {
+    public void execute() {
         this.deviceDriver.rotate(this.screenOrientation);
     }
 }

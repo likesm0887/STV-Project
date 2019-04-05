@@ -45,7 +45,7 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void createFindElementListCommand()
+    public void createFindElementListCommand() {
         CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
 
         Command findElementListCommand = commandFactory.createFindElementListCommand(xPath);
