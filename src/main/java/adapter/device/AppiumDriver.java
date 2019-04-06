@@ -12,21 +12,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
-
 import static java.lang.Thread.sleep;
-import static org.junit.Assert.assertTrue;
 
 public class AppiumDriver implements DeviceDriver {
     private final int DEFAULT_TIMEOUT = 10;
+    private final int DEFAULT_SWIPE_DURATION = 500;
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
@@ -34,66 +31,44 @@ public class AppiumDriver implements DeviceDriver {
 
     public AppiumDriver(Config config) {
         this.config = config;
-        createAppiumService();
+        appiumDriverLocalService = getAppiumService();
         startAppiumService();
-        driver = createAndroidDriver();
+        driver = getAndroidDriver();
     }
 
-    public void stopApp() throws IOException {
-        String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
-        this.executeCmd(stopCmd);
-
+    private AppiumDriverLocalService getAppiumService() {
+        return new AppiumServiceBuilder()
+                .usingPort(config.getAppiumPort())
+                .build();
     }
 
-    private void clearAppData() throws IOException {
-        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
-        this.executeCmd(command);
+    @Override
+    public void startAppiumService() {
+        appiumDriverLocalService.start();
     }
 
-    public void restart(List<String> isCleanApp) throws IOException, InterruptedException {
-
-        stopApp();
-        if (!isCleanApp.isEmpty()) {
-            this.clearAppData();
-        }
-        launchApp();
-
+    @Override
+    public void closeAppiumService() {
+        appiumDriverLocalService.stop();
     }
 
-    public void launchApp() throws IOException, InterruptedException {
-        Thread.sleep(1000);
-        String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
-        ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
+    public void executeCmd(String... cmd) throws IOException {
+        ProcessBuilder proc = new ProcessBuilder(cmd);
         proc.start();
-        Thread.sleep(1000);
     }
 
-    public AndroidDriver createAndroidDriver() {
-        String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-r", "-e", "debug", "false", "-e", "class", "''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
-
-        DesiredCapabilities cap = createDesiredCapabilities();
-
-        URL serverUrl = createServerUrl();
+    private AndroidDriver getAndroidDriver() {
         try {
+            String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-r", "-e", "debug", "false", "-e", "class", "''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
             executeCmd(initInstrActivityCmd);
+            waitFor(4000);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        try {
-            sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return new AndroidDriver(serverUrl, cap);
+        return new AndroidDriver(getServerUrl(), getDesiredCapabilities());
     }
 
-    public AndroidDriver getDriver() {
-        return driver;
-    }
-
-    private URL createServerUrl() {
+    private URL getServerUrl() {
         URL serverUrl = null;
         try {
             serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
@@ -103,7 +78,7 @@ public class AppiumDriver implements DeviceDriver {
         return serverUrl;
     }
 
-    private DesiredCapabilities createDesiredCapabilities() {
+    private DesiredCapabilities getDesiredCapabilities() {
         DesiredCapabilities cap = new DesiredCapabilities();
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, config.getDevicesName());
@@ -115,28 +90,50 @@ public class AppiumDriver implements DeviceDriver {
         return cap;
     }
 
-    private void createAppiumService() {
-        appiumDriverLocalService = new AppiumServiceBuilder()
-                .usingPort(config.getAppiumPort())
-                .build();
+    public AndroidDriver getDriver() {
+        return driver;
     }
 
-    private void startAppiumService() {
-        appiumDriverLocalService.start();
+    @Override
+    public void launchApp() {
+        waitFor(1000);
+        try {
+            String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
+            ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
+            proc.start();
+        } catch (IOException e) {
+            throw new RuntimeException(ADB_PATH + " not found");
+        }
+        waitFor(1000);
     }
 
-    public void executeCmd(String... cmd) throws IOException {
-        ProcessBuilder proc = new ProcessBuilder(cmd);
-        Process p = proc.start();
+    @Override
+    public void restartApp(String... isCleanApp) {
+        stopApp();
+        waitFor(1000);
+        if (isCleanApp.length > 0) {
+            this.clearAppData();
+        }
+        waitFor(1000);
+        launchApp();
     }
 
-
-    private void setUpAppium() {
-        appiumDriverLocalService.start();
+    public void stopApp() {
+        try {
+            String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
+            this.executeCmd(stopCmd);
+        } catch (IOException e) {
+            throw new RuntimeException(ADB_PATH + " not found");
+        }
     }
 
-    public void closeAppiumService() {
-        appiumDriverLocalService.stop();
+    private void clearAppData() {
+        try {
+            String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
+            this.executeCmd(command);
+        } catch (IOException e) {
+            throw new RuntimeException(ADB_PATH + " not found");
+        }
     }
 
     @Override
@@ -161,8 +158,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void swipeElement(String xPath, SwipeElementDirection direction, int offset) {
-        final int DEFAULT_DURATION = 500;
-        findElement(xPath).swipe(direction, offset, offset, DEFAULT_DURATION);
+        findElement(xPath).swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
     }
 
     @Override
@@ -196,6 +192,12 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
+    public void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset) {
+        MobileElement element = waitForElement(xPath);
+        element.swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
+    }
+
+    @Override
     public void pressBackKey() {
         driver.navigate().back();
     }
@@ -215,34 +217,5 @@ public class AppiumDriver implements DeviceDriver {
         } catch (InterruptedException e) {
 
         }
-    }
-
-    @Override
-    public void restartApp(String... isCleanApp) {
-        List<String> inputList = Arrays.asList(isCleanApp);
-
-        try {
-            this.restart(inputList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    @Override
-    public void launchApplication() {
-        this.driver.launchApp();
-    }
-
-
-    @Override
-    public void waitUntilElementShow(String xPath) {
-
-        WebDriverWait wait = new WebDriverWait(this.driver, 30);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By
-                .xpath(xPath)));
     }
 }

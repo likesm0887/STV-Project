@@ -21,8 +21,6 @@ public class Config {
         serialNumber = serialNumber;
     }
 
-
-
     public String getDevicesName() {
         return devicesName;
     }
