@@ -1,4 +1,4 @@
-package useCase;
+package unitTest.useCase;
 
 import adapter.device.DeviceDriver;
 import io.appium.java_client.MobileElement;
@@ -8,6 +8,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
+import useCase.Script;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
 

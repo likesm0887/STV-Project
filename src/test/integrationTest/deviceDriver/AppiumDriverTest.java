@@ -7,7 +7,7 @@ import entity.xPath.XPathBuilder;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,26 +20,24 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class ControllerTest {
-    private static AppiumDriverLocalService service;
+public class AppiumDriverTest {
     private static AppiumDriver adapter;
     private static AndroidDriver driver;
 
     @BeforeClass
-    public static void setUpClass() throws IOException, InterruptedException {
+    public static void setUpClass() {
         ConfigReader configReader = new ConfigReader();
         adapter = new AppiumDriver(configReader.getConfig());
-        driver = adapter.createAndroidDriver();
+        driver = adapter.getDriver();
     }
-/*
+
     @AfterClass
     public static void tearDownClass() {
-        service.stop();
-    }*/
+        adapter.closeAppiumService();
+    }
 
     @Before
-    public void setUp() throws IOException, InterruptedException {
-//        driver.resetApp();
+    public void setUp() {
         adapter.launchApp();
     }
 
@@ -81,13 +79,13 @@ public class ControllerTest {
         builder.append("android.widget.TextView")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/title")
                 .and(NodeAttribute.TEXT, "My tasks");
-        adapter.clickElement(builder.toString());
+        adapter.waitAndClickElement(builder.toString());
 
         builder.clean();
         builder.append("android.widget.ImageView")
                 .which(NodeAttribute.RESOURCE_ID, "org.dmfs.tasks:id/quick_add_task")
                 .and(NodeAttribute.INDEX, "2");
-        adapter.clickElement(builder.toString());
+        adapter.waitAndClickElement(builder.toString());
 
         adapter.waitFor(1000);
 
@@ -95,20 +93,19 @@ public class ControllerTest {
         builder.append("android.widget.EditText")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/input")
                 .and(NodeAttribute.TEXT, "Title");
-        adapter.typeText(builder.toString(), "quick add");
+        adapter.waitAndTypeText(builder.toString(), "quick add");
 
         builder.clean();
         builder.append("android.widget.TextView")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/button1")
                 .and(NodeAttribute.TEXT, "SAVE");
-        adapter.clickElement(builder.toString());
+        adapter.waitAndClickElement(builder.toString());
 
-        adapter.waitFor(2000);
         builder.clean();
         builder.append("android.widget.TextView")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/title")
                 .and(NodeAttribute.TEXT, "quick add");
-        List<MobileElement> elements = adapter.findElements(builder.toString());
+        List<MobileElement> elements = adapter.waitForElements(builder.toString());
         assertEquals(1, elements.size());
         assertEquals("quick add", elements.get(0).getText());
     }
@@ -119,14 +116,13 @@ public class ControllerTest {
         builder.append("android.widget.ImageButton")
                 .which(NodeAttribute.RESOURCE_ID, "org.dmfs.tasks:id/floating_action_button")
                 .and(NodeAttribute.INDEX, "2");
-        adapter.clickElement(builder.toString());
+        adapter.waitAndClickElement(builder.toString());
 
-        adapter.waitFor(1000);
         builder.clean();
         builder.append("android.widget.EditText")
                 .which(NodeAttribute.RESOURCE_ID, "android:id/text1")
                 .and(NodeAttribute.TEXT, "Title");
-        adapter.typeText(builder.toString(), "New Task");
+        adapter.waitAndTypeText(builder.toString(), "New Task");
 
         adapter.pressBackKey();
 
@@ -135,32 +131,21 @@ public class ControllerTest {
                 .which(NodeAttribute.RESOURCE_ID, "android:id/text1")
                 .and(NodeAttribute.INDEX, "1");
 
-        adapter.typeText(builder.toString(), "todo 1");
+        adapter.waitAndTypeText(builder.toString(), "todo 1");
 
         builder.clean();
         builder.append("android.widget.TextView")
                 .which(NodeAttribute.RESOURCE_ID, "org.dmfs.tasks:id/editor_action_save")
                 .and(NodeAttribute.TEXT, "SAVE");
-        adapter.clickElement(builder.toString());
+        adapter.waitAndClickElement(builder.toString());
 
-        adapter.waitFor(1000);
         builder.clean();
         builder.append("android.widget.TextView")
                 .which(NodeAttribute.RESOURCE_ID, "org.dmfs.tasks:id/text")
                 .and(NodeAttribute.INDEX, "0");
 
-        MobileElement element = adapter.findElement(builder.toString());
+        MobileElement element = adapter.waitForElement(builder.toString());
         assertEquals("New Task", element.getText());
-    }
-
-    @Test
-    public void swipTest() {
-        XPathBuilder builder = new XPathBuilder();
-        builder.append("android.widget.ExpandableListView")
-                .which(NodeAttribute.RESOURCE_ID, "android:id/list");
-        MobileElement element = adapter.findElement(builder.toString());
-        element.swipe(SwipeElementDirection.LEFT, 100, 100, 1000);
-        driver.rotate(ScreenOrientation.LANDSCAPE);
     }
 
     @Test
@@ -330,7 +315,7 @@ public class ControllerTest {
         }
         XPathBuilder builder = new XPathBuilder();
         builder.append("android.widget.ExpandableListView")
-                .at(NodeAttribute.RESOURCE_ID, "android:id/list");
+                .which(NodeAttribute.RESOURCE_ID, "android:id/list");
         MobileElement element = adapter.findElement(builder.toString());
         element.swipe(SwipeElementDirection.UP, 100, 100, 1000);
 

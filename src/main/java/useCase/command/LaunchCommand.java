@@ -10,6 +10,6 @@ public class LaunchCommand extends Command {
 
     @Override
     public void execute() {
-        deviceDriver.launchApplication();
+        deviceDriver.launchApp();
     }
 }

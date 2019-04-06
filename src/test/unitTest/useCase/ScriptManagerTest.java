@@ -1,8 +1,9 @@
-package useCase;
+package unitTest.useCase;
 
 import org.jmock.Expectations;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
+import useCase.ScriptManager;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +24,7 @@ public class ScriptManagerTest extends ScriptTest {
         sm.add(script_2);
 
         context.checking(new Expectations() {{
-            oneOf(mockDriver).launchApplication();
+            oneOf(mockDriver).launchApp();
             oneOf(mockDriver).waitAndClickElement(xPath);
             ScreenOrientation screenOrientation = ScreenOrientation.LANDSCAPE;
             oneOf(mockDriver).rotate(screenOrientation);
