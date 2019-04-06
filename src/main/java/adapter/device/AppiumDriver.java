@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class AppiumDriver implements DeviceDriver {
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
-    private final String ADB_PATH = System.getenv("ANDROID_HOME") + "\\platform-tools\\adb.exe";
+    private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
 
     public AppiumDriver(Config config) {
         this.config = config;
@@ -52,7 +53,6 @@ public class AppiumDriver implements DeviceDriver {
     public void restart(List<String> isCleanApp) throws IOException, InterruptedException {
 
         stopApp();
-
         if (!isCleanApp.isEmpty()) {
             this.clearAppData();
         }

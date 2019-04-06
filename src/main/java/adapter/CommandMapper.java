@@ -4,7 +4,6 @@ import entity.TestData;
 import entity.TestDatum;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,40 +12,34 @@ public class CommandMapper {
     private TestData testData;
     private CommandFactory commandFactory;
 
-    public CommandMapper(List<Instruction> instructions, TestData testData,CommandFactory commandFactory) {
+    public CommandMapper(List<Instruction> instructions, TestData testData, CommandFactory commandFactory) {
         this.testData = testData;
         this.instructions = instructions;
-        this.commandFactory=commandFactory;
+        this.commandFactory = commandFactory;
     }
 
     public List<Command> mapping() {
         List<Command> commands = new ArrayList<>();
-        String xPath="";
+        String xPath = "";
         for (Instruction instruction : instructions) {
-            if(!instruction.getActivity().equals(""))
-            {
-                if( instruction.getElementParameter().isPresent()){
-                    xPath =testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPathWithVariable(instruction.getElementParameter().get());
-                }
-                else
-                {
-                    xPath =testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
+            if (!instruction.getActivity().equals("")) {
+                if (instruction.getElementParameter().isPresent()) {
+                    xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPathWithVariable(instruction.getElementParameter().get());
+                } else {
+                    xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
                 }
             }
-            commands.add(commandCreate(instruction.getEvent(),xPath,instruction.getEvent()));
+            commands.add(commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse("")));
         }
         return commands;
     }
 
-    private Command commandCreate(String event ,String xPath,String parameter)
-    {
-        switch (event){
+    private Command commandCreate(String event, String xPath, String parameter) {
+        switch (event) {
             case "Click":
                 return commandFactory.createClickCommand(xPath);
-
             case "TypeText":
-                return commandFactory.createTypeTextCommand(xPath,parameter);
-
+                return commandFactory.createTypeTextCommand(xPath, parameter);
             case "Restart":
                 return commandFactory.createRestartCommand();
             default:
