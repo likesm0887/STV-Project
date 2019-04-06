@@ -32,8 +32,10 @@ public class TestDataParser {
         Iterator<Row> it = sheet.iterator();
         it.next();
         it.forEachRemaining(row -> {
-            TestDatum datum = createTestDatum(row);
-            sheetTestData.put(row.getCell(0).getStringCellValue(), datum);
+            if (!isMergedRow(row)) {
+                TestDatum datum = createTestDatum(row);
+                sheetTestData.put(row.getCell(0).getStringCellValue(), datum);
+            }
         });
         testData.addSheetTestData(sheet.getSheetName() ,sheetTestData);
     }
@@ -47,6 +49,11 @@ public class TestDataParser {
             row.getCell(1).getStringCellValue(),
             row.getCell(2) != null ? row.getCell(2).getStringCellValue() : null
         );
+    }
+
+    public boolean isMergedRow(Row row) {
+        return row.getLastCellNum() >= 2 &&
+                row.getCell(row.getLastCellNum() - 1, Row.MissingCellPolicy.RETURN_BLANK_AS_NULL) == null;
     }
 
     public TestData getTestData() {
