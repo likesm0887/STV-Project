@@ -1,0 +1,8 @@
+TaskList    Click   menu_btn
+TaskList    Click   displayed_lists
+DisplayedLists  Click   add_list_btn
+DisplayedLists  TypeText{test list} list_editText
+DisplayedLists  Click   color_set_1
+DisplayedLists  Click   pick_color{15}
+DisplayedLists  Click   save_btn
+DisplayedLists  Click   return_btn

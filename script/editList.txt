@@ -1,0 +1,11 @@
+TaskList    Click   menu_btn
+TaskList    Click   displayed_lists
+DisplayedLists  Click   folder_setting{1}
+DisplayedLists  Click   name_setting
+DisplayedLists  TypeText{update list}   list_editText
+DisplayedLists  Click   save_btn
+DisplayedLists  Click   color_setting
+DisplayedLists  Click   color_set_3
+DisplayedLists  Click   pick_color{3}
+DisplayedLists  Click   save_btn
+DisplayedLists  Click   return_btn

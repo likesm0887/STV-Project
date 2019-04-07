@@ -44,7 +44,7 @@ public class TestDataParser {
                 sheetTestData.put(row.getCell(0).getStringCellValue(), datum);
             }
         });
-        testData.addSheetTestData(sheet.getSheetName() ,sheetTestData);
+        testData.addSheetTestData(sheet.getSheetName(), sheetTestData);
     }
 
     private TestDatum createTestDatum(Row row) {
