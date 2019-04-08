@@ -1,4 +1,4 @@
-package scriptGenerator;
+package adapter.scriptGenerator;
 
 import adapter.ConfigReader;
 import useCase.command.Command;
@@ -29,11 +29,12 @@ public class ScriptGenerator {
     public void executeInstruction(String instruction) {
         saveInstruction(instruction);
         Command command = mappingCommandFor(instruction);
+
         command.execute();
     }
 
     public Command mappingCommandFor(String instruction) {
-        return this.commandGenerator.mappingCommandFor(instruction);
+        return this.commandGenerator.mappingFrom(instruction);
     }
 
     public void saveInstruction(String instruction) {
@@ -56,7 +57,6 @@ public class ScriptGenerator {
             writer.write(instructions);
             writer.close();
         } catch (IOException e) {
-
             e.printStackTrace();
         }
     }

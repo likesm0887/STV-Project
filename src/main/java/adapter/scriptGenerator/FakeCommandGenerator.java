@@ -1,4 +1,4 @@
-package scriptGenerator;
+package adapter.scriptGenerator;
 
 import adapter.device.AppiumDriver;
 import entity.Config;
@@ -17,7 +17,7 @@ public class FakeCommandGenerator implements CommandGenerator {
     }
 
     @Override
-    public Command mappingCommandFor(String instruction) {
+    public Command mappingFrom(String instruction) {
         CommandFactory commandFactory = new CommandFactory(appiumDriver);
         return commandFactory.createClickCommand("//*[@class='android.widget.TextView' and @resource-id='android:id/title']");
     }

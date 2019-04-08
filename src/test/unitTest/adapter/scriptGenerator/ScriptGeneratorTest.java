@@ -1,4 +1,4 @@
-package scriptGenerator;
+package adapter.scriptGenerator;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -63,7 +63,7 @@ public class ScriptGeneratorTest {
         ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
 
         context.checking(new Expectations() {{
-            allowing(mockGenerator).mappingCommandFor(instruction);
+            allowing(mockGenerator).mappingFrom(instruction);
             will(returnValue(new ClickCommand(null, "")));
         }});
 
@@ -99,7 +99,7 @@ public class ScriptGeneratorTest {
         ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
 
         context.checking(new Expectations() {{
-            exactly(3).of(mockGenerator).mappingCommandFor(instruction);
+            exactly(3).of(mockGenerator).mappingFrom(instruction);
             will(returnValue(command));
         }});
 

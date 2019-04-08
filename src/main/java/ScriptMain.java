@@ -1,4 +1,8 @@
-import scriptGenerator.ScriptGenerator;
+import adapter.ConfigReader;
+import adapter.device.AppiumDriver;
+import adapter.parser.CommandBuilder;
+import adapter.scriptGenerator.GeneratorAdapter;
+import adapter.scriptGenerator.ScriptGenerator;
 
 import java.io.*;
 import java.util.InputMismatchException;
@@ -9,7 +13,14 @@ public class ScriptMain {
     static final int EXIT_PROGRAM = 2;
 
     public static void main(String[] args) throws Exception {
-        ScriptGenerator scriptGenerator = ScriptGenerator.createScriptGenerator();
+        ConfigReader configReader = new ConfigReader();
+        CommandBuilder commandBuilder = new CommandBuilder(new AppiumDriver(configReader.getConfig()));
+        GeneratorAdapter generatorAdapter = new GeneratorAdapter(commandBuilder);
+
+
+
+
+        ScriptGenerator scriptGenerator = new ScriptGenerator(generatorAdapter);
 
         while (true) {
             displayFunctionality();
@@ -18,7 +29,6 @@ public class ScriptMain {
 
             if (choice == EXIT_PROGRAM)
                 break;
-
 
             if (choice == EXECUTE_INSTRUCTION) {
                 handleExecuteInstruction(scriptGenerator);
@@ -56,12 +66,12 @@ public class ScriptMain {
         return choice;
     }
 
-
     private static void handleExecuteInstruction(ScriptGenerator scriptGenerator) {
         System.out.print("enter script: ");
         String instruction = enterInstruction();
 
         System.out.println(instruction);
+
         try {
             scriptGenerator.executeInstruction(instruction);
         } catch (Exception e) {
@@ -105,5 +115,4 @@ public class ScriptMain {
         String storeChoice = s.next();
         return storeChoice;
     }
-
 }
