@@ -1,0 +1,4 @@
+TaskList	Click	float_add_btn
+EditTasks	TypeText{first task}	title_editText
+EditTasks	Click	save_task_btn
+ViewTask	Click	return_btn

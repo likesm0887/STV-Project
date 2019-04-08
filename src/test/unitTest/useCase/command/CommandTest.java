@@ -87,7 +87,7 @@ public class CommandTest {
         LaunchCommand launchCommand = new LaunchCommand(mockDeviceDriver);
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).launchApplication();
+            oneOf(mockDeviceDriver).launchApp();
         }});
 
         launchCommand.execute();
