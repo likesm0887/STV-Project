@@ -1,6 +1,6 @@
-Home	Click	float_add_btn
-CreateTasks_x0009_	TypeText{Add Task}	title_editText 
-CreateTasks_x0009_	Click	status_spinner
-CreateTasks_x0009_	Click	status_options_in_process
-CreateTasks_x0009_	TypeText{an address}	 location_editText  
-CreateTasks_x0009_	Click	 save_task_btn 
+TaskList	Click	float_add_btn
+EditTasks	TypeText{Add Task}	title_editText 
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options{0}
+EditTasks	TypeText{an address}	 location_editText  
+EditTasks	Click	 save_task_btn 

@@ -1,4 +1,0 @@
-View	Click{}	folder_list{0}
-View	Click{}	folder_list{0}
-View	Click{}	folder_list{0}
-View	Click{}	folder_list{0}

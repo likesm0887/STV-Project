@@ -1,9 +1,11 @@
 package adapter;
 
 import adapter.device.DeviceDriver;
+import adapter.scriptGenerator.CommandGenerator;
 import entity.TestData;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
+import org.junit.BeforeClass;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
 import org.jmock.Mockery;
@@ -20,14 +22,16 @@ import java.util.List;
 
 @RunWith(JMock.class)
 public class CommandMapperTest {
-    private String SIMPLE_TEST_DATA = "./src/test/resources/simple_test_data.xlsx";
-    private String SIMPLE_SCRIPT = "./src/test/resources/scriptForMapperTest.txt";
+    private final String SIMPLE_TEST_DATA = "./src/test/resources/simple_test_data.xlsx";
+    private final String SIMPLE_SCRIPT = "./src/test/resources/scriptForMapperTest.txt";
     private TestDataParser parser;
     private TestData testData;
     protected Mockery context = new JUnit4Mockery();
     private DeviceDriver mockDeviceDriver = context.mock(DeviceDriver.class);
     private ScriptParser scriptParser;
     private List<Instruction> instructions = new ArrayList<>();
+    private CommandFactory commandFactory;
+    private CommandGenerator commandGenerator;
 
     @Before
     public void setUp() throws Exception {
@@ -35,15 +39,29 @@ public class CommandMapperTest {
         scriptParser = new ScriptParser(SIMPLE_SCRIPT);
         parser.parse();
         testData = parser.getTestData();
-        instructions = scriptParser.parse();
+        commandFactory = new CommandFactory(mockDeviceDriver);
+        commandGenerator = new CommandMapper(testData, commandFactory);
     }
 
     @Test
-    public void test2() throws IOException {
-        CommandFactory commandFactory = new CommandFactory(mockDeviceDriver);
-        CommandMapper commandMapper = new CommandMapper(instructions, testData, commandFactory);
-        List<Command> commands = commandMapper.mapping();
-        Assert.assertEquals(commands.get(0).getXpath(), "//*[@class='android.widget.RelativeLayout' and @index='0']");
+    public void mappingFromTestForInstructionsList() throws Exception {
 
+        instructions = scriptParser.parse();
+        List<Command> commands = commandGenerator.mappingFrom(instructions);
+        Assert.assertEquals(commands.get(0).getXpath(), "//*[@class='android.widget.RelativeLayout' and @index='0']");
+    }
+
+    @Test
+    public void mappingFromTestForInstruction()  {
+        Instruction  instruction= scriptParser.parseForOneLine("View1\tClick\tfolder_list{0}");
+        Command command = commandGenerator.mappingFrom(instruction);
+        Assert.assertEquals(command.getXpath(), "//*[@class='android.widget.RelativeLayout' and @index='0']");
+    }
+    @Test
+    public void mappingFromLoadScript() throws Exception {
+        final String LOAD_TEST_SCRIPT = "./src/test/resources/loadScript.txt";
+        scriptParser = new ScriptParser(LOAD_TEST_SCRIPT);
+        int commandListSize = commandGenerator.mappingFrom(scriptParser.parse()).size();
+        Assert.assertEquals(8,commandListSize);
     }
 }

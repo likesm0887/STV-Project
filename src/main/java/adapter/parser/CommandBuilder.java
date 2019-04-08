@@ -39,7 +39,7 @@ public class CommandBuilder {
     }
 
     private CommandMapper createCommandMapper(List<Instruction> instructions) {
-        return new CommandMapper(instructions, testDataParser.getTestData(), createCommandFactory());
+        return new CommandMapper( testDataParser.getTestData(), createCommandFactory());
     }
 
     public List<Command> build() throws Exception {
@@ -54,6 +54,6 @@ public class CommandBuilder {
             instructions.add(scriptParser.parseForOneLine(pathOrOneCommand));
         }
         commandMapper = createCommandMapper(instructions);
-        return commandMapper.mapping();
+        return commandMapper.mappingFrom(scriptParser.parse());
     }
 }

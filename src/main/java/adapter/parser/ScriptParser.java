@@ -27,13 +27,13 @@ public class ScriptParser {
         List<String> temp = new ArrayList<>(Arrays.asList(scriptForOneLine.split("\t+")));
         if (!"".equals(temp.get(0))) {
             if (temp.size() == 1) {
-                event =temp.get(0);
-                return new Instruction("", scriptFilterToParameter(event).replaceAll(" ",""), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
+                event = temp.get(0);
+                return new Instruction("", scriptFilterToParameter(event).replaceAll(" ", ""), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
             } else {
                 activity = temp.get(0);
                 event = temp.get(1);
-                attribute = temp.get(2).replaceAll(" ","");
-                return (new Instruction(activity, scriptFilterToParameter(event).replaceAll(" ",""), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
+                attribute = temp.get(2).replaceAll(" ", "");
+                return (new Instruction(activity, scriptFilterToParameter(event).replaceAll(" ", ""), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
             }
         }
         return null;

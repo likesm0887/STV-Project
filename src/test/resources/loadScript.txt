@@ -1,0 +1,3 @@
+LoadScript{./src/test/resources/scriptForMapperTest.txt}
+View1	Click	folder_list{0}
+View2	Click	calendar-pick-date{123}

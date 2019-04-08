@@ -1,35 +1,51 @@
 package adapter;
 
+import adapter.parser.ScriptParser;
+import adapter.scriptGenerator.CommandGenerator;
 import entity.TestData;
-import entity.TestDatum;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandMapper {
-    private List<Instruction> instructions;
+public class CommandMapper implements CommandGenerator {
     private TestData testData;
     private CommandFactory commandFactory;
 
-    public CommandMapper(List<Instruction> instructions, TestData testData, CommandFactory commandFactory) {
+    public CommandMapper(TestData testData, CommandFactory commandFactory) {
         this.testData = testData;
-        this.instructions = instructions;
         this.commandFactory = commandFactory;
     }
 
-    public List<Command> mapping() {
-        List<Command> commands = new ArrayList<>();
-        String xPath = "";
-        for (Instruction instruction : instructions) {
-            if (!instruction.getActivity().equals("")) {
-                if (instruction.getElementParameter().isPresent()) {
-                    xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPathWithVariable(instruction.getElementParameter().get());
-                } else {
-                    xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
-                }
+    private Command mapping(Instruction instruction) {
+        String xPath;
+        if (!instruction.getActivity().equals("")) {
+            if (instruction.getElementParameter().isPresent()) {
+                xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPathWithVariable(instruction.getElementParameter().get());
+            } else {
+                xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
             }
-            commands.add(commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse("")));
+
+            return commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
+        }
+        return null;
+    }
+
+    private List<Instruction> inputScriptPathToGetInstruction(String path) throws Exception {
+        ScriptParser scriptParser = new ScriptParser(path);
+        return scriptParser.parse();
+    }
+
+    private List<Command> mapping(List<Instruction> instructions) throws Exception {
+        List<Command> commands = new ArrayList<>();
+        for (Instruction instruction : instructions) {
+            if (instruction.getEvent().equals("LoadScript")) {
+                List<Instruction> instructionsTemp = inputScriptPathToGetInstruction(instruction.getEventParameter().get());
+                commands.addAll(this.mapping(instructionsTemp));
+                continue;
+            }
+            commands.add(this.mapping(instruction));
         }
         return commands;
     }
@@ -45,5 +61,26 @@ public class CommandMapper {
             default:
                 return commandFactory.createClickCommand(xPath);
         }
+    }
+
+    @Override
+    @Deprecated
+    public Command mappingFrom(String instruction) {
+        return null;
+    }
+
+    @Override
+    public Command mappingFrom(Instruction instruction) {
+        return this.mapping(instruction);
+    }
+
+    @Override
+    public List<Command> mappingFrom(List<Instruction> instructions) {
+        try {
+            return this.mapping(instructions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
