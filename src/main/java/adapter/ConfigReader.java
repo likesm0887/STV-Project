@@ -23,7 +23,10 @@ public class ConfigReader {
                 configMap.get("DeviceName"),
                 configMap.get("SerialNumber"),
                 Integer.parseInt(configMap.get("AndroidVersion")),
-                Integer.parseInt(configMap.get("AppiumPort")));
+                Integer.parseInt(configMap.get("AppiumPort")),
+                configMap.get("TestDataPath"),
+                configMap.get("ScripPath")
+                );
         return config;
     }
 

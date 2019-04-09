@@ -5,11 +5,16 @@ public class Config {
     private int androidVersion = 0;
     private int appiumPort = 0;
     private String serialNumber = "";
-    public Config(String devicesName, String serialNumber, int androidVersion, int appiumPort) {
+    private String testDataPath = "";
+    private String scriptPath = "";
+
+    public Config(String devicesName, String serialNumber, int androidVersion, int appiumPort, String testDataPath, String scriptPath) {
         this.devicesName = devicesName;
         this.serialNumber = serialNumber;
         this.androidVersion = androidVersion;
         this.appiumPort = appiumPort;
+        this.testDataPath = testDataPath;
+        this.scriptPath = scriptPath;
     }
 
 
@@ -46,4 +51,18 @@ public class Config {
     }
 
 
+    public String getTestDataPath() {
+        return testDataPath;
+    }
+    public void setTestDataPath(String testDataPath) {
+        this.testDataPath = testDataPath;
+    }
+
+    public String getScriptPath() {
+        return scriptPath;
+    }
+
+    public void setScriptPath(String scriptPath) {
+        this.scriptPath = scriptPath;
+    }
 }

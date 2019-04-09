@@ -1,4 +1,4 @@
-package unitTest.useCase;
+package useCase;
 
 import adapter.device.DeviceDriver;
 import io.appium.java_client.MobileElement;
@@ -8,7 +8,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.ScreenOrientation;
-import useCase.Script;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
 
@@ -24,7 +23,7 @@ public class ScriptTest {
     Script script_2;
 
     @Before
-    public void SetUp() {
+    public void setUp() {
         mockDriver = context.mock(DeviceDriver.class);
         commandFactory = new CommandFactory(mockDriver);
 
@@ -32,14 +31,14 @@ public class ScriptTest {
         commands_1.add(commandFactory.createFindElementCommand(xPath));
         commands_1.add(commandFactory.createTypeTextCommand(xPath, ""));
         commands_1.add(commandFactory.createRestartCommand());
-        script_1 = new Script(commands_1);
+        script_1 = new Script(commands_1, "");
 
         List<Command> commands_2 = new ArrayList<>();
         commands_2.add(commandFactory.createLaunchCommand());
         commands_2.add(commandFactory.createClickCommand(xPath));
         ScreenOrientation screenOrientation = ScreenOrientation.LANDSCAPE;
         commands_2.add(commandFactory.createRotationCommand(screenOrientation));
-        script_2 = new Script(commands_2);
+        script_2 = new Script(commands_2, "");
     }
 
     @Test
