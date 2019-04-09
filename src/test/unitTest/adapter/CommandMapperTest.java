@@ -64,4 +64,10 @@ public class CommandMapperTest {
         int commandListSize = commandGenerator.mappingFrom(scriptParser.parse()).size();
         Assert.assertEquals(8,commandListSize);
     }
+    @Test
+    public void test() throws Exception {
+        final String Restart ="Restart";
+        Command restart = commandGenerator.mappingFrom(scriptParser.parseForOneLine(Restart));
+
+    }
 }

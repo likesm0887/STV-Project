@@ -6,7 +6,18 @@ import org.openqa.selenium.ScreenOrientation;
 
 public class CommandFactory {
     private DeviceDriver deviceDriver;
-
+    public Command commandCreate(String event, String xPath, String parameter) {
+        switch (event) {
+            case "Click":
+                return this.createClickCommand(xPath);
+            case "TypeText":
+                return this.createTypeTextCommand(xPath, parameter);
+            case "Restart":
+                return this.createRestartCommand();
+            default:
+                return this.createClickCommand(xPath);
+        }
+    }
     public CommandFactory(DeviceDriver deviceDriver) {
         this.deviceDriver = deviceDriver;
     }
