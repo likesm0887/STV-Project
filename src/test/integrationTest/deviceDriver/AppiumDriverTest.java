@@ -1,4 +1,4 @@
-package deviceDriver;
+package integrationTest.deviceDriver;
 
 import adapter.device.AppiumDriver;
 import adapter.ConfigReader;
@@ -34,12 +34,13 @@ public class AppiumDriverTest {
     @AfterClass
     public static void tearDownClass() {
         adapter.restartApp("CleanApp");
+        adapter.closeAppiumService();
     }
 
     @Before
     public void setUp() {
         adapter.restartApp();
-        adapter.waitFor(1000);
+        adapter.waitFor(2000);
     }
 
     @Test
@@ -149,22 +150,13 @@ public class AppiumDriverTest {
     }
 
     @Test
-    public void settingTest(){
-//        XPathBuilder builder = new XPathBuilder();
-//        builder.append("android.support.v7.widget.LinearLayoutCompat")
-//                .at(NodeAttribute.INDEX, "1");
-//        adapter.clickElement(builder.toString());
+    public void menuTest(){
         MobileElement elementTwo =  adapter.waitForElement("//*[@class='android.support.v7.widget.LinearLayoutCompat']");
         elementTwo.click();
     }
 
     @Test
     public void folderListTest(){
-//        XPathBuilder builder = new XPathBuilder();
-//        builder.append("android.widget.RelativeLayout")
-//                .at(NodeAttribute.INDEX, "0");
-//        adapter.clickElement(builder.toString());
-//        MobileElement element = (MobileElement) driver.findElement(By.xpath("//*[@class='android.widget.RelativeLayout' and @index='0']"));
         MobileElement element =  adapter.waitForElement("//*[@text='My tasks']");
         element.click();
     }
