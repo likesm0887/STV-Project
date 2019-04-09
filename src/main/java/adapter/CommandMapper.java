@@ -19,17 +19,15 @@ public class CommandMapper implements CommandGenerator {
     }
 
     private Command mapping(Instruction instruction) {
-        String xPath;
+        String xPath = "";
         if (!instruction.getActivity().equals("")) {
             if (instruction.getElementParameter().isPresent()) {
                 xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPathWithVariable(instruction.getElementParameter().get());
             } else {
                 xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
             }
-
-            return commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
         }
-        return null;
+        return commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
     }
 
     private List<Instruction> inputScriptPathToGetInstruction(String path) throws Exception {

@@ -1,13 +1,17 @@
 package useCase;
 
+import javafx.beans.binding.Bindings;
 import useCase.command.Command;
 
 import java.util.List;
 
 public class Script {
     private List<Command> commands;
-    public Script(List<Command> commands) {
+    private String sourcePath;
+
+    public Script(List<Command> commands, String sourcePath) {
         this.commands = commands;
+        this.sourcePath = sourcePath;
     }
 
     public void executeCommands() {
@@ -15,4 +19,7 @@ public class Script {
             command.execute();
     }
 
+    public String getSourceFilePath() {
+        return sourcePath;
+    }
 }
