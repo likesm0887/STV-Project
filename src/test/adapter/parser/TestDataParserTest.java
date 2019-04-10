@@ -44,10 +44,4 @@ public class TestDataParserTest {
         TestDataParser parser = new TestDataParser(ERROR_FORMAT_TEST_DATA);
         parser.parse();
     }
-
-    @Test
-    public void test() throws IOException {
-        TestDataParser parser = new TestDataParser("./testData/test data.xlsx");
-        parser.parse();
-    }
 }

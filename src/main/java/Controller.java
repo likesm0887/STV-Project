@@ -22,6 +22,7 @@ public class Controller {
         
         ConfigReader configReader = new ConfigReader();
         AppiumDriver adapter = new AppiumDriver(configReader.getConfig());
+        adapter.startAppiumService();
         String[] stopCmd = {"adb","shell", "am", "force-stop", "org.dmfs.tasks"};
         adapter.executeCmd(stopCmd);
         sleep(1000);

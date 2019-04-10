@@ -47,7 +47,7 @@ public class ScriptTest {
             oneOf(mockDriver).findElement(xPath);
             will(returnValue(with(any(MobileElement.class))));
             oneOf(mockDriver).waitAndTypeText(xPath, "");
-            oneOf(mockDriver).restartApp("CleanApp");
+            oneOf(mockDriver).restartAppAndCleanData();
         }});
 
         script_1.executeCommands();

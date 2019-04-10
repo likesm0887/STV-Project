@@ -1,4 +1,4 @@
-package unitTest.useCase;
+package useCase;
 
 import adapter.device.DeviceDriver;
 import entity.Config;
@@ -8,7 +8,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import useCase.ScriptManager;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,7 +52,7 @@ public class ScriptManagerTest {
             oneOf(mockDriver).waitAndClickElement("//*[@resource-id='android:id/button1']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
             oneOf(mockDriver).waitAndTypeText("//*[@class='android.widget.RelativeLayout' and @index='123']", "456 ");
-            oneOf(mockDriver).restartApp("CleanApp");
+            oneOf(mockDriver).restartAppAndCleanData();
         }});
 
         sm.execute();

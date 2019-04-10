@@ -2,6 +2,7 @@ package adapter.scriptGenerator;
 
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
+import adapter.device.DeviceDriver;
 import adapter.parser.CommandBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,9 @@ public class GeneratorAdapterTest {
     @Before
     public void setUp() {
         ConfigReader configReader = new ConfigReader();
-        commandBuilder = new CommandBuilder(new AppiumDriver(configReader.getConfig()));
+        DeviceDriver driver = new AppiumDriver(configReader.getConfig());
+        driver.startAppiumService();
+        commandBuilder = new CommandBuilder(driver);
     }
 
     @Test

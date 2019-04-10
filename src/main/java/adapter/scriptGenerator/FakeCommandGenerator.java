@@ -17,6 +17,7 @@ public class FakeCommandGenerator implements CommandGenerator {
 
     public FakeCommandGenerator(Config config) {
         this.appiumDriver = new AppiumDriver(config);
+        appiumDriver.startAppiumService();
     }
 
     @Override

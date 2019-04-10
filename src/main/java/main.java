@@ -13,7 +13,7 @@ public class main {
             ScriptManager scriptManager = new ScriptManager(config, driver);
             scriptManager.execute();
 
-            driver.closeAppiumService();
+            driver.stopAppiumService();
         } catch (Exception e) {
             e.printStackTrace();
         }
