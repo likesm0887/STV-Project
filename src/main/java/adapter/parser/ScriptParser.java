@@ -28,12 +28,12 @@ public class ScriptParser {
         if (!"".equals(temp.get(0))) {
             if (temp.size() == 1) {
                 event = temp.get(0);
-                return new Instruction("", scriptFilterToParameter(event).replaceAll(" ", ""), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
+                return new Instruction("", scriptFilterToParameter(event), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
             } else {
                 activity = temp.get(0);
                 event = temp.get(1);
-                attribute = temp.get(2).replaceAll(" ", "");
-                return (new Instruction(activity, scriptFilterToParameter(event).replaceAll(" ", ""), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
+                attribute = temp.get(2);
+                return (new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
             }
         }
         return null;
