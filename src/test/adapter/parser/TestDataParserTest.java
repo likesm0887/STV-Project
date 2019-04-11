@@ -36,7 +36,10 @@ public class TestDataParserTest {
 
         assertEquals(2, wholeTestData.size());
         assertNotNull(wholeTestData.get(SHEET1_NAME));
+        assertEquals(7, wholeTestData.get(SHEET1_NAME).size());
+
         assertNotNull(wholeTestData.get(SHEET2_NAME));
+        assertEquals(6, wholeTestData.get(SHEET2_NAME).size());
     }
 
     @Test (expected = RuntimeException.class)
