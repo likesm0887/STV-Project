@@ -44,7 +44,7 @@ public class AppiumDriverTest {
         elementTwo.click();
     }
 
-    @Test
+    @Test//
     public void builder() {
         XPathBuilder builder = new XPathBuilder();
         builder.append("android.widget.ImageButton")
@@ -60,7 +60,7 @@ public class AppiumDriverTest {
         tabs.forEach(each -> each.click());
     }
 
-    @Test
+    @Test//
     public void clickTab() {
         XPathBuilder builder = new XPathBuilder();
         builder.append("*")
@@ -106,7 +106,7 @@ public class AppiumDriverTest {
         assertEquals("quick add", elements.get(0).getText());
     }
 
-    @Test
+    @Test//
     public void addTask() {
         XPathBuilder builder = new XPathBuilder();
         builder.append("android.widget.ImageButton")
@@ -150,20 +150,18 @@ public class AppiumDriverTest {
         elementTwo.click();
     }
 
-    @Test
+    @Test//
     public void folderListTest(){
         MobileElement element =  driver.waitForElement("//*[@text='My tasks']");
         element.click();
     }
 
-    @Test
+    @Test//
     public void folderListWithTaskTest(){
-        MobileElement folder =  driver.waitForElement("//*[@text='My tasks']");
-        folder.click();
+        driver.waitAndClickElement("//*[@text='My tasks']");
 
         // add 1st task
-        MobileElement quickAdd = driver.waitForElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
-        quickAdd.click();
+        driver.waitAndClickElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
 
         driver.waitFor(1000);
 
@@ -171,26 +169,23 @@ public class AppiumDriverTest {
         MobileElement taskName = driver.waitForElement("//*[@resource-id='android:id/input']");
         taskName.sendKeys("quick add");
 
-        MobileElement addTask = driver.waitForElement("//*[@resource-id='android:id/button1']");
-        addTask.click();
+        driver.waitAndClickElement("//*[@resource-id='android:id/button1']");
 
         driver.waitFor(1000);
 
         // add 2nd task
-        MobileElement quickAdd1 =  driver.waitForElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
-        quickAdd1.click();
+        driver.waitAndClickElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
 
         driver.waitFor(1000);
-        taskName =  driver.waitForElement("//*[@resource-id='android:id/input']");
-        taskName.sendKeys("quick add2");
-        addTask =  driver.waitForElement("//*[@resource-id='android:id/button1']");
-        addTask.click();
+
+        MobileElement taskName1 =  driver.waitForElement("//*[@resource-id='android:id/input']");
+        taskName1.sendKeys("quick add2");
+
+        driver.waitAndClickElement("//*[@resource-id='android:id/button1']");
         driver.waitFor(1000);
 
         // click task
-        MobileElement task = (MobileElement) driver.waitForElement("//*[@text='quick add']");
-        task.click();
-
+        driver.waitAndClickElement("//*[@text='quick add']");
     }
 
     @Test
@@ -205,25 +200,29 @@ public class AppiumDriverTest {
         elementTwo.click();
     }
 
-    @Test
+    @Test//
     public void quickAddTest(){
         // select folder
-        driver.waitAndClickElement("//*[@class='android.widget.RelativeLayout' and @index='0']");
+        driver.waitAndClickElement("//*[@text='My tasks']");
 
         // click quick add
         driver.waitAndClickElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
-        // edit button
-//        MobileElement editBtn = (MobileElement) androidDriver.findElement(By.xpath("//*[@resource-id='android:id/edit']"));
-//        editBtn.click();
-        // spinner(select folder)
+
+        // dropdown(select folder)
         driver.waitAndClickElement("//*[@resource-id='org.dmfs.tasks:id/task_list_spinner']");
-        // spinner options
-        driver.waitAndClickElement("//*[@index='0' and @class='android.widget.LinearLayout']");
+
+        // dropdown options
+//        driver.waitAndClickElement("//*[@index='0' and @class='android.widget.LinearLayout']");
+        driver.waitAndClickElement("//*/android.widget.LinearLayout/android.widget.LinearLayout[@text='My tasks']");
+
         // edit text
-        MobileElement editText = (MobileElement) driver.waitForElement("//*[@resource-id='android:id/input']");
+        MobileElement editText = driver.waitForElement("//*[@resource-id='android:id/input']");
         editText.sendKeys("Test");
         // save and continue
         driver.waitAndClickElement("//*[@resource-id='android:id/button2']");
+        // edit text (add another task)
+        MobileElement editText2 = driver.waitForElement("//*[@resource-id='android:id/input']");
+        editText2.sendKeys("Test2");
         // save
         driver.waitAndClickElement("//*[@resource-id='android:id/button1']");
     }
@@ -276,7 +275,7 @@ public class AppiumDriverTest {
         saveBtn.click();
     }
 
-    @Test
+    @Test//
     public void inputValueTest(){
         // create task
 
