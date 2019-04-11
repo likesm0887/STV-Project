@@ -71,7 +71,6 @@ public class ScriptParserTest {
         testString = "SETTING_BUTTON";
         arguments = new Object[]{testString};
         assertEquals(null, method.invoke(scriptParser, arguments));
-
     }
 
     @Test
@@ -84,6 +83,5 @@ public class ScriptParserTest {
         testString = "Type_Text";
         arguments = new Object[]{testString};
         assertEquals("Type_Text", method.invoke(scriptParser, arguments));
-
     }
 }

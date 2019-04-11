@@ -123,26 +123,4 @@ public class ScriptGeneratorTest {
                                  containsString("456"),
                                  containsString("789")));
     }
-
-    @Test // still need to assert
-    public void writeScriptFile() {
-        ScriptGenerator scriptGenerator = new ScriptGenerator();
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.writeScriptFile();
-
-    }
-
-    @Test
-    public void executeScriptEndToEnd() {
-        ScriptGenerator scriptGenerator = ScriptGenerator.createScriptGenerator();
-        scriptGenerator.executeInstruction("this is a future");
-        scriptGenerator.removeCurrentInstruction();
-        scriptGenerator.executeInstruction("this is b future");
-        scriptGenerator.executeInstruction("this is c future");
-        scriptGenerator.writeScriptFile();
-    }
-
 }

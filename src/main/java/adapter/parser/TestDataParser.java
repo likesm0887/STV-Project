@@ -60,7 +60,10 @@ public class TestDataParser {
 
     public List<Integer> getMergedRowNumbers(Sheet sheet) {
         List<CellRangeAddress> mergedRegnios = sheet.getMergedRegions();
-        return mergedRegnios.stream().map(CellRangeAddress::getFirstRow).collect(Collectors.toList());
+        return mergedRegnios.stream()
+                .filter(rangeAddress -> rangeAddress.getFirstColumn() <= 2)
+                .map(CellRangeAddress::getFirstRow)
+                .collect(Collectors.toList());
     }
 
     public static boolean isRowEmpty(Row row) {

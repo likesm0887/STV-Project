@@ -47,11 +47,11 @@ public class ScriptManagerTest {
     @Test
     public void executeScriptTest() {
         context.checking(new Expectations() {{
-            oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.RelativeLayout' and @index='0']");
-            oneOf(mockDriver).waitAndClickElement("//*[@class='android.view.View' and @text='123']");
-            oneOf(mockDriver).waitAndClickElement("//*[@resource-id='android:id/button1']");
+            oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.TextView' and @text='list']");
+            oneOf(mockDriver).waitAndClickElement("//*[@resource-id='org.dmfs.tasks:id/task_list_spinner']");
+            oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.ImageButton']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
-            oneOf(mockDriver).waitAndTypeText("//*[@class='android.widget.RelativeLayout' and @index='123']", "456 ");
+            oneOf(mockDriver).waitAndTypeText("//*[@resource-id='android:id/input']", "456 ");
             oneOf(mockDriver).restartAppAndCleanData();
         }});
 

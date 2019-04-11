@@ -48,14 +48,14 @@ public class CommandMapperTest {
 
         instructions = scriptParser.parse();
         List<Command> commands = commandGenerator.mappingFrom(instructions);
-        Assert.assertEquals(commands.get(0).getXpath(), "//*[@class='android.widget.RelativeLayout' and @index='0']");
+        Assert.assertEquals(commands.get(0).getXpath(), "//*[@class='android.widget.TextView' and @text='list']");
     }
 
     @Test
     public void mappingFromTestForInstruction()  {
-        Instruction  instruction= scriptParser.parseForOneLine("View1\tClick\tfolder_list{0}");
+        Instruction  instruction= scriptParser.parseForOneLine("View1\tClick\tfolder{list}");
         Command command = commandGenerator.mappingFrom(instruction);
-        Assert.assertEquals(command.getXpath(), "//*[@class='android.widget.RelativeLayout' and @index='0']");
+        Assert.assertEquals(command.getXpath(), "//*[@class='android.widget.TextView' and @text='list']");
     }
     @Test
     public void mappingFromLoadScript() throws Exception {

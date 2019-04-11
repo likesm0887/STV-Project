@@ -3,6 +3,7 @@ package adapter.device;
 import entity.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -22,7 +23,7 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class AppiumDriver implements DeviceDriver {
-    private final int DEFAULT_TIMEOUT = 10;
+    private final int DEFAULT_TIMEOUT = 5;
     private final int DEFAULT_SWIPE_DURATION = 500;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
     private AndroidDriver driver;
@@ -185,6 +186,17 @@ public class AppiumDriver implements DeviceDriver {
     public void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset) {
         MobileElement element = waitForElement(xPath);
         element.swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
+        // TODO: swipe the task
+//        int x = element.getLocation().x;
+//        int y = element.getLocation().y;
+//        int width = element.getSize().width;
+//        int height = element.getSize().height;
+//        new TouchAction(driver)
+//                .longPress(x + width / 2, y + height / 2, 300)
+//                .waitAction(300)
+//                .moveTo(x + width + 1000, y + height / 2)
+//                .release()
+//                .perform();
     }
 
     @Override
