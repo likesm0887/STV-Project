@@ -7,8 +7,8 @@ import useCase.command.Command;
 import java.util.List;
 
 public class GeneratorAdapter implements CommandGenerator {
-    private final String SIMPLE_TEST_DATA = "./src/test/resources/simple_test_data.xlsx";
-
+//    private final String SIMPLE_TEST_DATA = "./src/test/resources/simple_test_data.xlsx";
+    private final String SIMPLE_TEST_DATA = "./TestData/TestData.xlsx";
     private CommandBuilder commandBuilder;
 
     public GeneratorAdapter(CommandBuilder commandBuilder) {
