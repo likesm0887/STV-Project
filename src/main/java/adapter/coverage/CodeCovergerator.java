@@ -4,10 +4,11 @@ import entity.Config;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class CodeCovergerator {
 private final String PACKAGE_NAME="org.dmfs.tasks";
-private final String ADB_PATH =System.getenv("ANDROID_HOME")+"\\platform-tools\\adb.exe";
+private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
 private int  coverageCounter =0;
     public void PullCodeCoverage(Config config) throws InterruptedException, IOException {
         final String COVERAGE_PATH = System.getProperty("user.dir") + "/"  + "/codeCoverage";

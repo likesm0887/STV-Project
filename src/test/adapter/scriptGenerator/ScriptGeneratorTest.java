@@ -123,14 +123,4 @@ public class ScriptGeneratorTest {
                                  containsString("456"),
                                  containsString("789")));
     }
-
-    @Test
-    public void writeScriptFile() {
-        ScriptGenerator scriptGenerator = new ScriptGenerator();
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.saveInstruction(instruction);
-        scriptGenerator.writeScriptFile();
-    }
 }

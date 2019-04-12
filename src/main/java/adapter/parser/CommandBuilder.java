@@ -38,8 +38,8 @@ public class CommandBuilder {
         return new CommandFactory(deviceDriver);
     }
 
-    private CommandMapper createCommandMapper(List<Instruction> instructions) {
-        return new CommandMapper(instructions, testDataParser.getTestData(), createCommandFactory());
+    private CommandMapper createCommandMapper() {
+        return new CommandMapper( testDataParser.getTestData(), createCommandFactory());
     }
 
     public List<Command> build() throws Exception {
@@ -53,7 +53,7 @@ public class CommandBuilder {
             this.scriptParser = new ScriptParser();
             instructions.add(scriptParser.parseForOneLine(pathOrOneCommand));
         }
-        commandMapper = createCommandMapper(instructions);
-        return commandMapper.mapping();
+        commandMapper = createCommandMapper();
+        return commandMapper.mappingFrom(instructions);
     }
 }

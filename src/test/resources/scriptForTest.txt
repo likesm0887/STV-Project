@@ -1,3 +1,4 @@
+
 MainActivity	Click	TASK_LABEL{5}
 
 MainActivity	Type_Text{45 6@}	SETTING_BUTTON{1}

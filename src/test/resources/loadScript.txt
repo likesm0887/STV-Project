@@ -1,0 +1,3 @@
+LoadScript{./src/test/resources/scriptForMapperTest.txt}
+View1	Click	folder{0}
+View2	Click	folder{123}

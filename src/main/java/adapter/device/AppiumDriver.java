@@ -3,6 +3,7 @@ package adapter.device;
 import entity.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -22,18 +23,16 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class AppiumDriver implements DeviceDriver {
-    private final int DEFAULT_TIMEOUT = 10;
+    private final int DEFAULT_TIMEOUT = 5;
     private final int DEFAULT_SWIPE_DURATION = 500;
+    private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
-    private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
 
     public AppiumDriver(Config config) {
         this.config = config;
         appiumDriverLocalService = getAppiumService();
-        startAppiumService();
-        driver = getAndroidDriver();
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -45,10 +44,11 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void startAppiumService() {
         appiumDriverLocalService.start();
+        driver = new AndroidDriver(getServerUrl(), getDesiredCapabilities());
     }
 
     @Override
-    public void closeAppiumService() {
+    public void stopAppiumService() {
         appiumDriverLocalService.stop();
     }
 
@@ -57,23 +57,12 @@ public class AppiumDriver implements DeviceDriver {
         proc.start();
     }
 
-    private AndroidDriver getAndroidDriver() {
-        try {
-            String[] initInstrActivityCmd = {"adb", "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-r", "-e", "debug", "false", "-e", "class", "''org.dmfs.tasks.utils.tasks.TaskListActivityTest#testInitPrint''", "org.dmfs.tasks.utils.tasks" + ".test/android.support.test.runner.AndroidJUnitRunner"};
-            executeCmd(initInstrActivityCmd);
-            waitFor(4000);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new AndroidDriver(getServerUrl(), getDesiredCapabilities());
-    }
-
     private URL getServerUrl() {
         URL serverUrl = null;
         try {
             serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("The error format of appium server url");
         }
         return serverUrl;
     }
@@ -96,25 +85,25 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void launchApp() {
-        waitFor(1000);
         try {
             String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
-            ProcessBuilder proc = new ProcessBuilder(initInstrActivityCmd);
-            proc.start();
+            executeCmd(initInstrActivityCmd);
         } catch (IOException e) {
             throw new RuntimeException(ADB_PATH + " not found");
         }
-        waitFor(1000);
+        waitFor(1500);
     }
 
     @Override
-    public void restartApp(String... isCleanApp) {
+    public void restartApp() {
         stopApp();
-        waitFor(1000);
-        if (isCleanApp.length > 0) {
-            this.clearAppData();
-        }
-        waitFor(1000);
+        launchApp();
+    }
+
+    @Override
+    public void restartAppAndCleanData() {
+        stopApp();
+        clearAppData();
         launchApp();
     }
 
@@ -122,6 +111,7 @@ public class AppiumDriver implements DeviceDriver {
         try {
             String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
             this.executeCmd(stopCmd);
+            waitFor(1000);
         } catch (IOException e) {
             throw new RuntimeException(ADB_PATH + " not found");
         }
@@ -131,6 +121,7 @@ public class AppiumDriver implements DeviceDriver {
         try {
             String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
             this.executeCmd(command);
+            waitFor(1000);
         } catch (IOException e) {
             throw new RuntimeException(ADB_PATH + " not found");
         }
@@ -195,6 +186,17 @@ public class AppiumDriver implements DeviceDriver {
     public void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset) {
         MobileElement element = waitForElement(xPath);
         element.swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
+        // TODO: swipe the task
+//        int x = element.getLocation().x;
+//        int y = element.getLocation().y;
+//        int width = element.getSize().width;
+//        int height = element.getSize().height;
+//        new TouchAction(driver)
+//                .longPress(x + width / 2, y + height / 2, 300)
+//                .waitAction(300)
+//                .moveTo(x + width + 1000, y + height / 2)
+//                .release()
+//                .perform();
     }
 
     @Override

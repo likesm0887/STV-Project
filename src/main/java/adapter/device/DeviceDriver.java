@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface DeviceDriver {
     void startAppiumService();
-    void closeAppiumService();
+    void stopAppiumService();
     void launchApp();
     // input "CleanApp" and the App's data will clean
     // not type input the App's will not clean
-    void restartApp(String... isCleanApp);
+    void restartApp();
+    void restartAppAndCleanData();
 
     MobileElement findElement(String xPath);
     List<MobileElement> findElements(String xPath);

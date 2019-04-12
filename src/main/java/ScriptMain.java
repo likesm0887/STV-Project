@@ -1,5 +1,6 @@
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
+import adapter.device.DeviceDriver;
 import adapter.parser.CommandBuilder;
 import adapter.scriptGenerator.GeneratorAdapter;
 import adapter.scriptGenerator.ScriptGenerator;
@@ -14,7 +15,9 @@ public class ScriptMain {
 
     public static void main(String[] args) throws Exception {
         ConfigReader configReader = new ConfigReader();
-        CommandBuilder commandBuilder = new CommandBuilder(new AppiumDriver(configReader.getConfig()));
+        DeviceDriver driver = new AppiumDriver(configReader.getConfig());
+        driver.startAppiumService();
+        CommandBuilder commandBuilder = new CommandBuilder(driver);
         GeneratorAdapter generatorAdapter = new GeneratorAdapter(commandBuilder);
 
         ScriptGenerator scriptGenerator = new ScriptGenerator(generatorAdapter);
@@ -33,7 +36,6 @@ public class ScriptMain {
                 System.out.println("This Choice has no functionality, input again!");
             }
         }
-
         handleInstructionSaving(scriptGenerator);
     }
 
