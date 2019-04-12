@@ -1,5 +1,7 @@
 package adapter.scriptGenerator;
 
+import adapter.Instruction;
+import adapter.parser.ScriptParser;
 import useCase.command.Command;
 
 import java.io.BufferedWriter;
@@ -10,15 +12,15 @@ import java.util.List;
 
 public class ScriptGenerator {
     private List<String> instructions = new ArrayList<>();
-    private ICommandMapper commandGenerator;
-
+    private ScriptParser scriptParser = new ScriptParser();
+    private ICommandMapper commandMapper;
 
     public ScriptGenerator() {
 
     }
 
     public ScriptGenerator(ICommandMapper commandGenerator) {
-        this.commandGenerator = commandGenerator;
+        this.commandMapper = commandGenerator;
     }
 
     public void executeInstruction(String instruction) {
@@ -29,7 +31,7 @@ public class ScriptGenerator {
     }
 
     public Command mappingCommandFor(String instruction) {
-        return this.commandGenerator.mappingFrom(instruction);
+        return this.commandMapper.mappingFrom(transformScriptToInstruction(instruction));
     }
 
     public void saveInstruction(String instruction) {
@@ -61,5 +63,9 @@ public class ScriptGenerator {
         for (int i = 0; i < instructions.size(); i++)
             result += (instructions.get(i) + "\n");
         return result;
+    }
+
+    public Instruction transformScriptToInstruction(String instruction) {
+        return this.scriptParser.parseForOneLine(instruction);
     }
 }

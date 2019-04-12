@@ -1,7 +1,7 @@
 package adapter;
 
 import adapter.device.DeviceDriver;
-import adapter.scriptGenerator.CommandGenerator;
+import adapter.scriptGenerator.ICommandMapper;
 import entity.TestData;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
@@ -31,7 +31,7 @@ public class CommandMapperTest {
     private ScriptParser scriptParser;
     private List<Instruction> instructions = new ArrayList<>();
     private CommandFactory commandFactory;
-    private CommandGenerator commandGenerator;
+    private ICommandMapper commandGenerator;
 
     @Before
     public void setUp() throws Exception {

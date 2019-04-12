@@ -1,5 +1,7 @@
 package adapter.scriptGenerator;
 
+import adapter.Instruction;
+import adapter.parser.ScriptParser;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.jmock.Expectations;
@@ -13,6 +15,7 @@ import useCase.command.Command;
 import useCase.command.NullCommand;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -61,9 +64,10 @@ public class ScriptGeneratorTest {
         ICommandMapper mockGenerator = context.mock(ICommandMapper.class);
 
         ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
+        Instruction expectedInstrction = new Instruction("View", "Click{}", "folder_list", Optional.empty(), Optional.ofNullable("0"));
 
         context.checking(new Expectations() {{
-            allowing(mockGenerator).mappingFrom(instruction);
+            allowing(mockGenerator).mappingFrom(expectedInstrction);
             will(returnValue(new ClickCommand(null, "")));
         }});
 
@@ -97,9 +101,10 @@ public class ScriptGeneratorTest {
         Command command = new NullCommand();
 
         ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
+        Instruction expectedInstrction = new Instruction("View", "Click{}", "folder_list", Optional.empty(), Optional.ofNullable("0"));
 
         context.checking(new Expectations() {{
-            exactly(3).of(mockGenerator).mappingFrom(instruction);
+            exactly(3).of(mockGenerator).mappingFrom(expectedInstrction);
             will(returnValue(command));
         }});
 
@@ -122,5 +127,17 @@ public class ScriptGeneratorTest {
                                  containsString("234"),
                                  containsString("456"),
                                  containsString("789")));
+    }
+
+    // View	Click{}	folder_list{0}: instruction
+    @Test
+    public void transformScriptToInstruction() {
+        ScriptGenerator scriptGenerator = new ScriptGenerator();
+
+        Instruction transformdInstruction =  scriptGenerator.transformScriptToInstruction(instruction);
+
+        Instruction expectedInstrction = new Instruction("View", "Click{}", "folder_list", Optional.empty(), Optional.ofNullable("0"));
+
+        assertThat(transformdInstruction, equalTo(expectedInstrction));
     }
 }

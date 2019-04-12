@@ -1,7 +1,7 @@
 package adapter;
 
 import adapter.parser.ScriptParser;
-import adapter.scriptGenerator.CommandGenerator;
+import adapter.scriptGenerator.ICommandMapper;
 import entity.TestData;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
@@ -9,7 +9,7 @@ import useCase.command.CommandFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandMapper implements CommandGenerator {
+public class CommandMapper implements ICommandMapper {
     private TestData testData;
     private CommandFactory commandFactory;
 

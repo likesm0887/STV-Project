@@ -1,9 +1,12 @@
+import adapter.CommandMapper;
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
 import adapter.device.DeviceDriver;
-import adapter.parser.CommandBuilder;
-import adapter.scriptGenerator.GeneratorAdapter;
+import adapter.parser.TestDataParser;
+import adapter.scriptGenerator.ICommandMapper;
 import adapter.scriptGenerator.ScriptGenerator;
+import entity.TestData;
+import useCase.command.CommandFactory;
 
 import java.io.*;
 import java.util.InputMismatchException;
@@ -17,10 +20,16 @@ public class ScriptMain {
         ConfigReader configReader = new ConfigReader();
         DeviceDriver driver = new AppiumDriver(configReader.getConfig());
         driver.startAppiumService();
-        CommandBuilder commandBuilder = new CommandBuilder(driver);
-        GeneratorAdapter generatorAdapter = new GeneratorAdapter(commandBuilder);
+        TestDataParser testDataParser = new TestDataParser("./TestData/TestData.xlsx");
+        testDataParser.parse();
+        TestData testData = testDataParser.getTestData();
 
-        ScriptGenerator scriptGenerator = new ScriptGenerator(generatorAdapter);
+        CommandFactory commandFactory = new CommandFactory(driver);
+        ICommandMapper commandMapper = new CommandMapper(testData, commandFactory);
+
+
+
+        ScriptGenerator scriptGenerator = new ScriptGenerator(commandMapper);
 
         while (true) {
             displayFunctionality();

@@ -1,13 +1,11 @@
 package useCase;
 
 import adapter.CommandMapper;
-import adapter.ConfigReader;
 import adapter.Instruction;
-import adapter.device.AppiumDriver;
 import adapter.device.DeviceDriver;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
-import adapter.scriptGenerator.CommandGenerator;
+import adapter.scriptGenerator.ICommandMapper;
 import entity.Config;
 import entity.TestData;
 import useCase.command.Command;
@@ -56,7 +54,7 @@ public class ScriptManager {
     }
 
     private List<Command> transferInstructionToCommand(List<Instruction> instructions) {
-        CommandGenerator commandMapper = new CommandMapper(testData, new CommandFactory(deviceDriver));
+        ICommandMapper commandMapper = new CommandMapper(testData, new CommandFactory(deviceDriver));
         return commandMapper.mappingFrom(instructions);
     }
 
