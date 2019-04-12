@@ -58,7 +58,7 @@ public class ScriptGeneratorTest {
 
     @Test
     public void mappingGivenInstructionIntoCommand() {
-        CommandGenerator mockGenerator = context.mock(CommandGenerator.class);
+        ICommandMapper mockGenerator = context.mock(ICommandMapper.class);
 
         ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
 
@@ -93,7 +93,7 @@ public class ScriptGeneratorTest {
 
     @Test
     public void executeInstruction() {
-        CommandGenerator mockGenerator = context.mock(CommandGenerator.class);
+        ICommandMapper mockGenerator = context.mock(ICommandMapper.class);
         Command command = new NullCommand();
 
         ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
@@ -124,7 +124,7 @@ public class ScriptGeneratorTest {
                                  containsString("789")));
     }
 
-    @Test // still need to assert
+    @Test
     public void writeScriptFile() {
         ScriptGenerator scriptGenerator = new ScriptGenerator();
         scriptGenerator.saveInstruction(instruction);
@@ -132,17 +132,5 @@ public class ScriptGeneratorTest {
         scriptGenerator.saveInstruction(instruction);
         scriptGenerator.saveInstruction(instruction);
         scriptGenerator.writeScriptFile();
-
     }
-
-    @Test
-    public void executeScriptEndToEnd() {
-        ScriptGenerator scriptGenerator = ScriptGenerator.createScriptGenerator();
-        scriptGenerator.executeInstruction("this is a future");
-        scriptGenerator.removeCurrentInstruction();
-        scriptGenerator.executeInstruction("this is b future");
-        scriptGenerator.executeInstruction("this is c future");
-        scriptGenerator.writeScriptFile();
-    }
-
 }

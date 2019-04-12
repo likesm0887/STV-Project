@@ -5,7 +5,7 @@ import useCase.command.Command;
 
 import java.util.List;
 
-public class GeneratorAdapter implements CommandGenerator {
+public class GeneratorAdapter implements ICommandMapper {
     private final String SIMPLE_TEST_DATA = "./src/test/resources/simple_test_data.xlsx";
 
     private CommandBuilder commandBuilder;

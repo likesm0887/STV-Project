@@ -2,6 +2,6 @@ package adapter.scriptGenerator;
 
 import useCase.command.Command;
 
-public interface CommandGenerator {
+public interface ICommandMapper {
     Command mappingFrom(String instruction);
 }

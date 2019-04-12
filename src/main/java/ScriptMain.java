@@ -17,9 +17,6 @@ public class ScriptMain {
         CommandBuilder commandBuilder = new CommandBuilder(new AppiumDriver(configReader.getConfig()));
         GeneratorAdapter generatorAdapter = new GeneratorAdapter(commandBuilder);
 
-
-
-
         ScriptGenerator scriptGenerator = new ScriptGenerator(generatorAdapter);
 
         while (true) {
@@ -35,7 +32,6 @@ public class ScriptMain {
             } else {
                 System.out.println("This Choice has no functionality, input again!");
             }
-
         }
 
         handleInstructionSaving(scriptGenerator);

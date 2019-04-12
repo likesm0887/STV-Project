@@ -1,6 +1,5 @@
 package adapter.scriptGenerator;
 
-import adapter.ConfigReader;
 import useCase.command.Command;
 
 import java.io.BufferedWriter;
@@ -11,18 +10,14 @@ import java.util.List;
 
 public class ScriptGenerator {
     private List<String> instructions = new ArrayList<>();
-    private CommandGenerator commandGenerator;
+    private ICommandMapper commandGenerator;
 
-    public static ScriptGenerator createScriptGenerator() {
-        ConfigReader configReader = new ConfigReader();
-        return new ScriptGenerator(new FakeCommandGenerator(configReader.getConfig()));
-    }
 
     public ScriptGenerator() {
 
     }
 
-    public ScriptGenerator(CommandGenerator commandGenerator) {
+    public ScriptGenerator(ICommandMapper commandGenerator) {
         this.commandGenerator = commandGenerator;
     }
 
