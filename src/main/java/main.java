@@ -1,4 +1,5 @@
 import adapter.ConfigReader;
+import adapter.coverage.CodeCovergerator;
 import adapter.device.AppiumDriver;
 import entity.Config;
 import useCase.ScriptManager;
@@ -14,6 +15,8 @@ public class main {
             scriptManager.execute();
 
             driver.stopAppiumService();
+            CodeCovergerator codeCovergerator = new CodeCovergerator();
+            codeCovergerator.PullCodeCoverage(config);
         } catch (Exception e) {
             e.printStackTrace();
         }
