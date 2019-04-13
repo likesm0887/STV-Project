@@ -1,4 +1,5 @@
 import adapter.ConfigReader;
+import adapter.coverage.CodeCovergerator;
 import adapter.device.AppiumDriver;
 import entity.Config;
 import useCase.ScriptManager;

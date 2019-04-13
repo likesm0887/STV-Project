@@ -1,5 +1,6 @@
 package adapter.device;
 
+import adapter.coverage.CodeCovergerator;
 import entity.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
@@ -20,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.List;
+
 import static java.lang.Thread.sleep;
 
 public class AppiumDriver implements DeviceDriver {
@@ -29,6 +31,7 @@ public class AppiumDriver implements DeviceDriver {
     private AndroidDriver driver;
     private Config config;
     private AppiumDriverLocalService appiumDriverLocalService;
+    private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
 
     public AppiumDriver(Config config) {
         this.config = config;
@@ -109,9 +112,13 @@ public class AppiumDriver implements DeviceDriver {
 
     public void stopApp() {
         try {
+            String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
+            this.executeCmd(stopTestBroadcastCmd);
+            waitFor(2000);
+            codeCovergerator.PullCodeCoverage();
             String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
             this.executeCmd(stopCmd);
-            waitFor(1000);
+            waitFor(500);
         } catch (IOException e) {
             throw new RuntimeException(ADB_PATH + " not found");
         }
