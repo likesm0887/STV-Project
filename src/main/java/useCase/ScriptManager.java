@@ -2,6 +2,7 @@ package useCase;
 
 import adapter.CommandMapper;
 import adapter.Instruction;
+import adapter.coverage.CodeCovergerator;
 import adapter.device.DeviceDriver;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
@@ -32,7 +33,7 @@ public class ScriptManager {
         testDataParser.parse();
         testData = testDataParser.getTestData();
         scriptFiles = getAllFilesPath(config.getScriptPath());
-        scriptFiles.forEach( path -> transferToScriptObject(path));
+        scriptFiles.forEach(path -> transferToScriptObject(path));
     }
 
     private void transferToScriptObject(String path) {
@@ -66,7 +67,7 @@ public class ScriptManager {
     }
 
     public boolean isExist(String scriptPath) {
-        for (Script script: scripts) {
+        for (Script script : scripts) {
             if (script.getSourceFilePath().equalsIgnoreCase(scriptPath))
                 return true;
         }
@@ -75,7 +76,9 @@ public class ScriptManager {
 
     public void execute() {
         for (Script script : scripts) {
+            deviceDriver.launchApp();
             script.executeCommands();
+            deviceDriver.restartApp();
         }
     }
 }

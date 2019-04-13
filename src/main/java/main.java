@@ -15,8 +15,6 @@ public class main {
             scriptManager.execute();
 
             driver.stopAppiumService();
-            CodeCovergerator codeCovergerator = new CodeCovergerator();
-            codeCovergerator.PullCodeCoverage(config);
         } catch (Exception e) {
             e.printStackTrace();
         }
