@@ -15,7 +15,7 @@ private Config config;
     {
         this.config =   config;
     }
-    public void PullCodeCoverage() {
+    public void pullCodeCoverage() {
         final String COVERAGE_PATH = System.getProperty("user.dir") + "/"  + "/codeCoverage";
         new File(COVERAGE_PATH).mkdirs();
         File coverageFile = new File(COVERAGE_PATH + "/coverage" + this.coverageCounter + ".ec");
