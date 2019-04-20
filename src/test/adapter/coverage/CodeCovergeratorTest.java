@@ -11,6 +11,6 @@ public class CodeCovergeratorTest {
     public void pullCodeCoverage() throws IOException, InterruptedException {
         ConfigReader configReader = new ConfigReader();
         CodeCovergerator codeCovergerator = new CodeCovergerator(configReader.getConfig());
-        codeCovergerator.PullCodeCoverage();
+        codeCovergerator.pullCodeCoverage();
     }
 }

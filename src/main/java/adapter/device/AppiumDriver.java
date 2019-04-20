@@ -4,7 +4,6 @@ import adapter.coverage.CodeCovergerator;
 import entity.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -115,7 +114,7 @@ public class AppiumDriver implements DeviceDriver {
             String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
             this.executeCmd(stopTestBroadcastCmd);
             waitFor(2000);
-            codeCovergerator.PullCodeCoverage();
+            codeCovergerator.pullCodeCoverage();
             String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
             this.executeCmd(stopCmd);
             waitFor(500);
