@@ -53,7 +53,7 @@ public class CommandTest {
         SwipeElementCommand swipeElementCommand = new SwipeElementCommand(mockDeviceDriver, xPath, swipeElementDirection, offset);
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).swipeElement(xPath, swipeElementDirection, offset);
+            oneOf(mockDeviceDriver).waitAndSwipeElement(xPath, swipeElementDirection, offset);
         }});
 
         swipeElementCommand.execute();
@@ -98,7 +98,7 @@ public class CommandTest {
         FindElementCommand findCommand = new FindElementCommand(mockDeviceDriver, xPath);
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).findElement(xPath);
+            oneOf(mockDeviceDriver).waitForElement(xPath);
             will(returnValue(with(any(MobileElement.class))));
         }});
 
@@ -114,7 +114,7 @@ public class CommandTest {
 
         context.checking(new Expectations() {{
 
-            oneOf(mockDeviceDriver).findElements(xPath);
+            oneOf(mockDeviceDriver).waitForElements(xPath);
             will(returnValue(mobileElementList));
         }});
 

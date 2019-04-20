@@ -10,14 +10,9 @@ public interface DeviceDriver {
     void startService();
     void stopService();
     void launchApp();
+    void stopApp();
     void restartApp();
     void restartAppAndCleanData();
-
-    MobileElement findElement(String xPath);
-    List<MobileElement> findElements(String xPath);
-    void clickElement(String xPath);
-    void typeText(String xPath, String value);
-    void swipeElement(String xPath, SwipeElementDirection direction, int offset);
 
     MobileElement waitForElement(String xPath);
     MobileElement waitForElement(String xPath, int timeOutInSeconds);
@@ -27,6 +22,7 @@ public interface DeviceDriver {
     void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset);
 
     void pressBackKey();
+    void pressDeleteKey(int times);
     void rotate(ScreenOrientation screenOrientation);
     void waitFor(int millis);
 }
