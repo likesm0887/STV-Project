@@ -7,11 +7,9 @@ import org.openqa.selenium.ScreenOrientation;
 import java.util.List;
 
 public interface DeviceDriver {
-    void startAppiumService();
-    void stopAppiumService();
+    void startService();
+    void stopService();
     void launchApp();
-    // input "CleanApp" and the App's data will clean
-    // not type input the App's will not clean
     void restartApp();
     void restartAppAndCleanData();
 

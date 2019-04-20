@@ -24,13 +24,13 @@ public class AppiumDriverTest {
     public static void setUpClass() {
         ConfigReader configReader = new ConfigReader();
         appiumDriver = new AppiumDriver(configReader.getConfig());
-        appiumDriver.startAppiumService();
+        appiumDriver.startService();
         androidDriver = appiumDriver.getDriver();
     }
 
     @AfterClass
     public static void tearDownClass() {
-        appiumDriver.stopAppiumService();
+        appiumDriver.stopService();
     }
 
     @Before

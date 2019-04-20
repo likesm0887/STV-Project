@@ -45,13 +45,13 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void startAppiumService() {
+    public void startService() {
         appiumDriverLocalService.start();
         driver = new AndroidDriver(getServerUrl(), getDesiredCapabilities());
     }
 
     @Override
-    public void stopAppiumService() {
+    public void stopService() {
         appiumDriverLocalService.stop();
     }
 
