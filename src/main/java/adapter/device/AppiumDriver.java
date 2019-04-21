@@ -5,6 +5,7 @@ import entity.Config;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -24,16 +25,17 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 public class AppiumDriver implements DeviceDriver {
-    private final int DEFAULT_TIMEOUT = 5;
     private final int DEFAULT_SWIPE_DURATION = 500;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
     private AndroidDriver driver;
     private Config config;
+    private int defaultTimeout;
     private AppiumDriverLocalService appiumDriverLocalService;
     private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
 
     public AppiumDriver(Config config) {
         this.config = config;
+        defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
     }
 
@@ -44,17 +46,18 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void startAppiumService() {
+    public void startService() {
         appiumDriverLocalService.start();
         driver = new AndroidDriver(getServerUrl(), getDesiredCapabilities());
     }
 
     @Override
-    public void stopAppiumService() {
+    public void stopService() {
+        driver.quit();
         appiumDriverLocalService.stop();
     }
 
-    public void executeCmd(String... cmd) throws IOException {
+    private void executeCmd(String... cmd) throws IOException {
         ProcessBuilder proc = new ProcessBuilder(cmd);
         proc.start();
     }
@@ -85,6 +88,10 @@ public class AppiumDriver implements DeviceDriver {
         return driver;
     }
 
+    public void setDefaultTimeout(int second) {
+        this.defaultTimeout = second;
+    }
+
     @Override
     public void launchApp() {
         try {
@@ -109,6 +116,7 @@ public class AppiumDriver implements DeviceDriver {
         launchApp();
     }
 
+    @Override
     public void stopApp() {
         try {
             String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
@@ -133,29 +141,12 @@ public class AppiumDriver implements DeviceDriver {
         }
     }
 
-    @Override
     public MobileElement findElement(String xPath) {
         return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
 
-    @Override
     public List<MobileElement> findElements(String xPath) {
         return this.driver.findElements(By.xpath(xPath));
-    }
-
-    @Override
-    public void clickElement(String xPath) {
-        this.findElement(xPath).click();
-    }
-
-    @Override
-    public void typeText(String xPath, String value) {
-        this.findElement(xPath).sendKeys(value);
-    }
-
-    @Override
-    public void swipeElement(String xPath, SwipeElementDirection direction, int offset) {
-        findElement(xPath).swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
     }
 
     @Override
@@ -167,7 +158,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public MobileElement waitForElement(String xPath) {
-        return waitForElement(xPath, DEFAULT_TIMEOUT);
+        return waitForElement(xPath, defaultTimeout);
     }
 
     @Override
@@ -178,14 +169,12 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void waitAndClickElement(String xPath) {
-        MobileElement element = waitForElement(xPath, DEFAULT_TIMEOUT);
-        element.click();
+        waitForElement(xPath, defaultTimeout).click();
     }
 
     @Override
     public void waitAndTypeText(String xPath, String text) {
-        MobileElement element = waitForElement(xPath, DEFAULT_TIMEOUT);
-        element.sendKeys(text);
+        waitForElement(xPath, defaultTimeout).sendKeys(text);
     }
 
     @Override
@@ -208,6 +197,12 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void pressBackKey() {
         driver.navigate().back();
+    }
+
+    @Override
+    public void pressDeleteKey(int times) {
+        for (int i = 0; i < times; i++)
+            driver.pressKeyCode(AndroidKeyCode.DEL);
     }
 
     @Override

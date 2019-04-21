@@ -19,7 +19,7 @@ public class ScriptMain {
     public static void main(String[] args) throws Exception {
         ConfigReader configReader = new ConfigReader();
         DeviceDriver driver = new AppiumDriver(configReader.getConfig());
-        driver.startAppiumService();
+        driver.startService();
         TestDataParser testDataParser = new TestDataParser("./TestData/TestData.xlsx");
         testDataParser.parse();
         TestData testData = testDataParser.getTestData();
