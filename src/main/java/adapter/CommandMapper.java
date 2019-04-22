@@ -48,14 +48,6 @@ public class CommandMapper implements ICommandMapper {
         return commands;
     }
 
-
-
-    @Override
-    @Deprecated
-    public Command mappingFrom(String instruction) {
-        return null;
-    }
-
     @Override
     public Command mappingFrom(Instruction instruction) {
         return this.mapping(instruction);
