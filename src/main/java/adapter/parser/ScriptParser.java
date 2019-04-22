@@ -13,28 +13,43 @@ public class ScriptParser {
     private BufferedReader bufferedReader;
     private List<Instruction> instructions = new ArrayList<>();
 
-    public ScriptParser() {
-    }
+    public ScriptParser() { }
 
     public ScriptParser(String ScriptPath) throws Exception {
         readFile(ScriptPath);
+    }
+
+    private List<String> filterTabAndSpace(String scriptForOneLine) {
+        return new ArrayList<>(Arrays.asList(scriptForOneLine.split("\\t|\\s{3,4}")));
     }
 
     public Instruction parseForOneLine(String scriptForOneLine) {
         String event;
         String activity;
         String attribute;
-        List<String> temp = new ArrayList<>(Arrays.asList(scriptForOneLine.split("\t+")));
-        if (!"".equals(temp.get(0))) {
-            if (temp.size() == 1) {
-                event = temp.get(0);
-                return new Instruction("", scriptFilterToParameter(event), "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
-            } else {
-                activity = temp.get(0);
-                event = temp.get(1);
-                attribute = temp.get(2);
-                return (new Instruction(activity, scriptFilterToParameter(event), scriptFilterToParameter(attribute), Optional.ofNullable(curlyBracketsFilter(event)), Optional.ofNullable(curlyBracketsFilter(attribute))));
+        List<String> filteredString = filterTabAndSpace(scriptForOneLine);
+        try {
+
+            if (!"".equals(filteredString.get(0))) {
+                if (filteredString.size() == 1) {
+                    event = filteredString.get(0);
+                    return new Instruction("", scriptFilterToParameter(event),
+                            "", Optional.ofNullable(curlyBracketsFilter(event)), Optional.empty());
+                } else {
+                    activity = filteredString.get(0);
+                    event = filteredString.get(1);
+                    attribute = filteredString.get(2);
+                    return (new Instruction(activity,
+                            scriptFilterToParameter(event),
+                            scriptFilterToParameter(attribute),
+                            Optional.ofNullable(curlyBracketsFilter(event)),
+                            Optional.ofNullable(curlyBracketsFilter(attribute))));
+                }
             }
+        }catch (Exception e)
+        {
+             throw new RuntimeException(scriptForOneLine+" is error");
+
         }
         return null;
     }
@@ -60,8 +75,8 @@ public class ScriptParser {
     }
 
     private String curlyBracketsFilter(String processString) {
-        String str = "(?<=\\{)(.+?)(?=\\})";
-        Pattern pattern = Pattern.compile(str);
+        String regularExpression = "(?<=\\{)(.+?)(?=\\})";
+        Pattern pattern = Pattern.compile(regularExpression);
         try {
             Matcher matcher = pattern.matcher(processString);
             matcher.find();
