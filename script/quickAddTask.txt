@@ -1,4 +1,4 @@
-TaskList	Click	float_add_btn
+TaskList    Click    float_add_btn
 EditTasks	TypeText{Add Task}	title_editText
 EditTasks	Click	status_dropdown
 EditTasks	Click	status_options_done

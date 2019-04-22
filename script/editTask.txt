@@ -1,12 +1,8 @@
-TaskList	Click	float_add_btn
-EditTasks	TypeText{first task}	title_editText
-EditTasks	Click	save_task_btn
-ViewTask	Click	return_btn
-
-TaskList    Click   task{first task}
-ViewTask    Click   edit_btn
-EditTasks   TypeText{update task}   title_editText
-EditTasks   Click   status_dropdown
-EditTasks   Click   in_process
-EditTasks   Click   save_task_btn
-ViewTask    Click   return_btn
+LoadScript{./script/quickAddTask.txt}
+TaskList    Click    task{Add Task}
+ViewTask    Click    edit_btn
+EditTasks   TypeText{update task}    title_editText
+EditTasks   Click    status_dropdown
+EditTasks   Click    status_options_in_process
+EditTasks   Click    save_task_btn
+ViewTask    Click    return_btn
