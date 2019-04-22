@@ -10,6 +10,6 @@ public class FindElementCommand extends Command {
 
     @Override
     public void execute() {
-        this.deviceDriver.findElement(this.xPath);
+        this.deviceDriver.waitForElement(this.xPath);
     }
 }

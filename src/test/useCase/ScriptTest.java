@@ -44,7 +44,7 @@ public class ScriptTest {
     @Test
     public void scriptExecute() {
         context.checking(new Expectations() {{
-            oneOf(mockDriver).findElement(xPath);
+            oneOf(mockDriver).waitForElement(xPath);
             will(returnValue(with(any(MobileElement.class))));
             oneOf(mockDriver).waitAndTypeText(xPath, "");
             oneOf(mockDriver).restartAppAndCleanData();

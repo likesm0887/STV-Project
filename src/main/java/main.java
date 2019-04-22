@@ -1,5 +1,4 @@
 import adapter.ConfigReader;
-import adapter.coverage.CodeCovergerator;
 import adapter.device.AppiumDriver;
 import entity.Config;
 import useCase.ScriptManager;
@@ -9,12 +8,12 @@ public class main {
         try {
             Config config = new ConfigReader().getConfig();
             AppiumDriver driver = new AppiumDriver(config);
-            driver.startAppiumService();
+            driver.startService();
 
             ScriptManager scriptManager = new ScriptManager(config, driver);
             scriptManager.execute();
 
-            driver.stopAppiumService();
+            driver.stopService();
         } catch (Exception e) {
             e.printStackTrace();
         }

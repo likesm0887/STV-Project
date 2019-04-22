@@ -24,18 +24,19 @@ public class AppiumDriverTest {
     public static void setUpClass() {
         ConfigReader configReader = new ConfigReader();
         appiumDriver = new AppiumDriver(configReader.getConfig());
-        appiumDriver.startAppiumService();
+        appiumDriver.setDefaultTimeout(2);
+        appiumDriver.startService();
         androidDriver = appiumDriver.getDriver();
     }
 
     @AfterClass
     public static void tearDownClass() {
-        appiumDriver.stopAppiumService();
+        appiumDriver.stopService();
     }
 
     @Before
     public void setUp() {
-        appiumDriver.restartApp();
+        appiumDriver.restartAppAndCleanData();
     }
 
     @Test
@@ -95,5 +96,19 @@ public class AppiumDriverTest {
         appiumDriver.waitFor(1000);
         MobileElement element = (MobileElement) androidDriver.findElement(By.xpath("//*[@text='Today']"));
         assertNotNull(element);
+    }
+
+    @Test
+    public void pressBackKey() {
+        // TaskList view's 'My tasks' list
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.TextView' and @text='My tasks']");
+        // 'My tasks' list's quick add button
+        appiumDriver.waitAndClickElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
+        // quick add text field
+        appiumDriver.waitAndTypeText("//*[@resource-id='android:id/input']", "task");
+        appiumDriver.pressDeleteKey(2);
+
+        MobileElement element = (MobileElement) androidDriver.findElement(By.xpath("//*[@resource-id='android:id/input']"));
+        assertEquals("ta", element.getText());
     }
 }
