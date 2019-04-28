@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ICommandMapper {
 
-    @Deprecated
-    Command mappingFrom(String instruction);
 
     Command mappingFrom(Instruction instruction);
 
