@@ -1,15 +1,14 @@
-package useCase;
 
 import org.junit.Test;
+import useCase.ScriptExecutionTimer;
 
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.*;
 
 public class ScriptExecutionTimerTest {
 
     @Test
-    public void givenSleepingTimeWhenCountingThenOffsetLessThanFiveMiniSeconds() throws InterruptedException {
+    public void givenSleepingTimeWhenCountingThenOffsetLessEqualThanFiveMiniSeconds() throws InterruptedException {
         final long SLEEPING_TIME = 3000;
 
         ScriptExecutionTimer scriptExecutionTimer = new ScriptExecutionTimer();

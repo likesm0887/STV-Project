@@ -13,7 +13,6 @@ public class ScriptResult {
     }
 
     public void scriptStarted(String taskName) {
-
         scriptInformationList.add(new ScriptInformation(taskName));
         executionTimer.startCounter();
     }
@@ -23,6 +22,12 @@ public class ScriptResult {
         executionTimer.endCounter();
         currentScriptInformation().setExecutionTime(executionTimer.elapsedTimeInMiniSecond());
         currentScriptInformation().executionComplete();
+    }
+
+    public void scriptFailed() {
+        executionTimer.endCounter();
+        currentScriptInformation().setExecutionTime(executionTimer.elapsedTimeInMiniSecond());
+        currentScriptInformation().executionFailed();
     }
 
     private ScriptInformation currentScriptInformation() {
@@ -57,9 +62,4 @@ public class ScriptResult {
         return result;
     }
 
-    public void scriptFailed() {
-        executionTimer.endCounter();
-        currentScriptInformation().setExecutionTime(executionTimer.elapsedTimeInMiniSecond());
-        currentScriptInformation().executionFailed();
-    }
 }

@@ -73,7 +73,6 @@ public class ScriptManagerTest {
         }});
 
         sm.execute();
-
     }
 
 
