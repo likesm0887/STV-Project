@@ -92,7 +92,7 @@ public class ScriptManager {
     private void performScript(Script script) {
         deviceDriver.launchApp();
         script.executeCommands();
-        deviceDriver.restartApp();
+        deviceDriver.stopApp();
     }
 
     public String summary() {

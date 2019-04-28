@@ -10,6 +10,7 @@ import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -40,8 +41,8 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     private AppiumDriverLocalService getAppiumService() {
-        return new AppiumServiceBuilder()
-                .usingPort(config.getAppiumPort())
+        return new AppiumServiceBuilder().usingPort(config.getAppiumPort())
+                .withArgument(GeneralServerFlag.LOG_LEVEL, "error")
                 .build();
     }
 
@@ -141,11 +142,11 @@ public class AppiumDriver implements DeviceDriver {
         }
     }
 
-    public MobileElement findElement(String xPath) {
+    private MobileElement findElement(String xPath) {
         return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
 
-    public List<MobileElement> findElements(String xPath) {
+    private List<MobileElement> findElements(String xPath) {
         return this.driver.findElements(By.xpath(xPath));
     }
 
