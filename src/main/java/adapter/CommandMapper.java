@@ -61,6 +61,6 @@ public class CommandMapper implements ICommandMapper {
                 xPath = testData.getTestDatum(instruction.getActivity(), instruction.getElement()).getXPath();
             }
         }
-        return commandFactory.commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
+        return commandFactory.createCommand(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
     }
 }

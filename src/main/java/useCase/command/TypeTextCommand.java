@@ -8,7 +8,6 @@ public class TypeTextCommand extends Command {
     public TypeTextCommand(DeviceDriver deviceDriver, String xPath, String text) {
         super(deviceDriver, xPath);
         this.text = text;
-
     }
 
     @Override

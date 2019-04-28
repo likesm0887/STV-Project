@@ -2,11 +2,10 @@ package useCase.command;
 
 import adapter.device.DeviceDriver;
 import io.appium.java_client.SwipeElementDirection;
-import org.openqa.selenium.ScreenOrientation;
 
 public class CommandFactory {
     private DeviceDriver deviceDriver;
-    public Command commandCreate(String event, String xPath, String parameter) {
+    public Command createCommand(String event, String xPath, String parameter) {
         switch (event) {
             case "Click":
                 return this.createClickCommand(xPath);
@@ -14,45 +13,54 @@ public class CommandFactory {
                 return this.createTypeTextCommand(xPath, parameter);
             case "Restart":
                 return this.createRestartCommand();
-            default:
-                return this.createClickCommand(xPath);
+            case "LaunchApp":
+                return this.createLaunchAppCommand();
+            case "Rotate":
+                return this.createRotateCommand();
+            case "Delete":
+                return this.createDeleteCommand(xPath, parameter);
         }
+        throw new RuntimeException("Unexpected command type");
     }
 
     public CommandFactory(DeviceDriver deviceDriver) {
         this.deviceDriver = deviceDriver;
     }
 
-    public Command createClickCommand(String xPath) {
-        return new ClickCommand(this.deviceDriver, xPath);
+    private Command createClickCommand(String xPath) {
+        return new ClickCommand(deviceDriver, xPath);
     }
 
-    public Command createTypeTextCommand(String xPath, String text) {
-        return new TypeTextCommand(this.deviceDriver, xPath, text);
+    private Command createTypeTextCommand(String xPath, String text) {
+        return new TypeTextCommand(deviceDriver, xPath, text);
     }
 
-    public Command createRestartCommand() {
-        return new RestartCommand(this.deviceDriver);
+    private Command createRestartCommand() {
+        return new RestartCommand(deviceDriver);
     }
 
-    public Command createFindElementCommand(String xPath) {
-        return new FindElementCommand(this.deviceDriver, xPath);
+    private Command createLaunchAppCommand() {
+        return new LaunchAppCommand(deviceDriver);
     }
 
-    public Command createFindElementListCommand(String xPath) {
-        return new FindElementListCommand(this.deviceDriver, xPath);
+    private Command createRotateCommand() {
+        return new RotateCommand(deviceDriver);
     }
 
-    public Command createLaunchCommand() {
-        return new LaunchCommand(this.deviceDriver);
+    private Command createDeleteCommand(String xPath, String times) {
+        return new DeleteCommand(deviceDriver, xPath, times);
     }
 
-    public Command createRotationCommand(ScreenOrientation screenOrientation) {
-        return new RotationCommand(this.deviceDriver, screenOrientation);
+    // TODO: should redefine interface
+    private Command createFindElementCommand(String xPath) {
+        return new FindElementCommand(deviceDriver, xPath);
+    }
+
+    private Command createFindElementListCommand(String xPath) {
+        return new FindElementListCommand(deviceDriver, xPath);
     }
 
     public Command createSwipeElementCommand(String xPath, SwipeElementDirection swipeElementDirection, int offset) {
-        return new SwipeElementCommand(this.deviceDriver, xPath, swipeElementDirection, offset);
+        return new SwipeElementCommand(deviceDriver, xPath, swipeElementDirection, offset);
     }
-
 }

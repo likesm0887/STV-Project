@@ -9,7 +9,6 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.ScreenOrientation;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -61,14 +60,13 @@ public class CommandTest {
 
     @Test
     public void DriverRotationWhenRotationCommandExecute() {
-        ScreenOrientation screenOrientation = ScreenOrientation.LANDSCAPE;
-        RotationCommand rotationCommand = new RotationCommand(mockDeviceDriver , screenOrientation);
+        RotateCommand rotateCommand = new RotateCommand(mockDeviceDriver);
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).rotate(screenOrientation);
+            oneOf(mockDeviceDriver).rotate();
         }});
 
-        rotationCommand.execute();
+        rotateCommand.execute();
     }
 
     @Test
@@ -84,13 +82,13 @@ public class CommandTest {
 
     @Test
     public void DriverLaunchAppWhenLaunchCommandExecute() {
-        LaunchCommand launchCommand = new LaunchCommand(mockDeviceDriver);
+        LaunchAppCommand launchAppCommand = new LaunchAppCommand(mockDeviceDriver);
 
         context.checking(new Expectations() {{
             oneOf(mockDeviceDriver).launchApp();
         }});
 
-        launchCommand.execute();
+        launchAppCommand.execute();
     }
 
     @Test

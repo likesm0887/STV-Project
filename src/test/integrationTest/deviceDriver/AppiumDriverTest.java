@@ -106,7 +106,7 @@ public class AppiumDriverTest {
         appiumDriver.waitAndClickElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
         // quick add text field
         appiumDriver.waitAndTypeText("//*[@resource-id='android:id/input']", "task");
-        appiumDriver.pressDeleteKey(2);
+        appiumDriver.deleteCharacter("//*[@resource-id='android:id/input']", 2);
 
         MobileElement element = (MobileElement) androidDriver.findElement(By.xpath("//*[@resource-id='android:id/input']"));
         assertEquals("ta", element.getText());

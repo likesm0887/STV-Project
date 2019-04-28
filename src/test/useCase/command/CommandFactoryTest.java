@@ -2,12 +2,8 @@ package useCase.command;
 
 import adapter.device.DeviceDriver;
 import io.appium.java_client.SwipeElementDirection;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.ScreenOrientation;
 
 import static org.junit.Assert.*;
@@ -24,45 +20,31 @@ public class CommandFactoryTest {
 
     @Test
     public void createClickCommand() {
-        Command clickCommand = commandFactory.createClickCommand(xPath);
+        Command clickCommand = commandFactory.createCommand("Click", xPath, "");
 
         assertTrue(clickCommand instanceof ClickCommand);
     }
 
     @Test
     public void createTypeTextCommand() {
-        String text = "fuck up";
-        Command typeTextCommand = commandFactory.createTypeTextCommand(xPath, text);
+        String text = "some text";
+        Command typeTextCommand = commandFactory.createCommand("TypeText", xPath, text);
 
         assertTrue(typeTextCommand instanceof TypeTextCommand);
     }
 
     @Test
-    public void createFindElementCommand() {
-        Command findElementCommand = commandFactory.createFindElementCommand(xPath);
+    public void createLaunchAppCommand() {
+        Command launchCommand = commandFactory.createCommand("LaunchApp", "", "");
 
-        assertTrue(findElementCommand instanceof FindElementCommand);
-    }
-
-    @Test
-    public void createFindElementListCommand() {
-        Command findElementListCommand = commandFactory.createFindElementListCommand(xPath);
-
-        assertTrue(findElementListCommand instanceof FindElementListCommand);
-    }
-
-    @Test
-    public void createLaunchCommand() {
-        Command launchCommand = commandFactory.createLaunchCommand();
-
-        assertTrue(launchCommand instanceof LaunchCommand);
+        assertTrue(launchCommand instanceof LaunchAppCommand);
     }
 
     @Test
     public void createRotationCommand() {
-        Command rotationCommand = commandFactory.createRotationCommand(ScreenOrientation.LANDSCAPE);
+        Command rotationCommand = commandFactory.createCommand("Rotate", "", "");
 
-        assertTrue(rotationCommand instanceof RotationCommand);
+        assertTrue(rotationCommand instanceof RotateCommand);
     }
 
     @Test
@@ -74,8 +56,16 @@ public class CommandFactoryTest {
     }
 
     @Test
+    public void createDeleteCommand() {
+        final String times = "3";
+        Command deleteCommand = commandFactory.createCommand("Delete", xPath, times);
+
+        assertTrue(deleteCommand instanceof DeleteCommand);
+    }
+
+    @Test
     public void createRestartCommand() {
-        Command restartCommand = commandFactory.createRestartCommand();
+        Command restartCommand = commandFactory.createCommand("Restart", "", "");
 
         assertTrue(restartCommand instanceof RestartCommand);
     }

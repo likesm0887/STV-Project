@@ -63,13 +63,10 @@ public class ScriptManagerTest {
     }
 
     @Test
-    public void FormatInformationAfterExecuteScrip() {
-
-
+    public void formatInformationAfterExecuteScript() {
         context.checking(new Expectations() {{
             oneOf(mockDriver).launchApp();
             will(throwException(new AssertFailedException("you cannot withdraw nothing!")));
-
         }});
 
         sm.execute();

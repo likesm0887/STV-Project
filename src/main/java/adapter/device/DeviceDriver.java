@@ -2,7 +2,6 @@ package adapter.device;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
-import org.openqa.selenium.ScreenOrientation;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ public interface DeviceDriver {
     void waitAndClickElement(String xPath);
     void waitAndTypeText(String xPath, String text);
     void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset);
+    void deleteCharacter(String xPath, int times);
 
     void pressBackKey();
-    void pressDeleteKey(int times);
-    void rotate(ScreenOrientation screenOrientation);
+    void rotate();
     void waitFor(int millis);
 }

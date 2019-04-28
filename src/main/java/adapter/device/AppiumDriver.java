@@ -196,18 +196,19 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void pressBackKey() {
-        driver.navigate().back();
-    }
-
-    @Override
-    public void pressDeleteKey(int times) {
+    public void deleteCharacter(String xPath, int times) {
+        this.waitAndClickElement(xPath);
         for (int i = 0; i < times; i++)
             driver.pressKeyCode(AndroidKeyCode.DEL);
     }
 
     @Override
-    public void rotate(ScreenOrientation screenOrientation) {
+    public void pressBackKey() {
+        driver.navigate().back();
+    }
+
+    @Override
+    public void rotate() {
         if (driver.getOrientation() == ScreenOrientation.PORTRAIT)
             driver.rotate(ScreenOrientation.LANDSCAPE);
         else

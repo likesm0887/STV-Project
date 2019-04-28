@@ -2,9 +2,9 @@ package useCase.command;
 
 import adapter.device.DeviceDriver;
 
-public class LaunchCommand extends Command {
+public class LaunchAppCommand extends Command {
 
-    public LaunchCommand(DeviceDriver deviceDriver) {
+    public LaunchAppCommand(DeviceDriver deviceDriver) {
         super(deviceDriver, "");
     }
 

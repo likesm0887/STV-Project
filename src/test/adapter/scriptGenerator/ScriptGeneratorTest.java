@@ -51,9 +51,7 @@ public class ScriptGeneratorTest {
         public void describeMismatchSafely(Command actual, Description mismatchDescription) {
             mismatchDescription.appendText("actually is instance of: ")
                     .appendValue(actual.getClass().getName());
-
         }
-
     }
 
     public isInstanceOfMatcher isInstanceOf(Class className) {
