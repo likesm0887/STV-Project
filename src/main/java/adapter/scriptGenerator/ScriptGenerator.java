@@ -15,23 +15,17 @@ public class ScriptGenerator {
     private ScriptParser scriptParser = new ScriptParser();
     private ICommandMapper commandMapper;
 
-    public ScriptGenerator() {
-
-    }
-
-    public ScriptGenerator(ICommandMapper commandGenerator) {
-        this.commandMapper = commandGenerator;
+    public ScriptGenerator(ICommandMapper commandMapper) {
+        this.commandMapper = commandMapper;
     }
 
     public void executeInstruction(String instruction) {
         saveInstruction(instruction);
-        Command command = mappingCommandFor(instruction);
-
-        command.execute();
+        toCommand(instruction).forEach(Command::execute);
     }
 
-    public Command mappingCommandFor(String instruction) {
-        return this.commandMapper.mappingFrom(transformScriptToInstruction(instruction));
+    public List<Command> toCommand(String instruction) {
+        return commandMapper.toCommandList(transformScriptToInstruction(instruction));
     }
 
     public void saveInstruction(String instruction) {
@@ -66,6 +60,6 @@ public class ScriptGenerator {
     }
 
     public Instruction transformScriptToInstruction(String instruction) {
-        return this.scriptParser.parseForOneLine(instruction);
+        return this.scriptParser.parseLineOfScript(instruction);
     }
 }

@@ -53,7 +53,7 @@ public class ScriptManagerTest {
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.ImageButton']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
             oneOf(mockDriver).waitAndTypeText("//*[@resource-id='android:id/input']", "456 ");
-            oneOf(mockDriver).restartApp();
+            oneOf(mockDriver).stopApp();
             oneOf(mockDriver).restartAppAndCleanData();
         }});
 

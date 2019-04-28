@@ -2,7 +2,6 @@ package useCase;
 
 import adapter.CommandMapper;
 import adapter.Instruction;
-import adapter.coverage.CodeCovergerator;
 import adapter.device.DeviceDriver;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
@@ -46,8 +45,7 @@ public class ScriptManager {
     private List<Instruction> transferScriptFileToInstruction(String path) {
         List<Instruction> instructions = null;
         try {
-            ScriptParser sp = new ScriptParser(path);
-            instructions = sp.parse();
+            instructions = new ScriptParser().parse(path);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +54,7 @@ public class ScriptManager {
 
     private List<Command> transferInstructionToCommand(List<Instruction> instructions) {
         ICommandMapper commandMapper = new CommandMapper(testData, new CommandFactory(deviceDriver));
-        return commandMapper.mappingFrom(instructions);
+        return commandMapper.toCommandList(instructions);
     }
 
     public List<String> getAllFilesPath(String rootPath) throws IOException {

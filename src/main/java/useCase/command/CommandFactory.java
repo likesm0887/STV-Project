@@ -18,6 +18,7 @@ public class CommandFactory {
                 return this.createClickCommand(xPath);
         }
     }
+
     public CommandFactory(DeviceDriver deviceDriver) {
         this.deviceDriver = deviceDriver;
     }

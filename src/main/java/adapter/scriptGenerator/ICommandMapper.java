@@ -6,9 +6,6 @@ import useCase.command.Command;
 import java.util.List;
 
 public interface ICommandMapper {
-
-
-    Command mappingFrom(Instruction instruction);
-
-    List<Command> mappingFrom(List<Instruction> instructions);
+    List<Command> toCommandList(Instruction instruction);
+    List<Command> toCommandList(List<Instruction> instructions);
 }

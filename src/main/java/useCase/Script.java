@@ -1,6 +1,5 @@
 package useCase;
 
-import javafx.beans.binding.Bindings;
 import useCase.command.Command;
 
 import java.util.List;

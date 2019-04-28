@@ -5,6 +5,7 @@ import io.appium.java_client.SwipeElementDirection;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.ScreenOrientation;
@@ -12,14 +13,17 @@ import org.openqa.selenium.ScreenOrientation;
 import static org.junit.Assert.*;
 
 public class CommandFactoryTest {
-    String xPath = "//*[@class='a']";
+    private String xPath = "//*[@class='a']";
+    private final DeviceDriver DUMMY_DRIVER = null;
+    private CommandFactory commandFactory;
 
-    final DeviceDriver DUMMY_DRIVER = null;
+    @Before
+    public void setUp() {
+        commandFactory = new CommandFactory(DUMMY_DRIVER);
+    }
 
     @Test
     public void createClickCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
         Command clickCommand = commandFactory.createClickCommand(xPath);
 
         assertTrue(clickCommand instanceof ClickCommand);
@@ -27,9 +31,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createTypeTextCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
         String text = "fuck up";
-
         Command typeTextCommand = commandFactory.createTypeTextCommand(xPath, text);
 
         assertTrue(typeTextCommand instanceof TypeTextCommand);
@@ -37,8 +39,6 @@ public class CommandFactoryTest {
 
     @Test
     public void createFindElementCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
         Command findElementCommand = commandFactory.createFindElementCommand(xPath);
 
         assertTrue(findElementCommand instanceof FindElementCommand);
@@ -46,8 +46,6 @@ public class CommandFactoryTest {
 
     @Test
     public void createFindElementListCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
         Command findElementListCommand = commandFactory.createFindElementListCommand(xPath);
 
         assertTrue(findElementListCommand instanceof FindElementListCommand);
@@ -55,8 +53,6 @@ public class CommandFactoryTest {
 
     @Test
     public void createLaunchCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
         Command launchCommand = commandFactory.createLaunchCommand();
 
         assertTrue(launchCommand instanceof LaunchCommand);
@@ -64,8 +60,6 @@ public class CommandFactoryTest {
 
     @Test
     public void createRotationCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
         Command rotationCommand = commandFactory.createRotationCommand(ScreenOrientation.LANDSCAPE);
 
         assertTrue(rotationCommand instanceof RotationCommand);
@@ -73,10 +67,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createSwipeElementCommand() {
-        int offset = 10;
-
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
+        final int offset = 10;
         Command swipeElementCommand = commandFactory.createSwipeElementCommand(xPath, SwipeElementDirection.UP, offset);
 
         assertTrue(swipeElementCommand instanceof SwipeElementCommand);
@@ -84,12 +75,8 @@ public class CommandFactoryTest {
 
     @Test
     public void createRestartCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
         Command restartCommand = commandFactory.createRestartCommand();
 
         assertTrue(restartCommand instanceof RestartCommand);
     }
-
-
 }
