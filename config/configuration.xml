@@ -5,6 +5,6 @@
         <SerialNumber>emulator-5554</SerialNumber>
         <AndroidVersion>9</AndroidVersion>
         <AppiumPort>5700</AppiumPort>
-        <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
+        <TestDataPath>./testData/TestData.xlsx</TestDataPath>
         <ScripPath>./script/quickAddTask.txt</ScripPath>
 </configuration>

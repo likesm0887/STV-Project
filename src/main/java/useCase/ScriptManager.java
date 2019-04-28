@@ -78,7 +78,7 @@ public class ScriptManager {
         for (Script script : scripts) {
             deviceDriver.launchApp();
             script.executeCommands();
-            deviceDriver.restartApp();
+            deviceDriver.stopApp();
         }
     }
 }

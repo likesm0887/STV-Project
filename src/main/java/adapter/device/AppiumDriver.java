@@ -141,11 +141,11 @@ public class AppiumDriver implements DeviceDriver {
         }
     }
 
-    public MobileElement findElement(String xPath) {
+    private MobileElement findElement(String xPath) {
         return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
 
-    public List<MobileElement> findElements(String xPath) {
+    private List<MobileElement> findElements(String xPath) {
         return this.driver.findElements(By.xpath(xPath));
     }
 
