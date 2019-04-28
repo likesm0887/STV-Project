@@ -2,6 +2,7 @@ package useCase;
 
 import adapter.device.DeviceDriver;
 import entity.Config;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -58,5 +59,27 @@ public class ScriptManagerTest {
         }});
 
         sm.execute();
+        System.out.print(sm.summary());
+    }
+
+    @Test
+    public void FormatInformationAfterExecuteScrip() {
+
+
+        context.checking(new Expectations() {{
+            oneOf(mockDriver).launchApp();
+            will(throwException(new AssertFailedException("you cannot withdraw nothing!")));
+
+        }});
+
+        sm.execute();
+
+    }
+
+
+    private class AssertFailedException extends RuntimeException {
+        public AssertFailedException(String s) {
+            super(s);
+        }
     }
 }

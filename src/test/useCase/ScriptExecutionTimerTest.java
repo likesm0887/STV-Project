@@ -1,0 +1,37 @@
+package useCase;
+
+import org.junit.Test;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.junit.Assert.*;
+
+public class ScriptExecutionTimerTest {
+
+    @Test
+    public void givenSleepingTimeWhenCountingThenOffsetLessThanFiveMiniSeconds() throws InterruptedException {
+        final long SLEEPING_TIME = 3000;
+
+        ScriptExecutionTimer scriptExecutionTimer = new ScriptExecutionTimer();
+
+        scriptExecutionTimer.startCounter();
+
+        Thread.sleep(SLEEPING_TIME);
+
+        scriptExecutionTimer.endCounter();
+
+
+        assertOffsetLessThanFiveMiniSeconds(scriptExecutionTimer, SLEEPING_TIME);
+    }
+
+    private void assertOffsetLessThanFiveMiniSeconds(ScriptExecutionTimer scriptExecutionTimer, long sleepingTime) {
+        double elapsedTime = scriptExecutionTimer.elapsedTimeInMiniSecond();
+
+        double offset = elapsedTime - (double)sleepingTime;
+
+        double FIVE_MINI_SECONDS = 5.0;
+
+        assertThat(offset, lessThanOrEqualTo(FIVE_MINI_SECONDS));
+    }
+
+}

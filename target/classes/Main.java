@@ -1,5 +1,4 @@
 import adapter.ConfigReader;
-import adapter.coverage.CodeCovergerator;
 import adapter.device.AppiumDriver;
 import entity.Config;
 import useCase.ScriptManager;
@@ -13,6 +12,8 @@ public class main {
 
             ScriptManager scriptManager = new ScriptManager(config, driver);
             scriptManager.execute();
+
+            System.out.print(scriptManager.summary());
 
             driver.stopService();
         } catch (Exception e) {
