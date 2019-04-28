@@ -1,0 +1,30 @@
+TaskList	Click	task{My tasks}
+TaskList	Click	quick_add_btn{0}
+TaskList	TypeText{task}	quick_add_editText
+TaskList	tClick	quick_add_save_btn
+TaskList	Click	task{task}
+ViewTask	Click	edit_btn
+EditTasks	TypeText{BIBI}	title_editText
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_cancelled
+EditTasks	TypeText{TW}	location_editText
+EditTasks	TypeText{TW is Good}	description_editText
+EditTasks	Click	start_date
+EditTasks	Click	calendar_year_picker
+EditTasks	Click	calendar_pick_year{2020}
+EditTasks	Click	calendar_previous_month
+EditTasks	Click	calendar_previous_month
+EditTasks	Click	calendar_previous_month
+EditTasks	Click	calendar_pick_date{22}
+EditTasks	Click	calendar_ok_btn
+EditTasks	Click	due_time
+EditTasks	Click	time_AM_label
+EditTasks	Click	time_clock_pick_hours{10}
+EditTasks	Click	time_clock_pick_minutes{5}
+EditTasks	Click	time_ok_btn
+EditTasks	Click	due_date
+EditTasks	Click	calendar_year_picker
+EditTasks	Click	calendar_pick_year{2019}
+EditTasks	Click	calendar_pick_date{23}
+EditTasks	Click	calendar_ok_btn
+EditTasks	Click	save_task_btn

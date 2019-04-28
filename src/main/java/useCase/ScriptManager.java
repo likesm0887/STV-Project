@@ -26,6 +26,8 @@ public class ScriptManager {
     private List<String> scriptFiles;
     private List<Script> scripts = new ArrayList<>();
 
+    private ScriptResult scriptResult = new ScriptResult(new ScriptExecutionTimer());
+
     public ScriptManager(Config config, DeviceDriver driver) throws Exception {
         this.deviceDriver = driver;
         TestDataParser testDataParser = new TestDataParser(config.getTestDataPath());
@@ -73,10 +75,25 @@ public class ScriptManager {
     }
 
     public void execute() {
+
         for (Script script : scripts) {
-            deviceDriver.launchApp();
-            script.executeCommands();
-            deviceDriver.stopApp();
+            try {
+                scriptResult.scriptStarted("Task Name");
+                performScript(script);
+                scriptResult.scriptEnded();
+            } catch (Exception e) {
+                scriptResult.scriptFailed();
+            }
         }
+    }
+
+    private void performScript(Script script) {
+        deviceDriver.launchApp();
+        script.executeCommands();
+        deviceDriver.stopApp();
+    }
+
+    public String summary() {
+        return scriptResult.summary();
     }
 }

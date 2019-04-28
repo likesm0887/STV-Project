@@ -13,6 +13,8 @@ public class main {
             ScriptManager scriptManager = new ScriptManager(config, driver);
             scriptManager.execute();
 
+            System.out.print(scriptManager.summary());
+
             driver.stopService();
         } catch (Exception e) {
             e.printStackTrace();
