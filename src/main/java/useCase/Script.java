@@ -1,5 +1,6 @@
 package useCase;
 
+import entity.Exception.AssertException;
 import useCase.command.Command;
 
 import java.util.List;
