@@ -2,6 +2,7 @@ package integrationTest.deviceDriver;
 
 import adapter.device.AppiumDriver;
 import adapter.ConfigReader;
+import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
@@ -99,7 +100,7 @@ public class AppiumDriverTest {
     }
 
     @Test
-    public void pressBackKey() {
+    public void deleteKeyTest() {
         // TaskList view's 'My tasks' list
         appiumDriver.waitAndClickElement("//*[@class='android.widget.TextView' and @text='My tasks']");
         // 'My tasks' list's quick add button
@@ -110,5 +111,26 @@ public class AppiumDriverTest {
 
         MobileElement element = (MobileElement) androidDriver.findElement(By.xpath("//*[@resource-id='android:id/input']"));
         assertEquals("ta", element.getText());
+    }
+
+    @Test
+    public void assertExistTest() {
+        appiumDriver.assertExist("//*[@class='android.widget.TextView' and @text='My tasks']");
+    }
+
+    @Test (expected = AssertException.class)
+    public void assertExistFailTest() {
+        appiumDriver.assertExist("//*[@class='android.widget.TextView' and @text='My tasks123']");
+    }
+
+    @Test
+    public void assertTextTest() {
+        appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks");
+    }
+
+
+    @Test (expected = AssertException.class)
+    public void assertTextFailTest() {
+        appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks123");
     }
 }

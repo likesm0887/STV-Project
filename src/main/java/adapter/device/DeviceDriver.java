@@ -24,4 +24,7 @@ public interface DeviceDriver {
     void pressBackKey();
     void rotate();
     void waitFor(int millis);
+
+    void assertExist(String xPath);
+    void assertText(String xPath, String text);
 }

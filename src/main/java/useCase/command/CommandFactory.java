@@ -19,7 +19,12 @@ public class CommandFactory {
                 return this.createRotateCommand();
             case "Delete":
                 return this.createDeleteCommand(xPath, parameter);
+            case "AssertExist":
+                return this.createAssertExistCommand(xPath);
+            case "AssertText":
+                return this.createAssertTextCommand(xPath, parameter);
         }
+
         throw new RuntimeException("Unexpected command type");
     }
 
@@ -49,6 +54,14 @@ public class CommandFactory {
 
     private Command createDeleteCommand(String xPath, String times) {
         return new DeleteCommand(deviceDriver, xPath, times);
+    }
+
+    private Command createAssertExistCommand(String xPath) {
+        return new AssertExistCommand(deviceDriver, xPath);
+    }
+
+    private Command createAssertTextCommand(String xPath, String text) {
+        return new AssertTextCommand(deviceDriver, xPath, text);
     }
 
     // TODO: should redefine interface

@@ -69,4 +69,18 @@ public class CommandFactoryTest {
 
         assertTrue(restartCommand instanceof RestartCommand);
     }
+
+    @Test
+    public void createAssertExistCommand() {
+        Command assertExistCommand = commandFactory.createCommand("AssertExist", xPath, "");
+
+        assertTrue(assertExistCommand instanceof AssertExistCommand);
+    }
+
+    @Test
+    public void createAssertTextCommand() {
+        Command assertTextCommand = commandFactory.createCommand("AssertText", xPath, "text");
+
+        assertTrue(assertTextCommand instanceof AssertTextCommand);
+    }
 }
