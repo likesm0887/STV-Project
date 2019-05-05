@@ -4,7 +4,9 @@ import entity.Config;
 import useCase.ScriptManager;
 
 public class main {
+
     public static void main(String[] args) {
+
         try {
             Config config = new ConfigReader().getConfig();
             AppiumDriver driver = new AppiumDriver(config);

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -36,13 +37,13 @@ public class ScriptManagerTest {
 
     @Test
     public void getAllPathTest() {
-        List<String> allPath = null;
+        List<Path> allPath = null;
         try {
             allPath = sm.getAllFilesPath("./src/test/resources");
         } catch (IOException e) {
             Assert.fail();
         }
-        assertEquals(allPath.size(), 5);
+        assertEquals(3, allPath.size());
     }
 
     @Test
@@ -70,6 +71,7 @@ public class ScriptManagerTest {
         }});
 
         sm.execute();
+        System.out.print(sm.summary());
     }
 
 

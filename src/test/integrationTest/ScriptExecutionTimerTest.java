@@ -20,17 +20,18 @@ public class ScriptExecutionTimerTest {
         scriptExecutionTimer.endCounter();
 
 
-        assertOffsetLessThanFiveMiniSeconds(scriptExecutionTimer, SLEEPING_TIME);
+        assertOffsetLessThanFourSecond(scriptExecutionTimer, SLEEPING_TIME);
     }
 
-    private void assertOffsetLessThanFiveMiniSeconds(ScriptExecutionTimer scriptExecutionTimer, long sleepingTime) {
-        double elapsedTime = scriptExecutionTimer.elapsedTimeInMiniSecond();
+    private void assertOffsetLessThanFourSecond(ScriptExecutionTimer scriptExecutionTimer, long sleepingTime) {
+        double elapsedTime = scriptExecutionTimer.elapsedTime();
 
-        double offset = elapsedTime - (double)sleepingTime;
+        double offset = (elapsedTime - (double)sleepingTime) / 1000000000;
 
-        double FIVE_MINI_SECONDS = 5.0;
 
-        assertThat(offset, lessThanOrEqualTo(FIVE_MINI_SECONDS));
+        double FOUR_SECOND = 4.0;
+
+        assertThat(offset, lessThanOrEqualTo(FOUR_SECOND));
     }
 
 }

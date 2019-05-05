@@ -1,1 +1,5 @@
-DisplayedLists  Click   folder_setting{0}
+TaskList	Click	task{My tasks}
+TaskList	Click	quick_add_btn{0}
+TaskList	TypeText{task}	quick_add_editText
+TaskList	Click	quick_add_save_btn
+
