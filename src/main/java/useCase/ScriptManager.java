@@ -2,7 +2,6 @@ package useCase;
 
 import adapter.CommandMapper;
 import adapter.Instruction;
-import adapter.coverage.CodeCovergerator;
 import adapter.device.DeviceDriver;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;

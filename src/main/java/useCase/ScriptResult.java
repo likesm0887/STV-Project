@@ -17,7 +17,6 @@ public class ScriptResult {
         executionTimer.startCounter();
     }
 
-
     public void scriptEnded() {
         executionTimer.endCounter();
         currentScriptInformation().setExecutionTime(executionTimer.elapsedTimeInMiniSecond());
@@ -39,9 +38,8 @@ public class ScriptResult {
     }
 
     public String summary() {
-
         String column = "+-----------------+-----------------+-----------------+\n" +
-                        "| TaskName        | Times           | State           |\n" +
+                        "| ScriptName      | Times           | State           |\n" +
                         "+-----------------+-----------------+-----------------+\n";
 
         String body = informationContents();
@@ -49,7 +47,6 @@ public class ScriptResult {
         String footer = "+-----------------+-----------------+-----------------+\n";
 
         return column + body + footer;
-
     }
 
     private String informationContents() {
@@ -61,5 +58,4 @@ public class ScriptResult {
         }
         return result;
     }
-
 }

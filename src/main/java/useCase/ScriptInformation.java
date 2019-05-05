@@ -1,6 +1,10 @@
 package useCase;
 
 public class ScriptInformation {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RED = "\u001B[31m";
+
 
     private String taskName;
 
@@ -18,13 +22,13 @@ public class ScriptInformation {
 
     private String resultStatus() {
         if (this.executionResult)
-            return "PASS";
+            return ANSI_GREEN + "PASS" + ANSI_RESET;
         else
-            return "FAILED";
+            return ANSI_RED + "FAILED" + ANSI_RESET;
     }
 
     public String summary() {
-        String leftAlignFormat = "| %-15s | %-15s | %-15s |%n";
+        String leftAlignFormat = "| %-15s | %-15s | %-15s          |%n";
         return String.format(leftAlignFormat, taskName, executionTime + "ms", resultStatus());
     }
 
