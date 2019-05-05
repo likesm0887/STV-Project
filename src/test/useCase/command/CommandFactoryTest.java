@@ -2,94 +2,85 @@ package useCase.command;
 
 import adapter.device.DeviceDriver;
 import io.appium.java_client.SwipeElementDirection;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.ScreenOrientation;
 
 import static org.junit.Assert.*;
 
 public class CommandFactoryTest {
-    String xPath = "//*[@class='a']";
+    private String xPath = "//*[@class='a']";
+    private final DeviceDriver DUMMY_DRIVER = null;
+    private CommandFactory commandFactory;
 
-    final DeviceDriver DUMMY_DRIVER = null;
+    @Before
+    public void setUp() {
+        commandFactory = new CommandFactory(DUMMY_DRIVER);
+    }
 
     @Test
     public void createClickCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
-        Command clickCommand = commandFactory.createClickCommand(xPath);
+        Command clickCommand = commandFactory.createCommand("Click", xPath, "");
 
         assertTrue(clickCommand instanceof ClickCommand);
     }
 
     @Test
     public void createTypeTextCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-        String text = "fuck up";
-
-        Command typeTextCommand = commandFactory.createTypeTextCommand(xPath, text);
+        String text = "some text";
+        Command typeTextCommand = commandFactory.createCommand("TypeText", xPath, text);
 
         assertTrue(typeTextCommand instanceof TypeTextCommand);
     }
 
     @Test
-    public void createFindElementCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
+    public void createLaunchAppCommand() {
+        Command launchCommand = commandFactory.createCommand("LaunchApp", "", "");
 
-        Command findElementCommand = commandFactory.createFindElementCommand(xPath);
-
-        assertTrue(findElementCommand instanceof FindElementCommand);
-    }
-
-    @Test
-    public void createFindElementListCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
-        Command findElementListCommand = commandFactory.createFindElementListCommand(xPath);
-
-        assertTrue(findElementListCommand instanceof FindElementListCommand);
-    }
-
-    @Test
-    public void createLaunchCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
-        Command launchCommand = commandFactory.createLaunchCommand();
-
-        assertTrue(launchCommand instanceof LaunchCommand);
+        assertTrue(launchCommand instanceof LaunchAppCommand);
     }
 
     @Test
     public void createRotationCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
+        Command rotationCommand = commandFactory.createCommand("Rotate", "", "");
 
-        Command rotationCommand = commandFactory.createRotationCommand(ScreenOrientation.LANDSCAPE);
-
-        assertTrue(rotationCommand instanceof RotationCommand);
+        assertTrue(rotationCommand instanceof RotateCommand);
     }
 
     @Test
     public void createSwipeElementCommand() {
-        int offset = 10;
-
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
-
+        final int offset = 10;
         Command swipeElementCommand = commandFactory.createSwipeElementCommand(xPath, SwipeElementDirection.UP, offset);
 
         assertTrue(swipeElementCommand instanceof SwipeElementCommand);
     }
 
     @Test
-    public void createRestartCommand() {
-        CommandFactory commandFactory = new CommandFactory(DUMMY_DRIVER);
+    public void createDeleteCommand() {
+        final String times = "3";
+        Command deleteCommand = commandFactory.createCommand("Delete", xPath, times);
 
-        Command restartCommand = commandFactory.createRestartCommand();
+        assertTrue(deleteCommand instanceof DeleteCommand);
+    }
+
+    @Test
+    public void createRestartCommand() {
+        Command restartCommand = commandFactory.createCommand("Restart", "", "");
 
         assertTrue(restartCommand instanceof RestartCommand);
     }
 
+    @Test
+    public void createAssertExistCommand() {
+        Command assertExistCommand = commandFactory.createCommand("AssertExist", xPath, "");
 
+        assertTrue(assertExistCommand instanceof AssertExistCommand);
+    }
+
+    @Test
+    public void createAssertTextCommand() {
+        Command assertTextCommand = commandFactory.createCommand("AssertText", xPath, "text");
+
+        assertTrue(assertTextCommand instanceof AssertTextCommand);
+    }
 }

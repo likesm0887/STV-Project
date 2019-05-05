@@ -1,6 +1,6 @@
 package useCase;
 
-import javafx.beans.binding.Bindings;
+import entity.Exception.AssertException;
 import useCase.command.Command;
 
 import java.util.List;

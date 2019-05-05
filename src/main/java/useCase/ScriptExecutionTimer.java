@@ -22,9 +22,4 @@ public class ScriptExecutionTimer implements ExecutionTimer {
         return elapsedTime;
     }
 
-    @Override
-    public double elapsedTimeInMiniSecond() {
-        double elapsedTimeInMiniSecond = (double) (stopTime - startTime) / 1000000;
-        return elapsedTimeInMiniSecond;
-    }
 }

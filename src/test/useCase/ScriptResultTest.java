@@ -1,11 +1,21 @@
 package useCase;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import report.ReportGenerator;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+@RunWith(JMock.class)
 public class ScriptResultTest {
+
+
+    Mockery context = new JUnit4Mockery();
 
     private class TimerStub implements ExecutionTimer {
 
@@ -23,55 +33,40 @@ public class ScriptResultTest {
         public double elapsedTime() {
             return 0;
         }
-
-        @Override
-        public double elapsedTimeInMiniSecond() {
-            return 300.0;
-        }
     }
 
     @Test
-    public void twoScriptPassFormatting() {
+    public void reportGenerateSuccessContentWhenRunSuccessScript() {
         TimerStub timerStub = new TimerStub();
-        ScriptResult scriptResult = new ScriptResult(timerStub);
+        ReportGenerator mockGenerator = context.mock(ReportGenerator.class);
 
+        ScriptResult scriptResult = new ScriptResult(timerStub, mockGenerator);
+
+        context.checking(new Expectations() {{
+            oneOf(mockGenerator).generateScriptInfoHeader(with(any(ScriptInformation.class)));
+            oneOf(mockGenerator).generateScriptInfoFooter(with(any(ScriptInformation.class)));
+        }});
 
         scriptResult.scriptStarted("Add Task Quickly");
         scriptResult.scriptEnded();
-
-
-        scriptResult.scriptStarted("Delete Task");
-        scriptResult.scriptEnded();
-
-
-        String[] result = {"Add Task Quickly", "Delete Task"};
-
-
-        for (int i = 0; i < result.length; i++) {
-            assertThat(scriptResult.summary(),
-                    allOf(containsString(result[i]),
-                            containsString("300.0ms"),
-                            containsString("PASS")));
-        }
-
     }
 
 
 
     @Test
-    public void TwoScriptOnePassOneFailedFormatting() {
+    public void reportGenerateFailureContentWhenRunFailureScript() {
         TimerStub timerStub = new TimerStub();
-        ScriptResult scriptResult = new ScriptResult(timerStub);
+        ReportGenerator mockGenerator = context.mock(ReportGenerator.class);
 
+        ScriptResult scriptResult = new ScriptResult(timerStub, mockGenerator);
 
-        String taskName = "Add Task Quickly";
-        scriptResult.scriptStarted(taskName);
-        scriptResult.scriptFailed();
+        context.checking(new Expectations() {{
+            oneOf(mockGenerator).generateScriptInfoHeader(with(any(ScriptInformation.class)));
+            oneOf(mockGenerator).generateScriptInfoBody(with(any(ScriptInformation.class)));
+            oneOf(mockGenerator).generateScriptInfoFooter(with(any(ScriptInformation.class)));
+        }});
 
-        assertThat(scriptResult.summary(),
-                allOf(containsString("Add Task Quickly"),
-                        containsString("300.0ms"),
-                        containsString("FAILED")));
+        scriptResult.scriptStarted("Add Task Quickly");
+        scriptResult.scriptFailed("Error occur");
     }
-
 }

@@ -1,7 +1,6 @@
 package adapter.scriptGenerator;
 
 import adapter.Instruction;
-import adapter.parser.ScriptParser;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.jmock.Expectations;
@@ -14,7 +13,9 @@ import useCase.command.ClickCommand;
 import useCase.command.Command;
 import useCase.command.NullCommand;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -50,9 +51,7 @@ public class ScriptGeneratorTest {
         public void describeMismatchSafely(Command actual, Description mismatchDescription) {
             mismatchDescription.appendText("actually is instance of: ")
                     .appendValue(actual.getClass().getName());
-
         }
-
     }
 
     public isInstanceOfMatcher isInstanceOf(Class className) {
@@ -61,24 +60,24 @@ public class ScriptGeneratorTest {
 
     @Test
     public void mappingGivenInstructionIntoCommand() {
-        ICommandMapper mockGenerator = context.mock(ICommandMapper.class);
+        ICommandMapper commandMapper = context.mock(ICommandMapper.class);
 
-        ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
-        Instruction expectedInstrction = new Instruction("View", "Click{}", "folder_list", Optional.empty(), Optional.ofNullable("0"));
+        ScriptGenerator scriptGenerator = new ScriptGenerator(commandMapper);
+        Instruction expectedInstruction = Instruction.createTernaryInstruction("View", "Click{}", "folder_list", null, "0");
 
         context.checking(new Expectations() {{
-            allowing(mockGenerator).mappingFrom(expectedInstrction);
-            will(returnValue(new ClickCommand(null, "")));
+            allowing(commandMapper).toCommandList(expectedInstruction);
+            will(returnValue(Arrays.asList(new ClickCommand(null, ""))));
         }});
 
-        Command command = scriptGenerator.mappingCommandFor(instruction);
-
-        assertThat(command, isInstanceOf(ClickCommand.class));
+        List<Command> command = scriptGenerator.toCommand(instruction);
+        assertEquals(1, command.size());
+        assertThat(command.get(0), isInstanceOf(ClickCommand.class));
     }
 
     @Test
     public void saveInstruction() {
-        ScriptGenerator scriptGenerator = new ScriptGenerator();
+        ScriptGenerator scriptGenerator = new ScriptGenerator(context.mock(ICommandMapper.class));
         scriptGenerator.saveInstruction(instruction);
         scriptGenerator.saveInstruction("test");
 
@@ -88,7 +87,7 @@ public class ScriptGeneratorTest {
 
     @Test
     public void removeCurrentInstruction() {
-        ScriptGenerator scriptGenerator = new ScriptGenerator();
+        ScriptGenerator scriptGenerator = new ScriptGenerator(context.mock(ICommandMapper.class));
         scriptGenerator.saveInstruction(instruction);
         scriptGenerator.removeCurrentInstruction();
         Collection<String> instructions = scriptGenerator.getInstructions();
@@ -97,15 +96,15 @@ public class ScriptGeneratorTest {
 
     @Test
     public void executeInstruction() {
-        ICommandMapper mockGenerator = context.mock(ICommandMapper.class);
+        ICommandMapper mockMapper = context.mock(ICommandMapper.class);
         Command command = new NullCommand();
 
-        ScriptGenerator scriptGenerator = new ScriptGenerator(mockGenerator);
-        Instruction expectedInstrction = new Instruction("View", "Click{}", "folder_list", Optional.empty(), Optional.ofNullable("0"));
+        ScriptGenerator scriptGenerator = new ScriptGenerator(mockMapper);
+        Instruction expectedInstruction = Instruction.createTernaryInstruction("View", "Click{}", "folder_list", null, "0");
 
         context.checking(new Expectations() {{
-            exactly(3).of(mockGenerator).mappingFrom(expectedInstrction);
-            will(returnValue(command));
+            exactly(3).of(mockMapper).toCommandList(expectedInstruction);
+            will(returnValue(Arrays.asList(command)));
         }});
 
         scriptGenerator.executeInstruction(instruction);
@@ -115,7 +114,7 @@ public class ScriptGeneratorTest {
 
     @Test
     public void formatInstruction() {
-        ScriptGenerator scriptGenerator = new ScriptGenerator();
+        ScriptGenerator scriptGenerator = new ScriptGenerator(context.mock(ICommandMapper.class));
         scriptGenerator.saveInstruction("123");
         scriptGenerator.saveInstruction("234");
         scriptGenerator.saveInstruction("456");
@@ -132,12 +131,10 @@ public class ScriptGeneratorTest {
     // View	Click{}	folder_list{0}: instruction
     @Test
     public void transformScriptToInstruction() {
-        ScriptGenerator scriptGenerator = new ScriptGenerator();
-
+        ScriptGenerator scriptGenerator = new ScriptGenerator(context.mock(ICommandMapper.class));
         Instruction transformdInstruction =  scriptGenerator.transformScriptToInstruction(instruction);
+        Instruction expectedInstruction = Instruction.createTernaryInstruction("View", "Click{}", "folder_list", null, "0");
 
-        Instruction expectedInstrction = new Instruction("View", "Click{}", "folder_list", Optional.empty(), Optional.ofNullable("0"));
-
-        assertThat(transformdInstruction, equalTo(expectedInstrction));
+        assertThat(transformdInstruction, equalTo(expectedInstruction));
     }
 }

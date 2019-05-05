@@ -18,48 +18,49 @@ public class CommandMapper implements ICommandMapper {
         this.commandFactory = commandFactory;
     }
 
-    private Command mapping(Instruction instruction) {
-        String xPath = "";
-        if (!instruction.getActivity().equals("")) {
-            if (instruction.getElementParameter().isPresent()) {
-                xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPathWithVariable(instruction.getElementParameter().get());
-            } else {
-                xPath = testData.getTestDatum(instruction.getActivity(), instruction.getAttribute()).getXPath();
-            }
-        }
-        return commandFactory.commandCreate(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
+    @Override
+    public List<Command> toCommandList(Instruction instruction) {
+        return map(instruction);
     }
 
-    private List<Instruction> inputScriptPathToGetInstruction(String path) throws Exception {
-        ScriptParser scriptParser = new ScriptParser(path);
-        return scriptParser.parse();
-    }
-
-    private List<Command> mapping(List<Instruction> instructions) throws Exception {
+    @Override
+    public List<Command> toCommandList(List<Instruction> instructions) {
         List<Command> commands = new ArrayList<>();
-        for (Instruction instruction : instructions) {
-            if (instruction.getEvent().equals("LoadScript")) {
-                List<Instruction> instructionsTemp = inputScriptPathToGetInstruction(instruction.getEventParameter().get());
-                commands.addAll(this.mapping(instructionsTemp));
-                continue;
-            }
-            commands.add(this.mapping(instruction));
-        }
+        instructions.forEach(each -> commands.addAll(map(each)));
         return commands;
     }
 
-    @Override
-    public Command mappingFrom(Instruction instruction) {
-        return this.mapping(instruction);
+    private List<Command> map(Instruction instruction) {
+        List<Command> commands = new ArrayList<>();
+        if (instruction.getEvent().equals("LoadScript"))
+            appendTargetScript(commands, instruction.getEventParameter().get());
+        else
+            commands.add(mapToSingleCommand(instruction));
+        return commands;
     }
 
-    @Override
-    public List<Command> mappingFrom(List<Instruction> instructions) {
+    private void appendTargetScript(List<Command> commands, String targetScript) {
+        List<Instruction> instructions = loadTargetScriptInstructions(targetScript);
+        commands.addAll(toCommandList(instructions));
+    }
+
+    private List<Instruction> loadTargetScriptInstructions(String targetScript) {
         try {
-            return this.mapping(instructions);
+            return new ScriptParser().parse(targetScript);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException("Load script " + targetScript + " fail");
         }
-        return null;
+    }
+
+    private Command mapToSingleCommand(Instruction instruction) {
+        String xPath = "";
+        if (!instruction.getActivity().equals("")) {
+            if (instruction.getElementParameter().isPresent()) {
+                xPath = testData.getTestDatum(instruction.getActivity(), instruction.getElement()).getXPathWithVariable(instruction.getElementParameter().get());
+            } else {
+                xPath = testData.getTestDatum(instruction.getActivity(), instruction.getElement()).getXPath();
+            }
+        }
+        return commandFactory.createCommand(instruction.getEvent(), xPath, instruction.getEventParameter().orElse(""));
     }
 }

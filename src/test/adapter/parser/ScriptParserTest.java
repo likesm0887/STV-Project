@@ -14,53 +14,48 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 
 public class ScriptParserTest {
+    private final String SCRIPT_PATH = "./src/test/resources/scriptForTest.txt";
     private ScriptParser scriptParser;
     private List<Instruction> instructions;
 
     @Before
     public void SetUp() throws Exception {
-        scriptParser = new ScriptParser("./src/test/resources/scriptForTest.txt");
-
+        scriptParser = new ScriptParser();
     }
 
     @Test
     public void parseForOneLine() {
         ScriptParser scriptParserForOneLine = new ScriptParser();
         instructions = new ArrayList<>();
-        instructions.add(scriptParserForOneLine.parseForOneLine("createTasks\tTypeText{Add Task}\ttitle_editText"));
+        instructions.add(scriptParserForOneLine.parseLineOfScript("createTasks\tTypeText{Add Task}\ttitle_editText"));
         Assert.assertEquals(instructions.get(0).getActivity(), "createTasks");
         Assert.assertEquals(instructions.get(0).getEvent(), "TypeText");
-        Assert.assertEquals(instructions.get(0).getAttribute(), "title_editText");
+        Assert.assertEquals(instructions.get(0).getElement(), "title_editText");
     }
 
     @Test
     public void parse() throws Exception {
-        instructions = scriptParser.parse();
+        instructions = scriptParser.parse(SCRIPT_PATH);
         Assert.assertEquals(instructions.get(0).getActivity(), "MainActivity");
         Assert.assertEquals(instructions.get(0).getEvent(), "Click");
-        Assert.assertEquals(instructions.get(0).getAttribute(), "TASK_LABEL");
+        Assert.assertEquals(instructions.get(0).getElement(), "TASK_LABEL");
         Assert.assertEquals(instructions.get(0).getEventParameter(), Optional.empty());
         Assert.assertEquals(instructions.get(0).getElementParameter().get(), "5");
         Assert.assertEquals(instructions.get(1).getActivity(), "MainActivity");
         Assert.assertEquals(instructions.get(1).getEvent(), "Type_Text");
         Assert.assertEquals(instructions.get(1).getEventParameter().get(), "45 6@");
-        Assert.assertEquals(instructions.get(1).getAttribute(), "SETTING_BUTTON");
+        Assert.assertEquals(instructions.get(1).getElement(), "SETTING_BUTTON");
         Assert.assertEquals(instructions.size(), 11);
     }
 
     @Test(expected = Exception.class)
     public void parseforNotFindFile() throws Exception {
-        scriptParser = new ScriptParser("123");
-        try {
-            instructions = scriptParser.parse();
-        } catch (Exception e) {
-            throw new Exception("系統找不到檔案");
-        }
+        instructions = scriptParser.parse("123");
     }
 
     @Test
-    public void curlyBracketsFilterTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = ScriptParser.class.getDeclaredMethod("curlyBracketsFilter", String.class);
+    public void extractEventOrElementArgumentTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = ScriptParser.class.getDeclaredMethod("getEventOrElementArgument", String.class);
         method.setAccessible(true);
         String testString = "Type_Text{45 6@}";
         Object[] arguments = new Object[]{testString};
@@ -74,8 +69,8 @@ public class ScriptParserTest {
     }
 
     @Test
-    public void scriptFilterToParameterTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method method = ScriptParser.class.getDeclaredMethod("scriptFilterToParameter", String.class);
+    public void getEventOrElementKeywordTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method method = ScriptParser.class.getDeclaredMethod("getEventOrElementKeyword", String.class);
         method.setAccessible(true);
         String testString = "Type_Text{45 6@}";
         Object[] arguments = new Object[]{testString};

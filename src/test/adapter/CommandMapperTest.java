@@ -5,7 +5,6 @@ import adapter.scriptGenerator.ICommandMapper;
 import entity.TestData;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
-import org.junit.BeforeClass;
 import useCase.command.Command;
 import useCase.command.CommandFactory;
 import org.jmock.Mockery;
@@ -15,10 +14,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import useCase.command.RestartCommand;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(JMock.class)
 public class CommandMapperTest {
@@ -31,43 +34,47 @@ public class CommandMapperTest {
     private ScriptParser scriptParser;
     private List<Instruction> instructions = new ArrayList<>();
     private CommandFactory commandFactory;
-    private ICommandMapper commandGenerator;
+    private ICommandMapper commandMapper;
 
     @Before
     public void setUp() throws Exception {
         parser = new TestDataParser(SIMPLE_TEST_DATA);
-        scriptParser = new ScriptParser(SIMPLE_SCRIPT);
+        scriptParser = new ScriptParser();
         parser.parse();
         testData = parser.getTestData();
         commandFactory = new CommandFactory(mockDeviceDriver);
-        commandGenerator = new CommandMapper(testData, commandFactory);
+        commandMapper = new CommandMapper(testData, commandFactory);
     }
 
     @Test
-    public void mappingFromTestForInstructionsList() throws Exception {
+    public void mapToSingleInstruction()  {
+        Instruction  instruction= scriptParser.parseLineOfScript("View1\tClick\tfolder{list}");
+        List<Command> commands = commandMapper.toCommandList(instruction);
+        assertEquals(1, commands.size());
+        assertEquals("//*[@class='android.widget.TextView' and @text='list']", commands.get(0).getXpath());
+    }
 
-        instructions = scriptParser.parse();
-        List<Command> commands = commandGenerator.mappingFrom(instructions);
+    @Test
+    public void mapScriptToInstructionsList() throws Exception {
+        instructions = scriptParser.parse(SIMPLE_SCRIPT);
+        List<Command> commands = commandMapper.toCommandList(instructions);
+        assertEquals(6, commands.size());
         Assert.assertEquals(commands.get(0).getXpath(), "//*[@class='android.widget.TextView' and @text='list']");
     }
 
     @Test
-    public void mappingFromTestForInstruction()  {
-        Instruction  instruction= scriptParser.parseForOneLine("View1\tClick\tfolder{list}");
-        Command command = commandGenerator.mappingFrom(instruction);
-        Assert.assertEquals(command.getXpath(), "//*[@class='android.widget.TextView' and @text='list']");
-    }
-    @Test
-    public void mappingFromLoadScript() throws Exception {
+    public void loadAnotherScript() throws Exception {
         final String LOAD_TEST_SCRIPT = "./src/test/resources/loadScript.txt";
-        scriptParser = new ScriptParser(LOAD_TEST_SCRIPT);
-        int commandListSize = commandGenerator.mappingFrom(scriptParser.parse()).size();
+        scriptParser = new ScriptParser();
+        int commandListSize = commandMapper.toCommandList(scriptParser.parse(LOAD_TEST_SCRIPT)).size();
         Assert.assertEquals(8,commandListSize);
     }
-    @Test
-    public void test() throws Exception {
-        final String Restart ="Restart";
-        Command restart = commandGenerator.mappingFrom(scriptParser.parseForOneLine(Restart));
 
+    @Test
+    public void mapUnaryInstruction() {
+        final String RESTART ="Restart";
+        List<Command> commands = commandMapper.toCommandList(scriptParser.parseLineOfScript(RESTART));
+        assertEquals(1, commands.size());
+        assertTrue(commands.get(0) instanceof RestartCommand);
     }
 }

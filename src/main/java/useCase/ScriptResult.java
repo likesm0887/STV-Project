@@ -1,5 +1,8 @@
 package useCase;
 
+import report.ReportGenerator;
+import report.ScriptReportGenerator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,26 +10,48 @@ public class ScriptResult {
 
     private ExecutionTimer executionTimer;
     private List<ScriptInformation> scriptInformationList = new ArrayList<>();
+    private ReportGenerator reportGenerator;
+//    = new ScriptReportGenerator();
 
     public ScriptResult(ExecutionTimer executionTimer) {
-        this.executionTimer = executionTimer;
+//        this.executionTimer = executionTimer;
+
+        this(executionTimer, new ScriptReportGenerator());
     }
 
-    public void scriptStarted(String taskName) {
-        scriptInformationList.add(new ScriptInformation(taskName));
+    public ScriptResult(ExecutionTimer executionTimer, ReportGenerator reportGenerator) {
+        this.executionTimer = executionTimer;
+        this.reportGenerator = reportGenerator;
+    }
+
+    public void scriptStarted(String scriptName) {
+        ScriptInformation scriptInformation = new ScriptInformation(scriptName);
+        System.out.println(reportGenerator.generateScriptInfoHeader(scriptInformation));
+        scriptInformationList.add(scriptInformation);
         executionTimer.startCounter();
     }
 
     public void scriptEnded() {
         executionTimer.endCounter();
-        currentScriptInformation().setExecutionTime(executionTimer.elapsedTimeInMiniSecond());
+        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
         currentScriptInformation().executionComplete();
+        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
     }
 
     public void scriptFailed() {
         executionTimer.endCounter();
-        currentScriptInformation().setExecutionTime(executionTimer.elapsedTimeInMiniSecond());
+        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
         currentScriptInformation().executionFailed();
+        System.out.println(reportGenerator.generateScriptInfoBody(currentScriptInformation()));
+        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
+    }
+
+    public void scriptFailed(String errorMessage) {
+        executionTimer.endCounter();
+        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
+        currentScriptInformation().executionFailed(errorMessage);
+        System.out.println(reportGenerator.generateScriptInfoBody(currentScriptInformation()));
+        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
     }
 
     private ScriptInformation currentScriptInformation() {
@@ -38,24 +63,8 @@ public class ScriptResult {
     }
 
     public String summary() {
-        String column = "+-----------------+-----------------+-----------------+\n" +
-                        "| ScriptName      | Times           | State           |\n" +
-                        "+-----------------+-----------------+-----------------+\n";
+        return reportGenerator.generateScriptSummary(scriptInformationList);
 
-        String body = informationContents();
-
-        String footer = "+-----------------+-----------------+-----------------+\n";
-
-        return column + body + footer;
     }
 
-    private String informationContents() {
-        String result = this.scriptInformationList.get(0).summary();
-
-        for (int i = 1; i < this.scriptInformationList.size(); i++) {
-            ScriptInformation scriptInformation = this.scriptInformationList.get(i);
-            result += scriptInformation.summary();
-        }
-        return result;
-    }
 }

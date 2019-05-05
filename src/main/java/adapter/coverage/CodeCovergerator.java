@@ -3,7 +3,6 @@ package adapter.coverage;
 import entity.Config;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 public class CodeCovergerator {

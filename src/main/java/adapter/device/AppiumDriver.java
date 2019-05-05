@@ -2,6 +2,7 @@ package adapter.device;
 
 import adapter.coverage.CodeCovergerator;
 import entity.Config;
+import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
@@ -196,18 +197,19 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void pressBackKey() {
-        driver.navigate().back();
-    }
-
-    @Override
-    public void pressDeleteKey(int times) {
+    public void deleteCharacter(String xPath, int times) {
+        this.waitAndClickElement(xPath);
         for (int i = 0; i < times; i++)
             driver.pressKeyCode(AndroidKeyCode.DEL);
     }
 
     @Override
-    public void rotate(ScreenOrientation screenOrientation) {
+    public void pressBackKey() {
+        driver.navigate().back();
+    }
+
+    @Override
+    public void rotate() {
         if (driver.getOrientation() == ScreenOrientation.PORTRAIT)
             driver.rotate(ScreenOrientation.LANDSCAPE);
         else
@@ -220,6 +222,27 @@ public class AppiumDriver implements DeviceDriver {
             sleep(millis);
         } catch (InterruptedException e) {
 
+        }
+    }
+
+    @Override
+    public void assertExist(String xPath) {
+        try {
+            findElement(xPath);
+        } catch (Exception e) {
+            throw new AssertException("Element does not exist");
+        }
+    }
+
+    @Override
+    public void assertText(String xPath, String text) {
+        assertExist(xPath);
+        MobileElement element = findElement(xPath);
+
+        if (!element.getText().equals(text)) {
+            throw new AssertException(
+                    "\nActual text: " + element.getText() + "\n" +
+                            "Expect: " + text + "\n");
         }
     }
 }

@@ -7,6 +7,6 @@ public class NullCommand extends Command {
 
     @Override
     public void execute() {
-        System.out.println("Execute Null Command, which will not cause anything side effect");
+        // do nothing
     }
 }

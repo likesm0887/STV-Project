@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -36,13 +37,13 @@ public class ScriptManagerTest {
 
     @Test
     public void getAllPathTest() {
-        List<String> allPath = null;
+        List<Path> allPath = null;
         try {
             allPath = sm.getAllFilesPath("./src/test/resources");
         } catch (IOException e) {
             Assert.fail();
         }
-        assertEquals(allPath.size(), 5);
+        assertEquals(3, allPath.size());
     }
 
     @Test
@@ -54,7 +55,7 @@ public class ScriptManagerTest {
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.ImageButton']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
             oneOf(mockDriver).waitAndTypeText("//*[@resource-id='android:id/input']", "456 ");
-            oneOf(mockDriver).restartApp();
+            oneOf(mockDriver).stopApp();
             oneOf(mockDriver).restartAppAndCleanData();
         }});
 
@@ -63,13 +64,10 @@ public class ScriptManagerTest {
     }
 
     @Test
-    public void FormatInformationAfterExecuteScrip() {
-
-
+    public void formatInformationAfterExecuteScript() {
         context.checking(new Expectations() {{
             oneOf(mockDriver).launchApp();
             will(throwException(new AssertFailedException("you cannot withdraw nothing!")));
-
         }});
 
         sm.execute();

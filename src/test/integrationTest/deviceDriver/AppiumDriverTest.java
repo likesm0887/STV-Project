@@ -2,6 +2,7 @@ package integrationTest.deviceDriver;
 
 import adapter.device.AppiumDriver;
 import adapter.ConfigReader;
+import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
@@ -99,16 +100,37 @@ public class AppiumDriverTest {
     }
 
     @Test
-    public void pressBackKey() {
+    public void deleteKeyTest() {
         // TaskList view's 'My tasks' list
         appiumDriver.waitAndClickElement("//*[@class='android.widget.TextView' and @text='My tasks']");
         // 'My tasks' list's quick add button
         appiumDriver.waitAndClickElement("//*[@index='0']/android.widget.ImageView[@resource-id='org.dmfs.tasks:id/quick_add_task']");
         // quick add text field
         appiumDriver.waitAndTypeText("//*[@resource-id='android:id/input']", "task");
-        appiumDriver.pressDeleteKey(2);
+        appiumDriver.deleteCharacter("//*[@resource-id='android:id/input']", 2);
 
         MobileElement element = (MobileElement) androidDriver.findElement(By.xpath("//*[@resource-id='android:id/input']"));
         assertEquals("ta", element.getText());
+    }
+
+    @Test
+    public void assertExistTest() {
+        appiumDriver.assertExist("//*[@class='android.widget.TextView' and @text='My tasks']");
+    }
+
+    @Test (expected = AssertException.class)
+    public void assertExistFailTest() {
+        appiumDriver.assertExist("//*[@class='android.widget.TextView' and @text='My tasks123']");
+    }
+
+    @Test
+    public void assertTextTest() {
+        appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks");
+    }
+
+
+    @Test (expected = AssertException.class)
+    public void assertTextFailTest() {
+        appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks123");
     }
 }
