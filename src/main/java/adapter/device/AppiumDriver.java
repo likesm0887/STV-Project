@@ -18,10 +18,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -57,6 +61,34 @@ public class AppiumDriver implements DeviceDriver {
     public void stopService() {
         driver.quit();
         appiumDriverLocalService.stop();
+    }
+
+    private static List<String> parseResult(InputStream is) throws IOException {
+        List<String> result = new ArrayList<>();
+        InputStreamReader reader = new InputStreamReader(is);
+        BufferedReader bReader = new BufferedReader(reader);
+        String line;
+        while ((line = bReader.readLine()) != null) {
+            result.add(line);
+        }
+        return result;
+    }
+
+    private List<String> executeCmdAndGetResult(String... cmd) throws IOException {
+
+        ProcessBuilder proc = new ProcessBuilder(cmd);
+        Process process = proc.start();
+
+        List<String> output;
+        try {
+            process.waitFor();
+            output = parseResult(process.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException("get Activity error");
+        } catch (InterruptedException e) {
+            throw new RuntimeException("get Activity error");
+        }
+        return output;
     }
 
     private void executeCmd(String... cmd) throws IOException {
@@ -140,6 +172,31 @@ public class AppiumDriver implements DeviceDriver {
             waitFor(1000);
         } catch (IOException e) {
             throw new RuntimeException(ADB_PATH + " not found");
+        }
+    }
+
+    private String getActivityName() {
+        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys", "activity", "activities", "|", "grep",
+                "\"Run\\ #\""};
+        List<String> cmdResult = null;
+        try {
+            cmdResult = this.executeCmdAndGetResult(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String result = cmdResult.get(0);
+        String activityName = result.substring(result.indexOf("/") + 1, result.indexOf("}"));
+        String[] str = activityName.split(" ");
+        return str[0].replace(".", "");
+    }
+
+    @Override
+    public void assertActivity(String expectActivity) {
+        String temp = getActivityName();
+        if (!expectActivity.equals(temp)) {
+            throw new AssertException(
+                    "\nActual text: " + getActivityName() + "\n" +
+                            "Expect: " + expectActivity + "\n");
         }
     }
 
@@ -238,7 +295,6 @@ public class AppiumDriver implements DeviceDriver {
     public void assertText(String xPath, String text) {
         assertExist(xPath);
         MobileElement element = findElement(xPath);
-
         if (!element.getText().equals(text)) {
             throw new AssertException(
                     "\nActual text: " + element.getText() + "\n" +

@@ -23,6 +23,8 @@ public class CommandFactory {
                 return this.createAssertExistCommand(xPath);
             case "AssertText":
                 return this.createAssertTextCommand(xPath, parameter);
+            case "AssertActivity":
+                return this.createAssertActivityCommand(parameter);
         }
 
         throw new RuntimeException("Unexpected command type");
@@ -64,6 +66,9 @@ public class CommandFactory {
         return new AssertTextCommand(deviceDriver, xPath, text);
     }
 
+    private Command createAssertActivityCommand(String activity) {
+        return new AssertActivityCommand(deviceDriver, activity);
+    }
     // TODO: should redefine interface
     private Command createFindElementCommand(String xPath) {
         return new FindElementCommand(deviceDriver, xPath);

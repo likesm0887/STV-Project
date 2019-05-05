@@ -83,4 +83,10 @@ public class CommandFactoryTest {
 
         assertTrue(assertTextCommand instanceof AssertTextCommand);
     }
+    @Test
+    public void createAssertActivityCommand() {
+        Command assertActivityCommand = commandFactory.createCommand("AssertActivity","","Activity");
+
+        assertTrue(assertActivityCommand instanceof AssertActivityCommand);
+    }
 }

@@ -65,7 +65,7 @@ public class EditTaskEndToEndTest {
     private void CreateNewTaskQuicklyBy(String taskName) {
         String script = String.format("TaskList\tTypeText{%s}\tquick_add_editText", taskName);
         scriptGenerator.executeInstruction(script);
-        scriptGenerator.executeInstruction("TaskList\ttClick\tquick_add_save_btn");
+        scriptGenerator.executeInstruction("TaskList\tClick\tquick_add_save_btn");
     }
 
     private void ClickTaskBy(String taskName) {
@@ -270,7 +270,7 @@ public class EditTaskEndToEndTest {
 
         ClickStartDate();
         EnterCalendar(2020, 1, 22);
-
+        //todo need scroll
         ClickDueTime();
         EnterTime(0, 10, 05);
 
