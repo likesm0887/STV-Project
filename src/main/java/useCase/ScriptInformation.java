@@ -1,10 +1,6 @@
 package useCase;
 
 public class ScriptInformation {
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_RED = "\u001B[31m";
-
 
     private String taskName;
 
@@ -22,9 +18,9 @@ public class ScriptInformation {
 
     private String resultStatus() {
         if (this.executionResult)
-            return ANSI_GREEN + "PASS" + ANSI_RESET;
+            return  "PASS" ;
         else
-            return ANSI_RED + "FAILED" + ANSI_RESET;
+            return  "FAILED";
     }
 
     public String summary() {
