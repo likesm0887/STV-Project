@@ -1,0 +1,6 @@
+LoadScript{./script/UseCaseCoverage/addTask.txt}
+TaskList    Click   task{Add Task}
+ViewTask    Click   menu_btn
+ViewTask    Click   menu_delete_btn
+ViewTask    Click   confirm_delete_ok_btn
+AssertActivity{TaskListActivity}

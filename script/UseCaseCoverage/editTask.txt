@@ -1,4 +1,4 @@
-LoadScript{./script/quickAddTask.txt}
+LoadScript{./script/UseCaseCoverage/addTask.txt}
 TaskList    Click    task{Add Task}
 ViewTask    Click    edit_btn
 EditTasks   TypeText{update task}    title_editText

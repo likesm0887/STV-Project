@@ -3,4 +3,5 @@ EditTasks	TypeText{Add Task}	title_editText
 EditTasks	Click	status_dropdown
 EditTasks	Click	status_options_done
 EditTasks	TypeText{an address}	location_editText
+AssertActivity{EditTaskActivity}
 EditTasks	Click	save_task_btn

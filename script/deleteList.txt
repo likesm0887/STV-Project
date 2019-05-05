@@ -1,6 +1,6 @@
-TaskList    Click   menu_btn
-TaskList    Click   displayed_lists
-DisplayedLists  Click   folder_setting{1}
-DisplayedLists  Click   delete_list_btn
-DisplayedLists  Click   delete_list_btn
-DisplayedLists  Click   return_btn
+TaskList	Click	menu_btn
+TaskList	Click	menu_displayed_lists
+DisplayedLists	Click	folder_setting{0}
+DisplayedLists	Click	list_delete_list_btn
+DisplayedLists	Click	confirm_delete_ok_btn
+DisplayedLists	Click	return_btn
