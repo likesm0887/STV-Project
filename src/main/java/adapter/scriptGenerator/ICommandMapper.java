@@ -1,11 +1,11 @@
 package adapter.scriptGenerator;
 
 import adapter.Instruction;
-import useCase.command.Command;
+import useCase.command.ICommand;
 
 import java.util.List;
 
 public interface ICommandMapper {
-    List<Command> toCommandList(Instruction instruction);
-    List<Command> toCommandList(List<Instruction> instructions);
+    List<ICommand> toCommandList(Instruction instruction);
+    List<ICommand> toCommandList(List<Instruction> instructions);
 }

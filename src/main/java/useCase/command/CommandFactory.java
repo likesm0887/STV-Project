@@ -1,7 +1,6 @@
 package useCase.command;
 
 import adapter.device.DeviceDriver;
-import io.appium.java_client.SwipeElementDirection;
 
 public class CommandFactory {
     private DeviceDriver deviceDriver;

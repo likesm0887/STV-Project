@@ -1,7 +1,7 @@
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
 import entity.Config;
-import useCase.ScriptManager;
+import entity.ScriptManager;
 
 public class main {
 

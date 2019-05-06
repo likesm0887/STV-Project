@@ -1,15 +1,15 @@
 package useCase;
 
+import entity.ExecutionTimer;
+import entity.ScriptInformation;
+import entity.ScriptResult;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import report.ReportGenerator;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import entity.report.ReportGenerator;
 
 @RunWith(JMock.class)
 public class ScriptResultTest {

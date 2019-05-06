@@ -1,13 +1,11 @@
-package report;
+package entity.report;
 
-import useCase.ScriptInformation;
+import entity.ScriptInformation;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Helper {
+public class TestHelper {
     static ScriptInformation createCorrectScriptInformation() {
         ScriptInformation scriptInformation = new ScriptInformation("Test Name");
         scriptInformation.setExecutionTime(1.0E10);

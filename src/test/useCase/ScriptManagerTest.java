@@ -2,7 +2,7 @@ package useCase;
 
 import adapter.device.DeviceDriver;
 import entity.Config;
-import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
+import entity.ScriptManager;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;

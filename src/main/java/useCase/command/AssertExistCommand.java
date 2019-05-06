@@ -1,7 +1,6 @@
 package useCase.command;
 
 import adapter.device.DeviceDriver;
-import entity.Exception.AssertException;
 
 public class AssertExistCommand extends Command {
 
