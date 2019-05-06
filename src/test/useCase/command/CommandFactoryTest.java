@@ -48,14 +48,6 @@ public class CommandFactoryTest {
     }
 
     @Test
-    public void createSwipeElementCommand() {
-        final int offset = 10;
-        Command swipeElementCommand = commandFactory.createSwipeElementCommand(xPath, SwipeElementDirection.UP, offset);
-
-        assertTrue(swipeElementCommand instanceof SwipeElementCommand);
-    }
-
-    @Test
     public void createDeleteCommand() {
         final String times = "3";
         Command deleteCommand = commandFactory.createCommand("Delete", xPath, times);
@@ -83,6 +75,14 @@ public class CommandFactoryTest {
 
         assertTrue(assertTextCommand instanceof AssertTextCommand);
     }
+
+    @Test
+    public void createAssertCountCommand() {
+        Command assertCountCommand = commandFactory.createCommand("AssertCount","","2");
+
+        assertTrue(assertCountCommand instanceof AssertCountCommand);
+    }
+
     @Test
     public void createAssertActivityCommand() {
         Command assertActivityCommand = commandFactory.createCommand("AssertActivity","","Activity");

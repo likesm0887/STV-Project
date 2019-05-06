@@ -23,6 +23,8 @@ public class CommandFactory {
                 return this.createAssertExistCommand(xPath);
             case "AssertText":
                 return this.createAssertTextCommand(xPath, parameter);
+            case "AssertCount":
+                return this.createAssertCounts(xPath, parameter);
             case "AssertActivity":
                 return this.createAssertActivityCommand(parameter);
         }
@@ -66,19 +68,11 @@ public class CommandFactory {
         return new AssertTextCommand(deviceDriver, xPath, text);
     }
 
+    private Command createAssertCounts(String xPath, String count) {
+        return new AssertCountCommand(deviceDriver, xPath, count);
+    }
+
     private Command createAssertActivityCommand(String activity) {
         return new AssertActivityCommand(deviceDriver, activity);
-    }
-    // TODO: should redefine interface
-    private Command createFindElementCommand(String xPath) {
-        return new FindElementCommand(deviceDriver, xPath);
-    }
-
-    private Command createFindElementListCommand(String xPath) {
-        return new FindElementListCommand(deviceDriver, xPath);
-    }
-
-    public Command createSwipeElementCommand(String xPath, SwipeElementDirection swipeElementDirection, int offset) {
-        return new SwipeElementCommand(deviceDriver, xPath, swipeElementDirection, offset);
     }
 }
