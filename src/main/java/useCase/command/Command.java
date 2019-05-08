@@ -2,7 +2,7 @@ package useCase.command;
 
 import adapter.device.DeviceDriver;
 
-public abstract class Command {
+public abstract class Command implements ICommand {
     protected DeviceDriver deviceDriver;
     protected String xPath;
 

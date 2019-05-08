@@ -1,21 +1,20 @@
-package useCase;
+package entity;
 
-import entity.Exception.AssertException;
-import useCase.command.Command;
+import useCase.command.ICommand;
 
 import java.util.List;
 
-public class Script {
-    private List<Command> commands;
+public class ScriptRunner {
+    private List<ICommand> commands;
     private String sourcePath;
 
-    public Script(List<Command> commands, String sourcePath) {
+    public ScriptRunner(List<ICommand> commands, String sourcePath) {
         this.commands = commands;
         this.sourcePath = sourcePath;
     }
 
     public void executeCommands() {
-        for (Command command : commands)
+        for (ICommand command : commands)
             command.execute();
     }
 
@@ -23,3 +22,4 @@ public class Script {
         return sourcePath;
     }
 }
+

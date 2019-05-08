@@ -1,34 +1,34 @@
 package useCase;
 
 import adapter.device.DeviceDriver;
-import io.appium.java_client.MobileElement;
+import entity.ScriptRunner;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Before;
 import org.junit.Test;
-import useCase.command.Command;
 import useCase.command.CommandFactory;
+import useCase.command.ICommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptTest {
+public class ScriptRunnerTest {
     private Mockery context = new JUnit4Mockery();
     private DeviceDriver mockDriver;
     private CommandFactory commandFactory;
     private String xPath = "//*[@class='a']";
-    private Script script;
+    private ScriptRunner scriptRunner;
 
     @Before
     public void setUp() {
         mockDriver = context.mock(DeviceDriver.class);
         commandFactory = new CommandFactory(mockDriver);
 
-        List<Command> commands = new ArrayList<>();
+        List<ICommand> commands = new ArrayList<>();
         commands.add(commandFactory.createCommand("TypeText", xPath, ""));
         commands.add(commandFactory.createCommand("Restart", "", ""));
-        script = new Script(commands, "");
+        scriptRunner = new ScriptRunner(commands, "");
     }
 
     @Test
@@ -38,6 +38,6 @@ public class ScriptTest {
             oneOf(mockDriver).restartAppAndCleanData();
         }});
 
-        script.executeCommands();
+        scriptRunner.executeCommands();
     }
 }

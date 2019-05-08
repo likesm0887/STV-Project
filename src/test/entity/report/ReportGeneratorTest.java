@@ -1,13 +1,9 @@
-package report;
+package entity.report;
 
 import org.junit.Before;
 import org.junit.Test;
-import useCase.Script;
-import useCase.ScriptInformation;
+import entity.ScriptInformation;
 
-import java.lang.reflect.Array;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +17,7 @@ public class ReportGeneratorTest {
     @Before
     public void setUp() {
         rg = new ScriptReportGenerator();
-        scriptInformation = Helper.createCorrectScriptInformation();
+        scriptInformation = TestHelper.createCorrectScriptInformation();
     }
 
     @Test
@@ -68,7 +64,7 @@ public class ReportGeneratorTest {
 
     @Test
     public void generateScriptSummaryFooter() {
-        ScriptInformation scriptInformation1 = Helper.createFailedScriptInformation();
+        ScriptInformation scriptInformation1 = TestHelper.createFailedScriptInformation();
 
 
         List<ScriptInformation> scriptInformations = Arrays.asList(scriptInformation, scriptInformation1);
@@ -95,7 +91,7 @@ public class ReportGeneratorTest {
     @Test
     public void generateScriptSummaryBody() {
 
-        List<ScriptInformation> scriptInformationList = Helper.createScriptInformationList();
+        List<ScriptInformation> scriptInformationList = TestHelper.createScriptInformationList();
 
         List<String> result = rg.getScriptBodyList(scriptInformationList);
 

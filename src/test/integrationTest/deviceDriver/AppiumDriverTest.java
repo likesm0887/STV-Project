@@ -128,7 +128,6 @@ public class AppiumDriverTest {
         appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks");
     }
 
-
     @Test (expected = AssertException.class)
     public void assertTextFailTest() {
         appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks123");

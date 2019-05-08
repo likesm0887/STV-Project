@@ -1,4 +1,4 @@
-package report;
+package entity.report;
 
 import java.text.DecimalFormat;
 

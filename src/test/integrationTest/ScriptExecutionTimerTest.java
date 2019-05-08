@@ -1,6 +1,6 @@
 
 import org.junit.Test;
-import useCase.ScriptExecutionTimer;
+import entity.ScriptExecutionTimer;
 
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.Assert.*;

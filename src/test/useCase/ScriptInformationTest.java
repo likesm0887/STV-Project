@@ -1,5 +1,6 @@
 package useCase;
 
+import entity.ScriptInformation;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.*;

@@ -1,4 +1,4 @@
-package useCase;
+package entity;
 
 import adapter.CommandMapper;
 import adapter.Instruction;
@@ -6,11 +6,9 @@ import adapter.device.DeviceDriver;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
 import adapter.scriptGenerator.ICommandMapper;
-import entity.Config;
 import entity.Exception.AssertException;
-import entity.TestData;
-import useCase.command.Command;
 import useCase.command.CommandFactory;
+import useCase.command.ICommand;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,8 +25,7 @@ public class ScriptManager {
     private TestData testData;
     private DeviceDriver deviceDriver;
     private List<Path> scriptFiles;
-    private Map<Path, Script> scripts = new HashMap<>();
-
+    private Map<Path, ScriptRunner> scripts = new HashMap<>();
     private ScriptResult scriptResult = new ScriptResult(new ScriptExecutionTimer());
 
     public ScriptManager(Config config, DeviceDriver driver) throws Exception {
@@ -37,16 +34,15 @@ public class ScriptManager {
         testDataParser.parse();
         testData = testDataParser.getTestData();
         scriptFiles = getAllFilesPath(config.getScriptPath());
-//        System.out.println(config.getScriptPath());
         scriptFiles.forEach(path -> transferToScriptObject(path));
     }
 
     private void transferToScriptObject(Path path) {
         System.out.println(path.toString());
         List<Instruction> instructions = transferScriptFileToInstruction(path.toString());
-        List<Command> commands = transferInstructionToCommand(instructions);
-        Script script = new Script(commands, path.toString());
-        scripts.put(path.getFileName(), script);
+        List<ICommand> commands = transferInstructionToCommand(instructions);
+        ScriptRunner scriptRunner = new ScriptRunner(commands, path.toString());
+        scripts.put(path.getFileName(), scriptRunner);
     }
 
     private List<Instruction> transferScriptFileToInstruction(String path) {
@@ -61,7 +57,7 @@ public class ScriptManager {
         return instructions;
     }
 
-    private List<Command> transferInstructionToCommand(List<Instruction> instructions) {
+    private List<ICommand> transferInstructionToCommand(List<Instruction> instructions) {
         ICommandMapper commandMapper = new CommandMapper(testData, new CommandFactory(deviceDriver));
         return commandMapper.toCommandList(instructions);
     }
@@ -75,7 +71,7 @@ public class ScriptManager {
     }
 
     public boolean isExist(String scriptPath) {
-        for (Map.Entry<Path, Script> entry : scripts.entrySet()) {
+        for (Map.Entry<Path, ScriptRunner> entry : scripts.entrySet()) {
             if (entry.getValue().getSourceFilePath().equalsIgnoreCase(scriptPath))
                 return true;
         }
@@ -84,7 +80,7 @@ public class ScriptManager {
 
     public void execute() {
 
-        for (Map.Entry<Path, Script> entry : scripts.entrySet()) {
+        for (Map.Entry<Path, ScriptRunner> entry : scripts.entrySet()) {
             try {
                 scriptResult.scriptStarted(entry.getKey().toString());
                 performScript(entry.getValue());
@@ -97,9 +93,9 @@ public class ScriptManager {
         }
     }
 
-    private void performScript(Script script) {
+    private void performScript(ScriptRunner scriptRunner) {
         deviceDriver.launchApp();
-        script.executeCommands();
+        scriptRunner.executeCommands();
         deviceDriver.stopApp();
     }
 

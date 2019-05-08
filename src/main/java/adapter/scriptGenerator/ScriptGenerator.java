@@ -2,7 +2,7 @@ package adapter.scriptGenerator;
 
 import adapter.Instruction;
 import adapter.parser.ScriptParser;
-import useCase.command.Command;
+import useCase.command.ICommand;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -21,10 +21,10 @@ public class ScriptGenerator {
 
     public void executeInstruction(String instruction) {
         saveInstruction(instruction);
-        toCommand(instruction).forEach(Command::execute);
+        toCommand(instruction).forEach(ICommand::execute);
     }
 
-    public List<Command> toCommand(String instruction) {
+    public List<ICommand> toCommand(String instruction) {
         return commandMapper.toCommandList(transformScriptToInstruction(instruction));
     }
 

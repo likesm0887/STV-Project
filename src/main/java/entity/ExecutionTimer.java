@@ -1,4 +1,4 @@
-package useCase;
+package entity;
 
 public interface ExecutionTimer {
     void startCounter();

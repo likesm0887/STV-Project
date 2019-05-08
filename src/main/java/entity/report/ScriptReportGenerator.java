@@ -1,8 +1,7 @@
-package report;
+package entity.report;
 
-import useCase.ScriptInformation;
+import entity.ScriptInformation;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 

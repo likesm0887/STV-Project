@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import useCase.command.ICommand;
 import useCase.command.RestartCommand;
 
 import java.util.ArrayList;
@@ -49,17 +50,17 @@ public class CommandMapperTest {
     @Test
     public void mapToSingleInstruction()  {
         Instruction  instruction= scriptParser.parseLineOfScript("View1\tClick\tfolder{list}");
-        List<Command> commands = commandMapper.toCommandList(instruction);
+        List<ICommand> commands = commandMapper.toCommandList(instruction);
         assertEquals(1, commands.size());
-        assertEquals("//*[@class='android.widget.TextView' and @text='list']", commands.get(0).getXpath());
+        assertEquals("//*[@class='android.widget.TextView' and @text='list']", ((Command)commands.get(0)).getXpath());
     }
 
     @Test
     public void mapScriptToInstructionsList() throws Exception {
         instructions = scriptParser.parse(SIMPLE_SCRIPT);
-        List<Command> commands = commandMapper.toCommandList(instructions);
+        List<ICommand> commands = commandMapper.toCommandList(instructions);
         assertEquals(6, commands.size());
-        Assert.assertEquals(commands.get(0).getXpath(), "//*[@class='android.widget.TextView' and @text='list']");
+        Assert.assertEquals(((Command)commands.get(0)).getXpath(), "//*[@class='android.widget.TextView' and @text='list']");
     }
 
     @Test
@@ -73,7 +74,7 @@ public class CommandMapperTest {
     @Test
     public void mapUnaryInstruction() {
         final String RESTART ="Restart";
-        List<Command> commands = commandMapper.toCommandList(scriptParser.parseLineOfScript(RESTART));
+        List<ICommand> commands = commandMapper.toCommandList(scriptParser.parseLineOfScript(RESTART));
         assertEquals(1, commands.size());
         assertTrue(commands.get(0) instanceof RestartCommand);
     }

@@ -63,37 +63,13 @@ public class AppiumDriver implements DeviceDriver {
         appiumDriverLocalService.stop();
     }
 
-    private static List<String> parseResult(InputStream is) throws IOException {
-        List<String> result = new ArrayList<>();
-        InputStreamReader reader = new InputStreamReader(is);
-        BufferedReader bReader = new BufferedReader(reader);
-        String line;
-        while ((line = bReader.readLine()) != null) {
-            result.add(line);
-        }
-        return result;
-    }
-
-    private List<String> executeCmdAndGetResult(String... cmd) throws IOException {
-
-        ProcessBuilder proc = new ProcessBuilder(cmd);
-        Process process = proc.start();
-
-        List<String> output;
+    private void executeCmd(String... cmd) {
         try {
-            process.waitFor();
-            output = parseResult(process.getInputStream());
+            ProcessBuilder proc = new ProcessBuilder(cmd);
+            proc.start();
         } catch (IOException e) {
-            throw new RuntimeException("get Activity error");
-        } catch (InterruptedException e) {
-            throw new RuntimeException("get Activity error");
+            throw new RuntimeException(e);
         }
-        return output;
-    }
-
-    private void executeCmd(String... cmd) throws IOException {
-        ProcessBuilder proc = new ProcessBuilder(cmd);
-        proc.start();
     }
 
     private URL getServerUrl() {
@@ -128,12 +104,8 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void launchApp() {
-        try {
-            String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
-            executeCmd(initInstrActivityCmd);
-        } catch (IOException e) {
-            throw new RuntimeException(ADB_PATH + " not found");
-        }
+        String[] initInstrActivityCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "instrument", "-w", "-e", "coverage", "true", "org.dmfs.tasks.test/android.support.test.runner.AndroidJUnitRunner"};
+        executeCmd(initInstrActivityCmd);
         waitFor(1500);
     }
 
@@ -152,52 +124,19 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void stopApp() {
-        try {
-            String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
-            this.executeCmd(stopTestBroadcastCmd);
-            waitFor(2000);
-            codeCovergerator.pullCodeCoverage();
-            String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
-            this.executeCmd(stopCmd);
-            waitFor(500);
-        } catch (IOException e) {
-            throw new RuntimeException(ADB_PATH + " not found");
-        }
+        String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
+        this.executeCmd(stopTestBroadcastCmd);
+        waitFor(2000);
+        codeCovergerator.pullCodeCoverage();
+        String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
+        this.executeCmd(stopCmd);
+        waitFor(500);
     }
 
     private void clearAppData() {
-        try {
-            String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
-            this.executeCmd(command);
-            waitFor(1000);
-        } catch (IOException e) {
-            throw new RuntimeException(ADB_PATH + " not found");
-        }
-    }
-
-    private String getActivityName() {
-        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys", "activity", "activities", "|", "grep",
-                "\"Run\\ #\""};
-        List<String> cmdResult = null;
-        try {
-            cmdResult = this.executeCmdAndGetResult(command);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String result = cmdResult.get(0);
-        String activityName = result.substring(result.indexOf("/") + 1, result.indexOf("}"));
-        String[] str = activityName.split(" ");
-        return str[0].replace(".", "");
-    }
-
-    @Override
-    public void assertActivity(String expectActivity) {
-        String temp = getActivityName();
-        if (!expectActivity.equals(temp)) {
-            throw new AssertException(
-                    "\nActual text: " + getActivityName() + "\n" +
-                            "Expect: " + expectActivity + "\n");
-        }
+        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
+        this.executeCmd(command);
+        waitFor(1000);
     }
 
     private MobileElement findElement(String xPath) {
@@ -285,20 +224,80 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void assertExist(String xPath) {
         try {
-            findElement(xPath);
+            waitForElement(xPath, 2);
         } catch (Exception e) {
             throw new AssertException("Element does not exist");
         }
     }
 
     @Override
-    public void assertText(String xPath, String text) {
+    public void assertText(String xPath, String expectedText) {
         assertExist(xPath);
         MobileElement element = findElement(xPath);
-        if (!element.getText().equals(text)) {
+        if (!element.getText().equals(expectedText)) {
             throw new AssertException(
                     "\nActual text: " + element.getText() + "\n" +
-                            "Expect: " + text + "\n");
+                            "Expect: " + expectedText + "\n");
         }
+    }
+
+    @Override
+    public void assertElementCount(String xPath, int expectedCount) {
+        assertExist(xPath);
+        int actual = findElements(xPath).size();
+        if (actual != expectedCount) {
+            throw new AssertException(
+                    "\nActual count: " + actual + "\n" +
+                            "Expected: " + expectedCount + "\n");
+        }
+    }
+
+    @Override
+    public void assertActivity(String expectActivity) {
+        String actualActivity = getActivityName();
+        if (!expectActivity.equals(actualActivity)) {
+            throw new AssertException(
+                    "\nActual activity: " + actualActivity + "\n" +
+                            "Expect: " + expectActivity + "\n");
+        }
+    }
+
+    private String getActivityName() {
+        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
+                "activity", "activities", "|", "grep", "\"Run\\ #\""};
+        InputStream inputStream = this.executeCmdExtractOutput(command);
+        return parseActivityName(inputStream);
+    }
+
+    private InputStream executeCmdExtractOutput(String... cmd) {
+        ProcessBuilder proc = new ProcessBuilder(cmd);
+        try {
+            Process process = proc.start();
+            process.waitFor();
+            return process.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("get Activity error");
+        }
+    }
+
+    private static String parseActivityName(InputStream is) {
+        List<String> result = new ArrayList<>();
+        InputStreamReader reader = new InputStreamReader(is);
+        BufferedReader bReader = new BufferedReader(reader);
+        String line;
+        try {
+            line = bReader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (line != null) {
+            String activityName = line.substring(result.indexOf("/") + 1, result.indexOf("}"));
+            String[] str = activityName.split(" ");
+            return str[0].replace(".", "");
+        }
+        return "";
     }
 }

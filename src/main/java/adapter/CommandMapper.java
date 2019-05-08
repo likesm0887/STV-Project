@@ -3,8 +3,8 @@ package adapter;
 import adapter.parser.ScriptParser;
 import adapter.scriptGenerator.ICommandMapper;
 import entity.TestData;
-import useCase.command.Command;
 import useCase.command.CommandFactory;
+import useCase.command.ICommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +19,19 @@ public class CommandMapper implements ICommandMapper {
     }
 
     @Override
-    public List<Command> toCommandList(Instruction instruction) {
+    public List<ICommand> toCommandList(Instruction instruction) {
         return map(instruction);
     }
 
     @Override
-    public List<Command> toCommandList(List<Instruction> instructions) {
-        List<Command> commands = new ArrayList<>();
+    public List<ICommand> toCommandList(List<Instruction> instructions) {
+        List<ICommand> commands = new ArrayList<>();
         instructions.forEach(each -> commands.addAll(map(each)));
         return commands;
     }
 
-    private List<Command> map(Instruction instruction) {
-        List<Command> commands = new ArrayList<>();
+    private List<ICommand> map(Instruction instruction) {
+        List<ICommand> commands = new ArrayList<>();
         if (instruction.getEvent().equals("LoadScript"))
             appendTargetScript(commands, instruction.getEventParameter().get());
         else
@@ -39,7 +39,7 @@ public class CommandMapper implements ICommandMapper {
         return commands;
     }
 
-    private void appendTargetScript(List<Command> commands, String targetScript) {
+    private void appendTargetScript(List<ICommand> commands, String targetScript) {
         List<Instruction> instructions = loadTargetScriptInstructions(targetScript);
         commands.addAll(toCommandList(instructions));
     }
@@ -52,7 +52,7 @@ public class CommandMapper implements ICommandMapper {
         }
     }
 
-    private Command mapToSingleCommand(Instruction instruction) {
+    private ICommand mapToSingleCommand(Instruction instruction) {
         String xPath = "";
         if (!instruction.getActivity().equals("")) {
             if (instruction.getElementParameter().isPresent()) {

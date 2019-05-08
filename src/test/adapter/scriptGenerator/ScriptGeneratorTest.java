@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import useCase.command.ClickCommand;
 import useCase.command.Command;
+import useCase.command.ICommand;
 import useCase.command.NullCommand;
 
 import java.util.Arrays;
@@ -70,9 +71,9 @@ public class ScriptGeneratorTest {
             will(returnValue(Arrays.asList(new ClickCommand(null, ""))));
         }});
 
-        List<Command> command = scriptGenerator.toCommand(instruction);
+        List<ICommand> command = scriptGenerator.toCommand(instruction);
         assertEquals(1, command.size());
-        assertThat(command.get(0), isInstanceOf(ClickCommand.class));
+        assertThat((Command) command.get(0), isInstanceOf(ClickCommand.class));
     }
 
     @Test

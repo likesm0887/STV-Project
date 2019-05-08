@@ -1,7 +1,7 @@
-package useCase;
+package entity;
 
-import report.ReportGenerator;
-import report.ScriptReportGenerator;
+import entity.report.ReportGenerator;
+import entity.report.ScriptReportGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +11,8 @@ public class ScriptResult {
     private ExecutionTimer executionTimer;
     private List<ScriptInformation> scriptInformationList = new ArrayList<>();
     private ReportGenerator reportGenerator;
-//    = new ScriptReportGenerator();
 
     public ScriptResult(ExecutionTimer executionTimer) {
-//        this.executionTimer = executionTimer;
 
         this(executionTimer, new ScriptReportGenerator());
     }
@@ -26,7 +24,9 @@ public class ScriptResult {
 
     public void scriptStarted(String scriptName) {
         ScriptInformation scriptInformation = new ScriptInformation(scriptName);
+
         System.out.println(reportGenerator.generateScriptInfoHeader(scriptInformation));
+
         scriptInformationList.add(scriptInformation);
         executionTimer.startCounter();
     }
@@ -35,6 +35,7 @@ public class ScriptResult {
         executionTimer.endCounter();
         currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
         currentScriptInformation().executionComplete();
+
         System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
     }
 
