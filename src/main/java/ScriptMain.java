@@ -1,12 +1,5 @@
-import adapter.CommandMapper;
-import adapter.ConfigReader;
-import adapter.device.AppiumDriver;
-import adapter.device.DeviceDriver;
-import adapter.parser.TestDataParser;
-import adapter.scriptGenerator.ICommandMapper;
 import adapter.scriptGenerator.ScriptGenerator;
-import entity.TestData;
-import useCase.command.CommandFactory;
+import adapter.scriptGenerator.ScriptGeneratorFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,23 +8,15 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ScriptMain {
-    static final int EXECUTE_INSTRUCTION = 1;
-    static final int EXIT_PROGRAM = 2;
+
+    private  static final int EXECUTE_INSTRUCTION = 1;
+    private static final int EXECUTE_BATCH_INSTRUCTION = 2;
+    private static final int EXIT_PROGRAM = 3;
+
 
     public static void main(String[] args) throws Exception {
-        ConfigReader configReader = new ConfigReader();
-        DeviceDriver driver = new AppiumDriver(configReader.getConfig());
-        driver.startService();
-        TestDataParser testDataParser = new TestDataParser("./TestData/TestData.xlsx");
-        testDataParser.parse();
-        TestData testData = testDataParser.getTestData();
 
-        CommandFactory commandFactory = new CommandFactory(driver);
-        ICommandMapper commandMapper = new CommandMapper(testData, commandFactory);
-
-
-
-        ScriptGenerator scriptGenerator = new ScriptGenerator(commandMapper);
+        ScriptGenerator scriptGenerator = ScriptGeneratorFactory.createScriptGenerator();
 
         while (true) {
             displayFunctionality();
@@ -42,21 +27,43 @@ public class ScriptMain {
                 break;
 
             if (choice == EXECUTE_INSTRUCTION) {
+                scriptGenerator.switchMode(ScriptGenerator.ExecuteMode.Single);
                 handleExecuteInstruction(scriptGenerator);
-            } else {
+            }
+            else if (choice == EXECUTE_BATCH_INSTRUCTION) {
+                scriptGenerator.switchMode(ScriptGenerator.ExecuteMode.Batch);
+                handleExecuteBatchInstruction(scriptGenerator);
+            }
+            else {
                 System.out.println("This Choice has no functionality, input again!");
             }
         }
+
         handleInstructionSaving(scriptGenerator);
     }
 
-    public static void handleInstructionSaving(ScriptGenerator scriptGenerator) {
-        scriptGenerator.writeScriptFile();
+    private static void handleExecuteBatchInstruction(ScriptGenerator scriptGenerator) {
+        System.out.println("Start Enter Batch Instruction: ");
+        System.out.println("Enter exit to stop");
+        while (true) {
+            String instruction = enterString();
+            if (instruction.equalsIgnoreCase("stop"))
+                break;
+
+            try {
+                scriptGenerator.executeInstruction(instruction);
+            } catch (Exception e) {
+
+            }
+        }
+
+        storeInstruction(scriptGenerator);
     }
 
     public static void displayFunctionality() {
         System.out.println("1. enter script");
-        System.out.println("2. stop enter");
+        System.out.println("2. enter batch script");
+        System.out.println("3. stop enter");
         System.out.print("enter choice: ");
     }
 
@@ -75,9 +82,13 @@ public class ScriptMain {
         return choice;
     }
 
+
+
     private static void handleExecuteInstruction(ScriptGenerator scriptGenerator) {
+
+
         System.out.print("enter script: ");
-        String instruction = enterInstruction();
+        String instruction = enterString();
 
         System.out.println(instruction);
 
@@ -90,7 +101,7 @@ public class ScriptMain {
         storeInstruction(scriptGenerator);
     }
 
-    private static String enterInstruction() {
+    private static String enterString() {
 
         BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
         String instruction = "";
@@ -105,12 +116,12 @@ public class ScriptMain {
     static void storeInstruction(ScriptGenerator scriptGenerator) {
         while (true) {
             String storeChoice = enterStoreChoice();
-            if (storeChoice.equals("Y")) {
+            if (storeChoice.equalsIgnoreCase("Y")) {
                 break;
             }
-            else if (storeChoice.equals("N")) { // checking content of string, not reference.
+            else if (storeChoice.equalsIgnoreCase("N")) { // checking content of string, not reference.
                 System.out.println("Remove Success");
-                scriptGenerator.removeCurrentInstruction();
+                scriptGenerator.removeInstruction();
                 break;
             } else {
                 System.out.print("Invalid input, enter again!: ");
@@ -124,4 +135,19 @@ public class ScriptMain {
         String storeChoice = s.next();
         return storeChoice;
     }
+
+
+    public static void handleInstructionSaving(ScriptGenerator scriptGenerator) {
+
+        System.out.print("Did you wanna save file? (Y/N)");
+        String choice = enterString();
+
+        if (choice.equalsIgnoreCase("N"))
+            return;
+
+        System.out.print("enter script name which you want to save: ");
+        String scriptName = enterString();
+        scriptGenerator.writeScriptFile(scriptName);
+    }
+
 }
