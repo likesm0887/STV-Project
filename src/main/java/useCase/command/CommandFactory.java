@@ -18,17 +18,23 @@ public class CommandFactory {
                 return this.createRotateCommand();
             case "Delete":
                 return this.createDeleteCommand(xPath, parameter);
+            case "Scroll":
+                return this.createScrollToElement(xPath, parameter);
             case "AssertExist":
-                return this.createAssertExistCommand(xPath);
+            return this.createAssertExistCommand(xPath);
             case "AssertText":
-                return this.createAssertTextCommand(xPath, parameter);
+            return this.createAssertTextCommand(xPath, parameter);
             case "AssertCount":
-                return this.createAssertCounts(xPath, parameter);
+            return this.createAssertCounts(xPath, parameter);
             case "AssertActivity":
-                return this.createAssertActivityCommand(parameter);
+            return this.createAssertActivityCommand(parameter);
         }
 
         throw new RuntimeException("Unexpected command type");
+    }
+
+    private Command createScrollToElement(String xPath, String parameter) {
+        return new ScrollToElementCommand(deviceDriver, xPath, parameter);
     }
 
     public CommandFactory(DeviceDriver deviceDriver) {

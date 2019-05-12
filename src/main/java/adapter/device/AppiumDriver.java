@@ -14,6 +14,7 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -191,6 +192,44 @@ public class AppiumDriver implements DeviceDriver {
 //                .release()
 //                .perform();
     }
+
+    @Override
+    public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
+        int width = driver.manage().window().getSize().width;
+        int height = driver.manage().window().getSize().height;
+        while (true) {
+            try {
+                waitForElement(xPath, 1);
+                break;
+            } catch (TimeoutException e) {
+                scrollToDirection(width, height, direction);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                throw e;
+            }
+        }
+    }
+
+    private void scrollToDirection(int width, int height, SwipeElementDirection direction) {
+        switch (direction) {
+            case UP:
+                driver.swipe(width / 2, (int) (height * 0.4), width / 2, (int) (height * 0.6), DEFAULT_SWIPE_DURATION);
+                break;
+
+            case LEFT:
+                driver.swipe((int) (width * 0.6), height / 2, (int) (width * 0.4), height / 2, DEFAULT_SWIPE_DURATION);
+                break;
+
+            case RIGHT:
+                driver.swipe((int) (width * 0.4), height / 2, (int) (width * 0.6), height / 2, DEFAULT_SWIPE_DURATION);
+                break;
+
+            case DOWN:
+                driver.swipe(width / 2, (int) (height * 0.6), width / 2, (int) (height * 0.4), DEFAULT_SWIPE_DURATION);
+                break;
+        }
+    }
+
 
     @Override
     public void deleteCharacter(String xPath, int times) {

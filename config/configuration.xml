@@ -3,8 +3,8 @@
         <!--DeviceName option :Android Device , Android Emulator-->
         <DeviceName>Android Emulator</DeviceName>
         <SerialNumber>emulator-5554</SerialNumber>
-        <AndroidVersion>8</AndroidVersion>
+        <AndroidVersion>9</AndroidVersion>
         <AppiumPort>5000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
-        <ScripPath>./script/quickAddTask.txt</ScripPath>
+        <ScripPath>./script/UseCaseCoverage/addTask.txt</ScripPath>
 </configuration>
