@@ -6,5 +6,5 @@
         <AndroidVersion>9</AndroidVersion>
         <AppiumPort>5000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
-        <ScripPath>./script/UseCaseCoverage/addTask.txt</ScripPath>
+        <ScripPath>./script/deleteList.txt</ScripPath>
 </configuration>

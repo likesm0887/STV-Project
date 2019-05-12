@@ -46,7 +46,7 @@ public class EditTaskEndToEndTest {
 
     @After
     public void tearDown() {
-        scriptGenerator.writeScriptFile();
+        scriptGenerator.writeScriptFile("script");
         driver.stopService();
     }
 

@@ -1,0 +1,21 @@
+#add new task in folder "My task"
+TaskList	Click	folder{My tasks}
+TaskList	Click	quick_add_btn{0}
+TaskList	TypeText{Each Choice}	quick_add_editText
+TaskList	Click	quick_add_edit_btn
+
+#select Status in process
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_in_process
+
+#select Status done
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_done
+
+#select Status cancelled
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_cancelled
+
+#select Status needs action
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_needs_action
