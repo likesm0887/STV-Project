@@ -12,6 +12,8 @@ public class CommandFactory {
                 return this.createTypeTextCommand(xPath, parameter);
             case "Restart":
                 return this.createRestartCommand();
+            case "RestartAndClean":
+                return this.createRestartAndCleanCommand();
             case "LaunchApp":
                 return this.createLaunchAppCommand();
             case "Rotate":
@@ -21,13 +23,15 @@ public class CommandFactory {
             case "Scroll":
                 return this.createScrollToElement(xPath, parameter);
             case "AssertExist":
-            return this.createAssertExistCommand(xPath);
+                return this.createAssertExistCommand(xPath);
             case "AssertText":
-            return this.createAssertTextCommand(xPath, parameter);
+                return this.createAssertTextCommand(xPath, parameter);
             case "AssertCount":
-            return this.createAssertCounts(xPath, parameter);
+                return this.createAssertCounts(xPath, parameter);
             case "AssertActivity":
-            return this.createAssertActivityCommand(parameter);
+                return this.createAssertActivityCommand(parameter);
+            case "PressPercentage":
+                return this.createPressPercentageCommand(xPath, parameter);
         }
 
         throw new RuntimeException("Unexpected command type");
@@ -49,8 +53,16 @@ public class CommandFactory {
         return new TypeTextCommand(deviceDriver, xPath, text);
     }
 
+    private Command createPressPercentageCommand(String xPath, String parameter) {
+        return new PressPercentageCommand(deviceDriver, xPath, parameter);
+    }
+
     private Command createRestartCommand() {
         return new RestartCommand(deviceDriver);
+    }
+
+    private Command createRestartAndCleanCommand() {
+        return new RestartAndCleanCommand(deviceDriver);
     }
 
     private Command createLaunchAppCommand() {

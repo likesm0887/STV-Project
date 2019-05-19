@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ScriptParserTest {
     private final String SCRIPT_PATH = "./src/test/resources/scriptForTest.txt";

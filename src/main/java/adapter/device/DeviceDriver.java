@@ -24,6 +24,8 @@ public interface DeviceDriver {
 
     void deleteCharacter(String xPath, int times);
 
+    void pressPercentage(String xPath, int percent);
+
     void pressBackKey();
     void rotate();
     void waitFor(int millis);

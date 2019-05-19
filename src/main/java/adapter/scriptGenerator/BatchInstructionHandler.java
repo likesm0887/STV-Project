@@ -1,9 +1,5 @@
 package adapter.scriptGenerator;
 
-import adapter.Instruction;
-import adapter.parser.ScriptParser;
-import useCase.command.ICommand;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

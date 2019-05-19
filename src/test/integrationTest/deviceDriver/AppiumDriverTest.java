@@ -1,7 +1,7 @@
 package integrationTest.deviceDriver;
 
-import adapter.device.AppiumDriver;
 import adapter.ConfigReader;
+import adapter.device.AppiumDriver;
 import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
@@ -137,8 +137,17 @@ public class AppiumDriverTest {
     public void assertActivityFailTest() {
         appiumDriver.assertActivity("errorActivity");
     }
+
     @Test
     public void assertActivityTest() {
         appiumDriver.assertActivity("TaskListActivity");
+    }
+
+    @Test
+    public void pressPercentage() {
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
+        appiumDriver.waitFor(3000);
+        appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
+        appiumDriver.waitFor(3000);
     }
 }
