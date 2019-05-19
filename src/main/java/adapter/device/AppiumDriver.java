@@ -5,6 +5,7 @@ import entity.Config;
 import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -236,6 +237,14 @@ public class AppiumDriver implements DeviceDriver {
         this.waitAndClickElement(xPath);
         for (int i = 0; i < times; i++)
             driver.pressKeyCode(AndroidKeyCode.DEL);
+    }
+
+    @Override
+    public void pressPercentage(String xPath, int percent) {
+        MobileElement element = waitForElement(xPath);
+        int x = element.getLocation().getX() + element.getSize().width * percent / 100 - 10;
+        int y = element.getLocation().getY() + element.getSize().height / 2;
+        new TouchAction(driver).tap(x, y).perform();
     }
 
     @Override

@@ -1,9 +1,8 @@
-
-import org.junit.Test;
 import entity.ScriptExecutionTimer;
+import org.junit.Test;
 
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ScriptExecutionTimerTest {
 

@@ -10,6 +10,6 @@ public class RestartCommand extends Command {
 
     @Override
     public void execute() {
-        this.deviceDriver.restartAppAndCleanData();
+        this.deviceDriver.restartApp();
     }
 }

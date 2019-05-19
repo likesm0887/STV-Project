@@ -6,14 +6,11 @@ import adapter.device.DeviceDriver;
 import adapter.parser.TestDataParser;
 import adapter.scriptGenerator.ICommandMapper;
 import adapter.scriptGenerator.ScriptGenerator;
-
 import entity.Config;
 import entity.TestData;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import useCase.command.CommandFactory;
 
 import java.io.IOException;
