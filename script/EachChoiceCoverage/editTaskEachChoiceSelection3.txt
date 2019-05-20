@@ -1,0 +1,63 @@
+#add new task in folder "My task"
+TaskList	Click	folder{My tasks}
+TaskList	Click	quick_add_btn{0}
+TaskList	TypeText{Each Choice}	quick_add_editText
+TaskList	Click	quick_add_edit_btn
+
+#select folder
+EditTasks   Click   folder_dropdown
+EditTasks   Click   folder{My tasks}
+
+#select Status cancelled
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_cancelled
+
+#Location input
+EditTasks	TypeText{A place}	location_editText
+
+#Description input
+EditTasks	TypeText{each choice method}	description_editText
+
+#check list
+EditTasks	TypeText{check list 1}	check_list_editText{0}
+EditTasks   Click   check_list_checkBox{0}
+
+#start date
+EditTasks	Click	start_date
+EditTasks	Click	calendar_year_picker
+EditTasks	Click	calendar_pick_year{2023}
+EditTasks	Click	calendar_pick_date{1}
+
+#start time
+EditTasks	Click	start_time
+EditTasks	Click	time_clock_minutes
+EditTasks	Click	time_clock_pick_minutes{25}
+EditTasks	Click	time_clock_hours
+EditTasks	Click	time_clock_pick_hours{11}
+EditTasks	Click	time_ok_btn
+
+#due date
+EditTasks	Click	due_date
+EditTasks	Click	calendar_ok_btn
+
+#time zone
+EditTasks	Click	time_zone_dropdown
+EditTasks   Click   time_zone_options{Taipei}
+
+#complete date
+EditTasks   Click   complete_date
+EditTasks   Click   calendar_ok_btn
+
+#priority high
+EditTasks   Click   priority_dropdown
+EditTasks   Click   priority_options_high
+
+#privacy public
+EditTasks   Click   privacy_dropdown
+EditTasks   Click   privacy_options_public
+
+#url
+EditTasks   TypeText{www.hyperlink.com}   URL_editText
+
+#save
+EditTasks   Click   save_task_btn
