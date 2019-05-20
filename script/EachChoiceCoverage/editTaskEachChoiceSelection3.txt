@@ -27,6 +27,7 @@ EditTasks	Click	start_date
 EditTasks	Click	calendar_year_picker
 EditTasks	Click	calendar_pick_year{2023}
 EditTasks	Click	calendar_pick_date{1}
+EditTasks   Click   calendar_ok_btn
 
 #start time
 EditTasks	Click	start_time
