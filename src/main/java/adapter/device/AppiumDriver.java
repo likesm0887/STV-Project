@@ -277,6 +277,14 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
+    public void pressPercentage(String xPath, int percent) {
+        MobileElement element = waitForElement(xPath);
+        int x = element.getLocation().getX() + element.getSize().width * percent / 100 - 10;
+        int y = element.getLocation().getY() + element.getSize().height / 2;
+        new TouchAction(driver).tap(x, y).perform();
+    }
+
+    @Override
     public void pressBackKey() {
         driver.navigate().back();
     }

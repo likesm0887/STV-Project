@@ -1,0 +1,66 @@
+#add new task in folder "My task"
+TaskList	Click	folder{My tasks}
+TaskList	Click	quick_add_btn{0}
+TaskList	TypeText{Each Choice}	quick_add_editText
+TaskList	Click	quick_add_edit_btn
+
+#select folder
+EditTasks   Click   folder_dropdown
+EditTasks   Click   folder{My tasks}
+
+#select Status done
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_done
+
+#Location input
+EditTasks	TypeText{A place}	location_editText
+
+#Description input
+EditTasks	TypeText{each choice method}	description_editText
+
+#check list
+EditTasks	TypeText{check list 1}	check_list_editText{0}
+EditTasks   Click   check_list_checkBox{0}
+
+#start date
+EditTasks	Click	start_date
+EditTasks	Click	calendar_pick_date{28}
+EditTasks	Click	calendar_ok_btn
+
+#start time
+EditTasks	Click	start_time
+EditTasks	Click	time_AM_label
+EditTasks	Click	time_clock_minutes
+EditTasks	Click	time_clock_pick_minutes{30}
+EditTasks	Click	time_clock_hours
+EditTasks	Click	time_clock_pick_hours{12}
+EditTasks	Click	time_ok_btn
+
+#datetime remove
+EditTasks	Click	start_datetime_remove
+
+#due date
+EditTasks	Click	due_date
+EditTasks	Click	calendar_ok_btn
+
+#due time
+EditTasks	Click	due_time
+EditTasks	Click	time_cancel_btn
+
+#time zone
+EditTasks	Click	time_zone_dropdown
+EditTasks   Click   time_zone_options{Tokyo}
+
+#complete date
+EditTasks   Click   complete_date
+EditTasks   Click   calendar_ok_btn
+
+#priority high
+EditTasks   Click   priority_dropdown
+EditTasks   Click   priority_options_high
+
+#url
+EditTasks   TypeText{www.hyperlink.com}   URL_editText
+
+#save
+EditTasks   Click   save_task_btn

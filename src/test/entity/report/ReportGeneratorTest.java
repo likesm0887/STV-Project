@@ -1,8 +1,8 @@
 package entity.report;
 
+import entity.ScriptInformation;
 import org.junit.Before;
 import org.junit.Test;
-import entity.ScriptInformation;
 
 import java.util.Arrays;
 import java.util.List;

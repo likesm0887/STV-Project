@@ -1,12 +1,10 @@
 package adapter;
 
 import adapter.device.DeviceDriver;
-import adapter.scriptGenerator.ICommandMapper;
-import entity.TestData;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
-import useCase.command.Command;
-import useCase.command.CommandFactory;
+import adapter.scriptGenerator.ICommandMapper;
+import entity.TestData;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -14,6 +12,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import useCase.command.Command;
+import useCase.command.CommandFactory;
 import useCase.command.ICommand;
 import useCase.command.RestartCommand;
 
@@ -22,7 +22,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @RunWith(JMock.class)
 public class CommandMapperTest {

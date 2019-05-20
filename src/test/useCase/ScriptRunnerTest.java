@@ -35,7 +35,7 @@ public class ScriptRunnerTest {
     public void scriptExecute() {
         context.checking(new Expectations() {{
             oneOf(mockDriver).waitAndTypeText(xPath, "");
-            oneOf(mockDriver).restartAppAndCleanData();
+            oneOf(mockDriver).restartApp();
         }});
 
         scriptRunner.executeCommands();

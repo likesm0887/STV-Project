@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class ScriptFileHandlerTest {
 
