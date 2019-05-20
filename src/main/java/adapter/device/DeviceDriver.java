@@ -19,8 +19,8 @@ public interface DeviceDriver {
     void waitAndClickElement(String xPath);
     void waitAndTypeText(String xPath, String text);
     void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset);
-
     void waitAndScrollToElement(String xPath, SwipeElementDirection direction);
+    void waitAndDragElement(String xPath, int xOffset, int yOffset);
 
     void deleteCharacter(String xPath, int times);
 

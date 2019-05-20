@@ -1,10 +1,12 @@
 package adapter.device;
 
 import adapter.coverage.CodeCovergerator;
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import entity.Config;
 import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
@@ -15,6 +17,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,15 +31,17 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static java.lang.Thread.sleep;
 
 public class AppiumDriver implements DeviceDriver {
-    private final int DEFAULT_SWIPE_DURATION = 500;
+    private final int DEFAULT_SWIPE_DURATION = 300;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
     private AndroidDriver driver;
     private Config config;
     private int defaultTimeout;
+    private int findElementLimitTimes = 10;
     private AppiumDriverLocalService appiumDriverLocalService;
     private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
 
@@ -193,39 +198,72 @@ public class AppiumDriver implements DeviceDriver {
 //                .perform();
     }
 
+
+
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
-        int width = driver.manage().window().getSize().width;
-        int height = driver.manage().window().getSize().height;
-        while (true) {
+        int findElementTimes = 0;
+        WebElement scrollView = findScrollRootElement();
+
+        WebElement result = null;
+        // findElements.size
+        while (findElementTimes <= findElementLimitTimes && result == null) {
             try {
-                waitForElement(xPath, 1);
-                break;
-            } catch (TimeoutException e) {
-                scrollToDirection(width, height, direction);
-            } catch (RuntimeException e) {
-                e.printStackTrace();
-                throw e;
+                result = waitForElement(xPath, 1);
+            }catch (TimeoutException e) {
+                scrollToDirection(scrollView, direction);
             }
+            findElementTimes++;
         }
+
+        if (result == null)
+            throw new ElementNotFoundException(xPath, "", "");
     }
 
-    private void scrollToDirection(int width, int height, SwipeElementDirection direction) {
+    private WebElement findScrollRootElement() {
+        WebElement element = null;
+        try {
+            element = findElement("//*[@class='android.widget.ScrollView']");
+        } catch (TimeoutException e) {
+            element = findElement("//*[@class='android.widget.ListView']");
+        }
+        return element;
+    }
+
+    @Override
+    public void waitAndDragElement(String xPath, int xOffset, int yOffset) {
+        WebElement element = waitForElement(xPath);
+        int centerX = element.getLocation().x + element.getSize().width / 2;
+        int centerY = element.getLocation().y + element.getSize().height / 2;
+        new TouchAction(driver)
+                .longPress(centerX, centerY, 300)
+                .waitAction(300)
+                .moveTo(centerX + xOffset, centerY + yOffset)
+                .release()
+                .perform();
+    }
+
+    private void scrollToDirection(WebElement scrollView, SwipeElementDirection direction) {
+        int x = scrollView.getLocation().x;
+        int y = scrollView.getLocation().y;
+        int width = scrollView.getSize().width;
+        int height = scrollView.getSize().height;
+
         switch (direction) {
             case UP:
-                driver.swipe(width / 2, (int) (height * 0.4), width / 2, (int) (height * 0.6), DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + width / 2, y + (int) (height * 0.2), x + width / 2, y + (int) (height * 0.8), DEFAULT_SWIPE_DURATION);
                 break;
 
             case LEFT:
-                driver.swipe((int) (width * 0.6), height / 2, (int) (width * 0.4), height / 2, DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + (int) (width * 0.8), y + height / 2, x + (int) (width * 0.2), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
 
             case RIGHT:
-                driver.swipe((int) (width * 0.4), height / 2, (int) (width * 0.6), height / 2, DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + (int) (width * 0.2), y + height / 2, x + (int) (width * 0.8), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
 
             case DOWN:
-                driver.swipe(width / 2, (int) (height * 0.6), width / 2, (int) (height * 0.4), DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + width / 2, y + (int) (height * 0.8), x + width / 2, y + (int) (height * 0.2), DEFAULT_SWIPE_DURATION);
                 break;
         }
     }

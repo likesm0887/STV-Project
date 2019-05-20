@@ -1,6 +1,7 @@
 package useCase.command;
 
 import adapter.device.DeviceDriver;
+import org.apache.xmlbeans.impl.xb.xsdschema.FieldDocument;
 
 public class CommandFactory {
     private DeviceDriver deviceDriver;
@@ -19,7 +20,15 @@ public class CommandFactory {
             case "Delete":
                 return this.createDeleteCommand(xPath, parameter);
             case "Scroll":
-                return this.createScrollToElement(xPath, parameter);
+                return this.createScrollToElementCommand(xPath, parameter);
+            case "ScrollAndClickTimeZone":
+                return this.createScrollAndClickTimeZoneCommand(xPath, parameter);
+            case "ClickCalenderYear":
+                return this.createScrollToCalenderYearAndClickCommand(xPath, parameter);
+            case "MoveDown":
+                return this.createMoveDownCommand(xPath);
+            case "MoveUp":
+                return this.createMoveUpCommand(xPath);
             case "AssertExist":
             return this.createAssertExistCommand(xPath);
             case "AssertText":
@@ -33,8 +42,24 @@ public class CommandFactory {
         throw new RuntimeException("Unexpected command type");
     }
 
-    private Command createScrollToElement(String xPath, String parameter) {
+    private Command createMoveUpCommand(String xPath) {
+        return new MoveUpCommand(deviceDriver, xPath);
+    }
+
+    private Command createMoveDownCommand(String xPath) {
+        return new MoveDownCommand(deviceDriver, xPath);
+    }
+
+    private Command createScrollAndClickTimeZoneCommand(String xPath, String parameter) {
+        return new ScrollAndClickTimeZoneCommand(deviceDriver, xPath, parameter);
+    }
+
+    private Command createScrollToElementCommand(String xPath, String parameter) {
         return new ScrollToElementCommand(deviceDriver, xPath, parameter);
+    }
+
+    private Command createScrollToCalenderYearAndClickCommand(String xPath, String parameter) {
+        return new ScrollToCalenderYearAndClickCommand(deviceDriver, xPath, parameter);
     }
 
     public CommandFactory(DeviceDriver deviceDriver) {

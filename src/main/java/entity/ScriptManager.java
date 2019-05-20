@@ -14,10 +14,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -49,8 +48,6 @@ public class ScriptManager {
         List<Instruction> instructions = null;
         try {
             instructions = new ScriptParser().parse(path);
-        } catch (AssertException e) {
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,11 +60,10 @@ public class ScriptManager {
     }
 
     public List<Path> getAllFilesPath(String rootPath) throws IOException {
-        List<Path> allFilePath = new ArrayList<>();
-        Stream<Path> paths = Files.walk(Paths.get(rootPath))
-                                .filter(path -> path.toString().endsWith(".txt"));
-        paths.forEach(path -> allFilePath.add(path));
-        return allFilePath;
+        return Files.walk(Paths.get(rootPath))
+                .filter(path -> path.toString().endsWith(".txt"))
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     public boolean isExist(String scriptPath) {
@@ -88,7 +84,7 @@ public class ScriptManager {
             } catch (AssertException e) {
                 scriptResult.scriptFailed(e.getMessage());
             } catch (Exception e) {
-                scriptResult.scriptFailed(e.getMessage());
+                e.printStackTrace();
             }
         }
     }
