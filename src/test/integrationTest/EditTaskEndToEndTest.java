@@ -1,3 +1,5 @@
+package integrationTest;
+
 import adapter.CommandMapper;
 import adapter.device.AppiumDriver;
 import adapter.device.DeviceDriver;
@@ -19,7 +21,7 @@ public class EditTaskEndToEndTest {
 
     @Before
     public void setUp() {
-        Config config = new Config("Android Emulator", "emulator-5554", 8, 5000, "emulator-5554", "emulator-5554");
+        Config config = new Config("Android Emulator", "emulator-5554", 9, 5000, "emulator-5554", "emulator-5554");
         driver = new AppiumDriver(config);
         driver.startService();
 
@@ -46,11 +48,8 @@ public class EditTaskEndToEndTest {
     }
 
 
-
-
-
     private void ClickTaskListBy(String taskListName) {
-        String script = String.format("TaskList\tClick\ttask{%s}", taskListName);
+        String script = String.format("TaskList\tClick\tfolder{%s}", taskListName);
         scriptGenerator.executeInstruction(script);
     }
 
@@ -99,12 +98,14 @@ public class EditTaskEndToEndTest {
     }
 
     private void SelectPriorityDropDownBy(String status) {
+        ScrollToElement("EditTasks", "Down", "priority_dropdown");
         scriptGenerator.executeInstruction("EditTasks\tClick\tpriority_dropdown");
         String script = String.format("EditTasks\tClick\t%s", status);
         scriptGenerator.executeInstruction(script);
     }
 
     private void SelectPrivacyDropDownBy(String status) {
+        ScrollToElement("EditTasks", "Down", "privacy_dropdown");
         scriptGenerator.executeInstruction("EditTasks\tClick\tprivacy_dropdown");
         String script = String.format("EditTasks\tClick\t%s", status);
         scriptGenerator.executeInstruction(script);
@@ -138,14 +139,22 @@ public class EditTaskEndToEndTest {
         scriptGenerator.executeInstruction("EditTasks\tClick\tdue_time");
     }
 
-
-    // slide down or up
-    private void EnterCalendarYear(int year) {
+    private void ScrollToCalenderYear(int year) {
         scriptGenerator.executeInstruction("EditTasks\tClick\tcalendar_year_picker");
 
         String str_year = Integer.toString(year);
 
-        String script = String.format("EditTasks\tClick\tcalendar_pick_year{%s}", str_year);
+        String script = String.format("EditTasks\tClickCalenderYear{%s}\tcalendar_pick_year{%s}", str_year, str_year);
+        scriptGenerator.executeInstruction(script);
+    }
+
+    // slide down or up
+    private void ClickCalendarYear(int year) {
+        scriptGenerator.executeInstruction("EditTasks\tClick\tcalendar_year_picker");
+
+        String str_year = Integer.toString(year);
+
+        String script = String.format("EditTasks\tClickCalenderYear{%s}\tcalendar_pick_year{%s}", "Down", str_year);
         scriptGenerator.executeInstruction(script);
     }
 
@@ -156,11 +165,12 @@ public class EditTaskEndToEndTest {
     }
 
     // count the distance from origin month to target month
+
     private void EnterCalendarMonth(int month) {
         if (month < 1 || month > 12)
             throw new IllegalArgumentException("Month must in the middle of one and twelve");
 
-        int currentMonth = 4;
+        int currentMonth = 5;
 
         if (currentMonth == month)
             return;
@@ -191,21 +201,24 @@ public class EditTaskEndToEndTest {
     }
 
     private void ClickCompletedDate() {
+        ScrollToElement("EditTasks", "Down", "complete_date");
         scriptGenerator.executeInstruction("EditTasks\tClick\tcomplete_date");
     }
 
     private void ClickCompletedTime() {
+        ScrollToElement("EditTasks", "Down", "complete_time");
         scriptGenerator.executeInstruction("EditTasks\tClick\tcomplete_time");
     }
-
     private void EnterCalendar(int year, int month, int date) {
-        EnterCalendarYear(year);
+//        ScrollToCalenderYear(year);
+        ClickCalendarYear(year);
         EnterCalendarMonth(month);
         EnterCalendarDay(date);
         SaveCalendar();
     }
 
     //.......
+
     private void EnterTime(int choice, int hour, int minute) {
         EnterAMOrPM(choice);
         EnterTimeHour(hour);
@@ -240,16 +253,37 @@ public class EditTaskEndToEndTest {
     private void SaveTime() {
         scriptGenerator.executeInstruction("EditTasks\tClick\ttime_ok_btn");
     }
+    private void ScrollAndClickAllDayCheckBox() {
+        String scrollScript = "EditTasks\tScroll{DOWN}\tall_day_checkbox";
+        scriptGenerator.executeInstruction(scrollScript);
+
+        String clickAllDayScript = "EditTasks\tClick\tall_day_checkbox";
+        scriptGenerator.executeInstruction(clickAllDayScript);
+    }
+
+    private void ScrollToElement(String activity, String direction, String element) {
+        String script = String.format("%s\tScroll{%s}\t%s", activity, direction, element);
+        System.out.println(script);
+        scriptGenerator.executeInstruction(script);
+    }
+
+    private void ScrollToElement(String activity, String direction, String element, String parameter) {
+        String script = String.format("%s\tScroll{%s}\t%s{%s}", activity, direction, element, parameter);
+        scriptGenerator.executeInstruction(script);
+    }
 
     private void Swipe() {
         scriptGenerator.executeInstruction("EditTasks\tSwipeElement\ttask{My tasks}");
     }
-
     // swipe
     // timer: draggable, xpath
+
     // year
+
     // url xpath has problem
+
     // privacy dropdown xpath: PULL
+
     @Test
     public void editTask() {
 
@@ -258,7 +292,7 @@ public class EditTaskEndToEndTest {
         CreateNewTaskQuicklyBy("task");
         ClickTaskBy("task");
         ClickEditTaskButton();
-
+//
         EnterTaskTitle("BIBI");
         SelectStatusDropDownBy("status_options_cancelled");
 
@@ -266,18 +300,65 @@ public class EditTaskEndToEndTest {
         EnterDescription("TW is Good");
 
         ClickStartDate();
-        EnterCalendar(2020, 1, 22);
+        EnterCalendar(2040, 1, 22);
         //todo need scroll
         ClickDueTime();
         EnterTime(0, 10, 05);
 
-
         ClickDueDate();
-        EnterCalendar(2019, 4, 23);
+        EnterCalendar(2040, 4, 23);
 
-//        SelectPriorityDropDownBy("priority_options_none");
+        ScrollToElement("EditTasks", "DOWN", "time_zone_dropdown");
 
+        ClickTimeZone();
+        EnterTimeZone("DOWN", "(GMT+08:00) Taipei");
+
+        ClickCompletedDate();
+        EnterCalendar(2040, 8, 05);
+
+        ClickCompletedTime();
+        EnterTime(0, 10, 05);
+        SelectPriorityDropDownBy("priority_options_low");
+        SelectPrivacyDropDownBy("privacy_options_public");
+        EnterTaskURL("1234");
         SaveEditTask();
+
+        ClickAddCheckItem();
+        CreateCheckItem("taskItem1", 0);
+        ClickAddCheckItem();
+        CreateCheckItem("taskItem2", 1);
+        ClickAddCheckItem(); // todo need to enter
+        MoveUpCheckItem(1);
+        MoveDownCheckItem(0);
+
+    }
+
+    private void MoveDownCheckItem(int index) {
+        String script = String.format("ViewTask\tMoveDown\tcheck_list_drag_handle{%s}", index);
+        scriptGenerator.executeInstruction(script);
+    }
+
+    private void MoveUpCheckItem(int index) {
+        String script = String.format("ViewTask\tMoveUp\tcheck_list_drag_handle{%s}", index);
+        scriptGenerator.executeInstruction(script);
+    }
+
+    private void ClickAddCheckItem() {
+        scriptGenerator.executeInstruction("ViewTask\tClick\tcheck_list_add_item");
+    }
+
+    private void CreateCheckItem(String taskItem1, int index) {
+        String script = String.format("ViewTask\tTypeText{%s}\tcheck_list_editText{%s}", taskItem1, index);
+        scriptGenerator.executeInstruction(script);
+    }
+
+    private void ClickTimeZone() {
+        scriptGenerator.executeInstruction("EditTasks\tClick\ttime_zone_dropdown");
+    }
+
+    private void EnterTimeZone(String direction, String timeZone) {
+        String script = String.format("EditTasks\tScrollAndClickTimeZone{%s}\ttime_zone_options{%s}", direction, timeZone);
+        scriptGenerator.executeInstruction(script);
     }
 
 

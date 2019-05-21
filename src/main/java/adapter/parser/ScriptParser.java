@@ -20,7 +20,7 @@ public class ScriptParser {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(scriptPath));
         while (bufferedReader.ready()) {
             String line = bufferedReader.readLine();
-            if (!line.isEmpty()) {
+            if (!line.isEmpty() && !isCommentInstruction(line)) {
                 instructions.add(parseLineOfScript(line));
             }
         }
@@ -36,7 +36,7 @@ public class ScriptParser {
     }
 
     public Instruction parseLineOfScript(String line) {
-        if (Objects.nonNull(line) && line.isEmpty())
+        if (Objects.nonNull(line) && (line.isEmpty() || isCommentInstruction(line)))
             return null;
 
         List<String> lineChunks = splitLineOfScript(line);
@@ -77,6 +77,10 @@ public class ScriptParser {
         if (allMatches.size() > 0)
             return allMatches.get(0);
         return null;
+    }
+
+    private boolean isCommentInstruction(String line){
+        return line.startsWith("#");
     }
 
 }

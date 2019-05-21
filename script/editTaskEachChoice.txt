@@ -1,0 +1,141 @@
+#add new task in folder "My task"
+TaskList	Click	folder{My tasks}
+TaskList	Click	quick_add_btn{0}
+TaskList	TypeText{Each Choice}	quick_add_editText
+TaskList	Click	quick_add_edit_btn
+
+#select folder
+EditTasks   Click   folder_dropdown
+EditTasks   Click   folder{My tasks}
+
+#select Status in process
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_in_process
+
+#select Status done
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_done
+
+#select Status cancelled
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_cancelled
+
+#select Status needs action
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_needs_action
+
+#Location input
+EditTasks	TypeText{A place}	location_editText
+
+#Description input
+EditTasks	TypeText{each choice method}	description_editText
+
+#check list
+EditTasks	TypeText{check list 1}	check_list_editText{0}
+EditTasks	TypeText{check list 2}	check_list_editText{1}
+EditTasks   Click   check_list_checkBox{0}
+
+#start date
+EditTasks	Click	start_date
+EditTasks	Click	calendar_previous_month
+EditTasks	Click	calendar_next_month
+EditTasks	Click	calendar_year_picker
+EditTasks	Click	calendar_pick_year{2023}
+EditTasks	Click	calendar_year_picker
+EditTasks	Click	calendar_date_picker
+EditTasks	Click	calendar_pick_date{30}
+EditTasks	Click	calendar_ok_btn
+EditTasks	Click	start_date
+EditTasks   Click   calendar_cancel_btn
+
+#start time
+EditTasks	Click	start_time
+EditTasks	Click	time_PM_label
+EditTasks	Click	time_AM_label
+EditTasks	Click	time_clock_minutes
+EditTasks	Click	time_clock_pick_minutes{25}
+EditTasks	Click	time_clock_hours
+EditTasks	Click	time_clock_pick_hours{11}
+#toggle mode
+EditTasks	Click	time_toggle_mode
+EditTasks	Click	time_AMPM_dropdown
+EditTasks	Click	time_options_AM
+EditTasks	Click	time_AMPM_dropdown
+EditTasks	Click	time_options_PM
+EditTasks	Click	time_ok_btn
+
+#datetime remove
+EditTasks	Click	start_datetime_remove
+
+#due date
+EditTasks	Click	due_date
+EditTasks	Click	calendar_ok_btn
+
+#due time
+EditTasks	Click	due_time
+EditTasks	Click	time_cancel_btn
+
+#datetime remove
+
+
+#all day
+EditTasks	Click	all_day_checkbox
+EditTasks	Click	all_day_checkbox
+
+#due datetime remove
+EditTasks	Click	due_datetime_remove
+
+#time zone
+EditTasks	Click	time_zone_dropdown
+EditTasks   Click   time_zone_options{Taipei}
+EditTasks	Click	time_zone_dropdown
+EditTasks   Click   time_zone_options{Tokyo}
+
+#complete date
+EditTasks   Click   complete_date
+EditTasks   Click   calendar_ok_btn
+
+#complete time
+EditTasks   Click   complete_time
+EditTasks   Click   time_ok_btn
+
+#complete datetime remove
+EditTasks   Click   complete_datetime_remove
+
+#priority low
+EditTasks   Click   priority_dropdown
+EditTasks   Click   priority_options_low
+
+#priority medium
+EditTasks   Click   priority_dropdown
+EditTasks   Click   priority_options_medium
+
+#priority high
+EditTasks   Click   priority_dropdown
+EditTasks   Click   priority_options_high
+
+#priority none
+EditTasks   Click   priority_dropdown
+EditTasks   Click   priority_options_none
+
+#privacy confidential
+EditTasks   Click   privacy_dropdown
+EditTasks   Click   privacy_options_confidential
+
+#privacy private
+EditTasks   Click   privacy_dropdown
+EditTasks   Click   privacy_options_private
+
+#privacy public
+EditTasks   Click   privacy_dropdown
+EditTasks   Click   privacy_options_public
+
+#privacy not specified
+EditTasks   Click   privacy_dropdown
+EditTasks   Click   privacy_options_not_specified
+
+#url
+EditTasks   TypeText{www.hyperlink.com}   URL_editText
+
+#save
+EditTasks   Click   save_task_btn

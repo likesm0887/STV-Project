@@ -1,6 +1,7 @@
 package useCase.command;
 
 import adapter.device.DeviceDriver;
+import org.apache.xmlbeans.impl.xb.xsdschema.FieldDocument;
 
 public class CommandFactory {
     private DeviceDriver deviceDriver;
@@ -12,12 +13,24 @@ public class CommandFactory {
                 return this.createTypeTextCommand(xPath, parameter);
             case "Restart":
                 return this.createRestartCommand();
+            case "RestartAndClean":
+                return this.createRestartAndCleanCommand();
             case "LaunchApp":
                 return this.createLaunchAppCommand();
             case "Rotate":
                 return this.createRotateCommand();
             case "Delete":
                 return this.createDeleteCommand(xPath, parameter);
+            case "Scroll":
+                return this.createScrollToElementCommand(xPath, parameter);
+            case "ScrollAndClickTimeZone":
+                return this.createScrollAndClickTimeZoneCommand(xPath, parameter);
+            case "ClickCalenderYear":
+                return this.createScrollToCalenderYearAndClickCommand(xPath, parameter);
+            case "MoveDown":
+                return this.createMoveDownCommand(xPath);
+            case "MoveUp":
+                return this.createMoveUpCommand(xPath);
             case "AssertExist":
                 return this.createAssertExistCommand(xPath);
             case "AssertText":
@@ -26,9 +39,31 @@ public class CommandFactory {
                 return this.createAssertCounts(xPath, parameter);
             case "AssertActivity":
                 return this.createAssertActivityCommand(parameter);
+            case "PressPercentage":
+                return this.createPressPercentageCommand(xPath, parameter);
         }
 
         throw new RuntimeException("Unexpected command type");
+    }
+
+    private Command createMoveUpCommand(String xPath) {
+        return new MoveUpCommand(deviceDriver, xPath);
+    }
+
+    private Command createMoveDownCommand(String xPath) {
+        return new MoveDownCommand(deviceDriver, xPath);
+    }
+
+    private Command createScrollAndClickTimeZoneCommand(String xPath, String parameter) {
+        return new ScrollAndClickTimeZoneCommand(deviceDriver, xPath, parameter);
+    }
+
+    private Command createScrollToElementCommand(String xPath, String parameter) {
+        return new ScrollToElementCommand(deviceDriver, xPath, parameter);
+    }
+
+    private Command createScrollToCalenderYearAndClickCommand(String xPath, String parameter) {
+        return new ScrollToCalenderYearAndClickCommand(deviceDriver, xPath, parameter);
     }
 
     public CommandFactory(DeviceDriver deviceDriver) {
@@ -43,8 +78,16 @@ public class CommandFactory {
         return new TypeTextCommand(deviceDriver, xPath, text);
     }
 
+    private Command createPressPercentageCommand(String xPath, String parameter) {
+        return new PressPercentageCommand(deviceDriver, xPath, parameter);
+    }
+
     private Command createRestartCommand() {
         return new RestartCommand(deviceDriver);
+    }
+
+    private Command createRestartAndCleanCommand() {
+        return new RestartAndCleanCommand(deviceDriver);
     }
 
     private Command createLaunchAppCommand() {

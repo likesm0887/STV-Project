@@ -59,6 +59,18 @@ public class CommandTest {
     }
 
     @Test
+    public void DriverScrollToElementCommandExecute() {
+        SwipeElementDirection swipeElementDirection = SwipeElementDirection.UP;
+        ScrollToCalenderYearAndClickCommand scrollToCalenderYearAndClickCommand = new ScrollToCalenderYearAndClickCommand(mockDeviceDriver, xPath, "up");
+
+        context.checking(new Expectations() {{
+            oneOf(mockDeviceDriver).waitAndScrollToElement(xPath, swipeElementDirection);
+        }});
+
+        scrollToCalenderYearAndClickCommand.execute();
+    }
+
+    @Test
     public void DriverRotationWhenRotationCommandExecute() {
         RotateCommand rotateCommand = new RotateCommand(mockDeviceDriver);
 
@@ -74,10 +86,21 @@ public class CommandTest {
         RestartCommand restartCommand = new RestartCommand(mockDeviceDriver);
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).restartAppAndCleanData();
+            oneOf(mockDeviceDriver).restartApp();
         }});
 
         restartCommand.execute();
+    }
+
+    @Test
+    public void DriverRestartAndCleanAppDataWhenRestartAndCleanCommandExecute() {
+        RestartAndCleanCommand restartAndCleanCommand = new RestartAndCleanCommand(mockDeviceDriver);
+
+        context.checking(new Expectations() {{
+            oneOf(mockDeviceDriver).restartAppAndCleanData();
+        }});
+
+        restartAndCleanCommand.execute();
     }
 
     @Test
@@ -111,7 +134,6 @@ public class CommandTest {
         List<MobileElement> mobileElementList = new ArrayList<MobileElement>();
 
         context.checking(new Expectations() {{
-
             oneOf(mockDeviceDriver).waitForElements(xPath);
             will(returnValue(mobileElementList));
         }});
@@ -119,4 +141,25 @@ public class CommandTest {
         findElementListCommand.execute();
     }
 
+    @Test
+    public void executeAssertCountCommand() {
+        AssertCountCommand assertCountCommand = new AssertCountCommand(mockDeviceDriver, xPath, "1");
+
+        context.checking(new Expectations() {{
+            oneOf(mockDeviceDriver).assertElementCount(xPath, 1);
+        }});
+
+        assertCountCommand.execute();
+    }
+
+    @Test
+    public void executeAssertExistCommand() {
+        AssertExistCommand assertExistCommand = new AssertExistCommand(mockDeviceDriver, xPath);
+
+        context.checking(new Expectations() {{
+            oneOf(mockDeviceDriver).assertExist(xPath);
+        }});
+
+        assertExistCommand.execute();
+    }
 }

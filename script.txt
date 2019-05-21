@@ -11,7 +11,9 @@ EditTasks	TypeText{TW}	location_editText
 EditTasks	TypeText{TW is Good}	description_editText
 EditTasks	Click	start_date
 EditTasks	Click	calendar_year_picker
-EditTasks	Click	calendar_pick_year{2020}
+EditTasks	Scroll{DOWN}	calendar_pick_year{2040}
+EditTasks	Click	calendar_pick_year{2040}
+EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_previous_month
@@ -24,7 +26,11 @@ EditTasks	Click	time_clock_pick_minutes{5}
 EditTasks	Click	time_ok_btn
 EditTasks	Click	due_date
 EditTasks	Click	calendar_year_picker
-EditTasks	Click	calendar_pick_year{2019}
+EditTasks	Scroll{DOWN}	calendar_pick_year{2040}
+EditTasks	Click	calendar_pick_year{2040}
+EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_pick_date{23}
 EditTasks	Click	calendar_ok_btn
-EditTasks	Click	save_task_btn
+EditTasks	Scroll{DOWN}	all_day_checkbox
+EditTasks	Click	all_day_checkbox
+EditTasks	Click	complete_date

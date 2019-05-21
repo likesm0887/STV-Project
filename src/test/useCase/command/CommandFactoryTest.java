@@ -61,6 +61,13 @@ public class CommandFactoryTest {
     }
 
     @Test
+    public void createRestartAndCleanCommand() {
+        Command restartAndCleanCommand = commandFactory.createCommand("RestartAndClean", "", "");
+
+        assertTrue(restartAndCleanCommand instanceof RestartAndCleanCommand);
+    }
+
+    @Test
     public void createAssertExistCommand() {
         Command assertExistCommand = commandFactory.createCommand("AssertExist", xPath, "");
 

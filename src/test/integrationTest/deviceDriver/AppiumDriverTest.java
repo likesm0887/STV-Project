@@ -137,8 +137,17 @@ public class AppiumDriverTest {
     public void assertActivityFailTest() {
         appiumDriver.assertActivity("errorActivity");
     }
+
     @Test
     public void assertActivityTest() {
         appiumDriver.assertActivity("TaskListActivity");
+    }
+
+    @Test
+    public void pressPercentage() {
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
+        appiumDriver.waitFor(3000);
+        appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
+        appiumDriver.waitFor(3000);
     }
 }
