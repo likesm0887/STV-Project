@@ -10,8 +10,8 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(JMock.class)
 public class CommandTest {

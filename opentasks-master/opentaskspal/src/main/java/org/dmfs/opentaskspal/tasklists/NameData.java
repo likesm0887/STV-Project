@@ -17,7 +17,6 @@
 package org.dmfs.opentaskspal.tasklists;
 
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.RowData;
 import org.dmfs.android.contentpal.rowdata.CharSequenceRowData;
 import org.dmfs.android.contentpal.rowdata.DelegatingRowData;

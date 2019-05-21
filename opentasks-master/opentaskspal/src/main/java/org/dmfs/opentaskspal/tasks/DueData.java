@@ -18,7 +18,6 @@ package org.dmfs.opentaskspal.tasks;
 
 import android.content.ContentProviderOperation;
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.RowData;
 import org.dmfs.android.contentpal.TransactionContext;
 import org.dmfs.rfc5545.DateTime;

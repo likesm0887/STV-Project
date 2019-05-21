@@ -18,19 +18,17 @@ package org.dmfs.tasks.share;
 
 import android.content.Context;
 import android.util.Log;
-
+import au.com.codeka.carrot.CarrotEngine;
+import au.com.codeka.carrot.CarrotException;
+import au.com.codeka.carrot.Configuration;
+import au.com.codeka.carrot.bindings.Composite;
+import au.com.codeka.carrot.bindings.SingletonBindings;
 import org.dmfs.android.carrot.bindings.AndroidBindings;
 import org.dmfs.android.carrot.locaters.RawResourceLocator;
 import org.dmfs.jems.single.Single;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.Model;
-
-import au.com.codeka.carrot.CarrotEngine;
-import au.com.codeka.carrot.CarrotException;
-import au.com.codeka.carrot.Configuration;
-import au.com.codeka.carrot.bindings.Composite;
-import au.com.codeka.carrot.bindings.SingletonBindings;
 
 /*
  <task title>

@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.processors.tasks.instancedata;
 
 import android.content.ContentValues;
-
 import org.dmfs.jems.optional.Optional;
 import org.dmfs.jems.single.Single;
 import org.dmfs.jems.single.decorators.DelegatingSingle;

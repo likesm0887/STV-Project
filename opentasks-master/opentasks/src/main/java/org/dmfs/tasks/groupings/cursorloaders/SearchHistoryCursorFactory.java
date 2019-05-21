@@ -18,7 +18,6 @@ package org.dmfs.tasks.groupings.cursorloaders;
 
 import android.content.Context;
 import android.database.Cursor;
-
 import org.dmfs.tasks.utils.SearchHistoryHelper;
 
 

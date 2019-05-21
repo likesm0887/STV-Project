@@ -1,25 +1,19 @@
 package adapter.scriptGenerator;
 
 import adapter.Instruction;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import useCase.command.ClickCommand;
 import useCase.command.Command;
-import useCase.command.ICommand;
 import useCase.command.NullCommand;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
 
 @RunWith(JMock.class)
 public class ScriptGeneratorTest {
@@ -71,11 +65,8 @@ public class ScriptGeneratorTest {
 
         assertThat(scriptGenerator.instructionSize(), equalTo(6));
 
-
         scriptGenerator.removeInstruction();
 
         assertThat(scriptGenerator.instructionSize(), equalTo(3));
     }
-
-
 }

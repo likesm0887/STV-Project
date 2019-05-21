@@ -21,7 +21,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-
 import org.dmfs.provider.tasks.AuthorityUtil;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract;

@@ -18,7 +18,6 @@ package org.dmfs.tasks.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-
 import org.dmfs.jems.single.Single;
 
 

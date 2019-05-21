@@ -17,7 +17,6 @@
 package org.dmfs.tasks.notification.signals;
 
 import android.app.Notification;
-
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;

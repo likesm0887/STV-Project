@@ -20,15 +20,9 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.accounts.AuthenticatorDescription;
 import android.accounts.OnAccountsUpdateListener;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SyncAdapterType;
+import android.content.*;
 import android.text.TextUtils;
 import android.util.Log;
-
 import org.dmfs.provider.tasks.AuthorityUtil;
 import org.dmfs.tasks.contract.TaskContract;
 import org.dmfs.tasks.utils.AsyncModelLoader;

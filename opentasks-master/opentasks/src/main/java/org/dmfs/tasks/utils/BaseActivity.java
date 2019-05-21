@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
 import org.dmfs.android.retentionmagic.RetentionMagic;
 import org.dmfs.tasks.utils.permission.BasicAppPermissions;
 import org.dmfs.tasks.utils.permission.Permission;

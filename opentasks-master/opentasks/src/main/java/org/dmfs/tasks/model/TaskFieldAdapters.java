@@ -17,22 +17,9 @@
 package org.dmfs.tasks.model;
 
 import android.text.format.Time;
-
 import org.dmfs.tasks.contract.TaskContract;
 import org.dmfs.tasks.contract.TaskContract.Tasks;
-import org.dmfs.tasks.model.adapters.BooleanFieldAdapter;
-import org.dmfs.tasks.model.adapters.ChecklistFieldAdapter;
-import org.dmfs.tasks.model.adapters.ColorFieldAdapter;
-import org.dmfs.tasks.model.adapters.CustomizedDefaultFieldAdapter;
-import org.dmfs.tasks.model.adapters.DescriptionStringFieldAdapter;
-import org.dmfs.tasks.model.adapters.FieldAdapter;
-import org.dmfs.tasks.model.adapters.FloatFieldAdapter;
-import org.dmfs.tasks.model.adapters.FormattedStringFieldAdapter;
-import org.dmfs.tasks.model.adapters.IntegerFieldAdapter;
-import org.dmfs.tasks.model.adapters.StringFieldAdapter;
-import org.dmfs.tasks.model.adapters.TimeFieldAdapter;
-import org.dmfs.tasks.model.adapters.TimezoneFieldAdapter;
-import org.dmfs.tasks.model.adapters.UriFieldAdapter;
+import org.dmfs.tasks.model.adapters.*;
 import org.dmfs.tasks.model.constraints.AdjustPercentComplete;
 import org.dmfs.tasks.model.constraints.After;
 import org.dmfs.tasks.model.constraints.BeforeOrShiftTime;

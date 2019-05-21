@@ -17,7 +17,6 @@
 package org.dmfs.opentaskspal.rowsets;
 
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.Projection;
 import org.dmfs.android.contentpal.RowReference;
 import org.dmfs.android.contentpal.RowSet;

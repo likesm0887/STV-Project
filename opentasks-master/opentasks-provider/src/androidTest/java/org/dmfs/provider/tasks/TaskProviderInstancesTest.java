@@ -23,16 +23,10 @@ import android.os.Build;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-
 import org.dmfs.android.contentpal.Operation;
 import org.dmfs.android.contentpal.OperationsQueue;
 import org.dmfs.android.contentpal.RowSnapshot;
-import org.dmfs.android.contentpal.operations.Assert;
-import org.dmfs.android.contentpal.operations.BulkAssert;
-import org.dmfs.android.contentpal.operations.BulkDelete;
-import org.dmfs.android.contentpal.operations.Counted;
-import org.dmfs.android.contentpal.operations.Delete;
-import org.dmfs.android.contentpal.operations.Put;
+import org.dmfs.android.contentpal.operations.*;
 import org.dmfs.android.contentpal.queues.BasicOperationsQueue;
 import org.dmfs.android.contentpal.rowdata.CharSequenceRowData;
 import org.dmfs.android.contentpal.rowdata.Composite;

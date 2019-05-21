@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.processors.tasks.instancedata;
 
 import android.content.ContentValues;
-
 import org.dmfs.tasks.contract.TaskContract;
 import org.junit.Test;
 import org.junit.runner.RunWith;

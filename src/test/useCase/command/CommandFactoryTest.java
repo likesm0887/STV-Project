@@ -1,12 +1,10 @@
 package useCase.command;
 
 import adapter.device.DeviceDriver;
-import io.appium.java_client.SwipeElementDirection;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.ScreenOrientation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class CommandFactoryTest {
     private String xPath = "//*[@class='a']";

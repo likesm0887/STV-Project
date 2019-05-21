@@ -17,7 +17,6 @@
 package org.dmfs.tasks.model.adapters;
 
 import android.database.Cursor;
-
 import org.dmfs.tasks.model.ContentSet;
 
 

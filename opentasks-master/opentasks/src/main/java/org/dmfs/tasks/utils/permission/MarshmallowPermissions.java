@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-
 import org.dmfs.iterators.decorators.Filtered;
 import org.dmfs.iterators.filters.AnyOf;
 import org.dmfs.tasks.utils.permission.utils.ManifestPermissionStrings;

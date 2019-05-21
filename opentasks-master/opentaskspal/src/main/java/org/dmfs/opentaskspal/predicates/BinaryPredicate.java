@@ -17,7 +17,6 @@
 package org.dmfs.opentaskspal.predicates;
 
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.Predicate;
 import org.dmfs.android.contentpal.TransactionContext;
 import org.dmfs.iterables.elementary.Seq;

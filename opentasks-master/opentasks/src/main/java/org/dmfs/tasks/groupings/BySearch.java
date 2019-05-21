@@ -29,21 +29,14 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.dmfs.jems.optional.elementary.NullSafe;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract.Instances;
 import org.dmfs.tasks.contract.TaskContract.Tasks;
 import org.dmfs.tasks.groupings.cursorloaders.SearchHistoryCursorLoaderFactory;
 import org.dmfs.tasks.model.TaskFieldAdapters;
-import org.dmfs.tasks.utils.ExpandableChildDescriptor;
-import org.dmfs.tasks.utils.ExpandableGroupDescriptor;
-import org.dmfs.tasks.utils.ExpandableGroupDescriptorAdapter;
-import org.dmfs.tasks.utils.SearchChildDescriptor;
-import org.dmfs.tasks.utils.SearchHistoryDatabaseHelper;
+import org.dmfs.tasks.utils.*;
 import org.dmfs.tasks.utils.SearchHistoryDatabaseHelper.SearchHistoryColumns;
-import org.dmfs.tasks.utils.SearchHistoryHelper;
-import org.dmfs.tasks.utils.ViewDescriptor;
 import org.dmfs.tasks.widget.ProgressBackgroundView;
 
 

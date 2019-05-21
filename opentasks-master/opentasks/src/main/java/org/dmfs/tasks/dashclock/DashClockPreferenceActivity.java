@@ -19,7 +19,6 @@ package org.dmfs.tasks.dashclock;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.utils.BaseActivity;
 

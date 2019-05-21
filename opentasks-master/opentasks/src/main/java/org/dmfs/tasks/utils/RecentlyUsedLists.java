@@ -18,7 +18,6 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-
 import org.dmfs.iterables.Split;
 import org.dmfs.iterables.decorators.Fluent;
 import org.dmfs.jems.optional.Optional;

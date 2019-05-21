@@ -19,7 +19,6 @@ package org.dmfs.opentaskspal.rowdata;
 import android.content.ContentProviderOperation;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
 import org.dmfs.android.contentpal.RowData;
 import org.dmfs.android.contentpal.TransactionContext;
 import org.dmfs.jems.iterable.decorators.Mapped;

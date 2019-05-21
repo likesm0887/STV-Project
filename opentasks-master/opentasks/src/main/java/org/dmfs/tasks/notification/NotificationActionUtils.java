@@ -35,7 +35,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.widget.RemoteViews;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.notification.signals.Conditional;
 import org.dmfs.tasks.notification.signals.NoSignal;

@@ -19,7 +19,6 @@ package org.dmfs.tasks.utils.permission.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
 import org.dmfs.iterators.elementary.Seq;
 
 import java.util.Iterator;

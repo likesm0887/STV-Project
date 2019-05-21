@@ -19,7 +19,6 @@ package org.dmfs.tasks.model.adapters;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.text.format.Time;
-
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.OnContentChangeListener;
 

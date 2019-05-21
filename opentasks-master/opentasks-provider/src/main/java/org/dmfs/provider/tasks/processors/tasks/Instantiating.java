@@ -19,7 +19,6 @@ package org.dmfs.provider.tasks.processors.tasks;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.dmfs.jems.iterable.composite.Diff;
 import org.dmfs.jems.iterable.decorators.Mapped;
 import org.dmfs.jems.optional.elementary.NullSafe;

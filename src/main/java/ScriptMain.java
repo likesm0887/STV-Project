@@ -9,10 +9,16 @@ import java.util.Scanner;
 
 public class ScriptMain {
 
-    private  static final int EXECUTE_INSTRUCTION = 1;
+    private static final int EXECUTE_INSTRUCTION = 1;
     private static final int EXECUTE_BATCH_INSTRUCTION = 2;
     private static final int EXIT_PROGRAM = 3;
 
+    private static void displayFunctionality() {
+        System.out.println("1. enter script");
+        System.out.println("2. enter batch script");
+        System.out.println("3. stop enter");
+        System.out.print("enter choice: ");
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -27,11 +33,9 @@ public class ScriptMain {
                 break;
 
             if (choice == EXECUTE_INSTRUCTION) {
-                scriptGenerator.switchMode(ScriptGenerator.ExecuteMode.Single);
                 handleExecuteInstruction(scriptGenerator);
             }
             else if (choice == EXECUTE_BATCH_INSTRUCTION) {
-                scriptGenerator.switchMode(ScriptGenerator.ExecuteMode.Batch);
                 handleExecuteBatchInstruction(scriptGenerator);
             }
             else {
@@ -42,50 +46,9 @@ public class ScriptMain {
         handleInstructionSaving(scriptGenerator);
     }
 
-    private static void handleExecuteBatchInstruction(ScriptGenerator scriptGenerator) {
-        System.out.println("Start Enter Batch Instruction: ");
-        System.out.println("Enter exit to stop");
-        while (true) {
-            String instruction = enterString();
-            if (instruction.equalsIgnoreCase("stop"))
-                break;
-
-            try {
-                scriptGenerator.executeInstruction(instruction);
-            } catch (Exception e) {
-
-            }
-        }
-
-        storeInstruction(scriptGenerator);
-    }
-
-    public static void displayFunctionality() {
-        System.out.println("1. enter script");
-        System.out.println("2. enter batch script");
-        System.out.println("3. stop enter");
-        System.out.print("enter choice: ");
-    }
-
-    static int enterChoice() {
-        int choice;
-        while (true) {
-            Scanner in = new Scanner(System.in);
-
-            try {
-                choice = in.nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.print("Invalid input, enter again!: ");
-            }
-        }
-        return choice;
-    }
-
-
-
     private static void handleExecuteInstruction(ScriptGenerator scriptGenerator) {
 
+        scriptGenerator.switchMode(ScriptGenerator.ExecuteMode.Single);
 
         System.out.print("enter script: ");
         String instruction = enterString();
@@ -101,19 +64,29 @@ public class ScriptMain {
         storeInstruction(scriptGenerator);
     }
 
-    private static String enterString() {
+    private static void handleExecuteBatchInstruction(ScriptGenerator scriptGenerator) {
 
-        BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
-        String instruction = "";
-        try {
-            instruction = buf.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        scriptGenerator.switchMode(ScriptGenerator.ExecuteMode.Batch);
+
+        System.out.println("Start Enter Batch Instruction: ");
+        System.out.println("Enter exit to stop");
+
+        while (true) {
+            String instruction = enterString();
+            if (instruction.equalsIgnoreCase("stop"))
+                break;
+
+            try {
+                scriptGenerator.executeInstruction(instruction);
+            } catch (Exception e) {
+
+            }
         }
-        return instruction;
+
+        storeInstruction(scriptGenerator);
     }
 
-    static void storeInstruction(ScriptGenerator scriptGenerator) {
+    private static void storeInstruction(ScriptGenerator scriptGenerator) {
         while (true) {
             String storeChoice = enterStoreChoice();
             if (storeChoice.equalsIgnoreCase("Y")) {
@@ -129,6 +102,32 @@ public class ScriptMain {
         }
     }
 
+    private static String enterString() {
+        BufferedReader buf = new BufferedReader(new InputStreamReader(System.in));
+        String instruction = "";
+        try {
+            instruction = buf.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return instruction;
+    }
+
+    private static int enterChoice() {
+        int choice;
+        while (true) {
+            Scanner in = new Scanner(System.in);
+
+            try {
+                choice = in.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.print("Invalid input, enter again!: ");
+            }
+        }
+        return choice;
+    }
+
     private static String enterStoreChoice() {
         System.out.print("Did you want to store instruction? (Y/N): ");
         Scanner s = new Scanner(System.in);
@@ -136,9 +135,7 @@ public class ScriptMain {
         return storeChoice;
     }
 
-
-    public static void handleInstructionSaving(ScriptGenerator scriptGenerator) {
-
+    private static void handleInstructionSaving(ScriptGenerator scriptGenerator) {
         System.out.print("Did you wanna save file? (Y/N)");
         String choice = enterString();
 

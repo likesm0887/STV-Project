@@ -16,17 +16,10 @@
 
 package org.dmfs.provider.tasks;
 
-import android.content.ContentProvider;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.OperationApplicationException;
+import android.content.*;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-
 import org.dmfs.iterables.SingletonIterable;
 import org.dmfs.jems.fragile.Fragile;
 import org.dmfs.jems.iterable.composite.Joined;

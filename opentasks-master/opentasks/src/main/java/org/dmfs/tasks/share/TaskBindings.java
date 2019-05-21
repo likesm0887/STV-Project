@@ -18,14 +18,12 @@ package org.dmfs.tasks.share;
 
 import android.support.annotation.Nullable;
 import android.text.format.Time;
-
+import au.com.codeka.carrot.Bindings;
 import org.dmfs.iterators.Function;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.Model;
 import org.dmfs.tasks.model.TaskFieldAdapters;
-
-import au.com.codeka.carrot.Bindings;
 
 
 /**

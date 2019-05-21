@@ -18,7 +18,6 @@ package org.dmfs.provider.tasks.model.adapters;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import org.dmfs.rfc5545.recur.InvalidRecurrenceRuleException;
 import org.dmfs.rfc5545.recur.RecurrenceRule;
 

@@ -1,7 +1,7 @@
 package integrationTest.deviceDriver;
 
-import adapter.device.AppiumDriver;
 import adapter.ConfigReader;
+import adapter.device.AppiumDriver;
 import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;

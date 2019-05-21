@@ -20,7 +20,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.homescreen.TaskListSelectionFragment.OnSelectionListener;
 import org.dmfs.tasks.utils.BaseActivity;

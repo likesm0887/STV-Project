@@ -22,15 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.dmfs.provider.tasks.TaskDatabaseHelper.Tables;
 import org.dmfs.tasks.contract.TaskContract;
-import org.dmfs.tasks.contract.TaskContract.Instances;
-import org.dmfs.tasks.contract.TaskContract.SyncState;
-import org.dmfs.tasks.contract.TaskContract.TaskListColumns;
-import org.dmfs.tasks.contract.TaskContract.TaskListSyncColumns;
-import org.dmfs.tasks.contract.TaskContract.TaskLists;
-import org.dmfs.tasks.contract.TaskContract.Tasks;
+import org.dmfs.tasks.contract.TaskContract.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;

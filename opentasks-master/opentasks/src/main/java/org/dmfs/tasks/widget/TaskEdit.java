@@ -19,7 +19,6 @@ package org.dmfs.tasks.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-
 import org.dmfs.tasks.model.FieldDescriptor;
 import org.dmfs.tasks.model.Model;
 

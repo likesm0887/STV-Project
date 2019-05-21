@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.utils;
 
 import android.content.ContentValues;
-
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 

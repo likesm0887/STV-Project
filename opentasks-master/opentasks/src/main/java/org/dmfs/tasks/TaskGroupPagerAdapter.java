@@ -21,7 +21,6 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 import org.dmfs.tasks.groupings.AbstractGroupingFactory;
 import org.dmfs.tasks.groupings.TabConfig;
 import org.dmfs.xmlobjects.pull.XmlObjectPullParserException;

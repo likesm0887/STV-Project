@@ -19,7 +19,6 @@ package org.dmfs.tasks.groupings;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-
 import org.dmfs.android.xmlmagic.AndroidParserContext;
 import org.dmfs.android.xmlmagic.builder.RecyclingReflectionObjectBuilder;
 import org.dmfs.android.xmlmagic.builder.ReflectionObjectBuilder;

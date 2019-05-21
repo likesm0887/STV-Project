@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-
 import org.dmfs.jems.optional.elementary.NullSafe;
 import org.dmfs.tasks.QuickAddDialogFragment;
 import org.dmfs.tasks.R;

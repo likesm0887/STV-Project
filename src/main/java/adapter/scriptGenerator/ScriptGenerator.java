@@ -26,6 +26,7 @@ public class ScriptGenerator {
     }
 
     public void executeInstruction(String instruction) {
+
         this.instructionHandler.executeInstruction(instruction);
     }
 

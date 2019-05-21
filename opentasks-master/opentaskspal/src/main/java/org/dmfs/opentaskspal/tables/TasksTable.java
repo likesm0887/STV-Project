@@ -17,7 +17,6 @@
 package org.dmfs.opentaskspal.tables;
 
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.Table;
 import org.dmfs.android.contentpal.tables.BaseTable;
 import org.dmfs.android.contentpal.tables.DelegatingTable;

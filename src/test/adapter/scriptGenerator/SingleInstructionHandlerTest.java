@@ -1,6 +1,5 @@
 package adapter.scriptGenerator;
 
-import adapter.parser.ScriptParser;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -13,11 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(JMock.class)
 public class SingleInstructionHandlerTest {
-
 
     protected SingleInstructionHandler singleInstructionHandler;
     protected Mockery context = new JUnit4Mockery();
@@ -64,6 +62,5 @@ public class SingleInstructionHandlerTest {
 
         instructions = singleInstructionHandler.getInstructions();
         assertThat(instructions.size(), equalTo(0));
-
     }
 }

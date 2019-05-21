@@ -18,7 +18,6 @@ package org.dmfs.opentaskspal.tables;
 
 import android.accounts.Account;
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.Table;
 import org.dmfs.android.contentpal.tables.AccountScoped;
 import org.dmfs.android.contentpal.tables.DelegatingTable;

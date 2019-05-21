@@ -18,7 +18,6 @@ package org.dmfs.tasks.utils;
 
 import android.content.Context;
 import android.content.Intent;
-
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.Model;
 

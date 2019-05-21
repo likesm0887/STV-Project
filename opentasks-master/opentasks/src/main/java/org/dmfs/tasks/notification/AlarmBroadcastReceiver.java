@@ -16,15 +16,10 @@
 
 package org.dmfs.tasks.notification;
 
-import android.content.BroadcastReceiver;
-import android.content.ContentUris;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract;
 

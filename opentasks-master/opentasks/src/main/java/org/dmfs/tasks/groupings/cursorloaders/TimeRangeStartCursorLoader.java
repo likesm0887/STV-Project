@@ -20,7 +20,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.content.Loader;
 import android.text.format.Time;
-
 import org.dmfs.tasks.utils.TimeChangeListener;
 import org.dmfs.tasks.utils.TimeChangeObserver;
 

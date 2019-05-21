@@ -18,7 +18,6 @@ package org.dmfs.tasks.groupings.cursorloaders;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
-
 import org.dmfs.tasks.R;
 
 

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.test.rule.ActivityTestRule;
-
 import org.dmfs.tasks.TaskListActivity;
 import org.junit.Test;
 

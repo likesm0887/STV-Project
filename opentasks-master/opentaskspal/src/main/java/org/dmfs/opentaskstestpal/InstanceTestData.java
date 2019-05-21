@@ -18,7 +18,6 @@ package org.dmfs.opentaskstestpal;
 
 import android.content.ContentProviderOperation;
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.RowData;
 import org.dmfs.android.contentpal.TransactionContext;
 import org.dmfs.jems.optional.Optional;

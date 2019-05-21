@@ -18,7 +18,6 @@ package org.dmfs.provider.tasks.processors.tasks;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.dmfs.provider.tasks.TaskDatabaseHelper;
 import org.dmfs.provider.tasks.model.TaskAdapter;
 import org.dmfs.provider.tasks.processors.EntityProcessor;

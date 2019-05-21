@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.model.adapters;
 
 import android.content.ContentValues;
-
 import org.dmfs.iterables.EmptyIterable;
 import org.dmfs.iterables.elementary.Seq;
 import org.dmfs.provider.tasks.model.TaskAdapter;

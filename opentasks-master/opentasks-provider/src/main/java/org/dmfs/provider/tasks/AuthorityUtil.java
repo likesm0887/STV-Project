@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks;
 
 import android.content.Context;
-
 import org.dmfs.tasks.provider.R;
 
 
