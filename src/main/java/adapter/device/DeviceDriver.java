@@ -12,6 +12,8 @@ public interface DeviceDriver {
     void stopApp();
     void restartApp();
     void restartAppAndCleanData();
+    void pauseApp();
+    void reopenApp();
 
     MobileElement waitForElement(String xPath);
     MobileElement waitForElement(String xPath, int timeOutInSeconds);

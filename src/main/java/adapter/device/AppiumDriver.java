@@ -31,7 +31,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static java.lang.Thread.sleep;
 
@@ -128,20 +127,6 @@ public class AppiumDriver implements DeviceDriver {
         launchApp();
     }
 
-    public void pauseApp() {
-        String[] pressHomeKey = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_HOME"};
-        executeCmd(pressHomeKey);
-        waitFor(1000);
-    }
-
-    public void reopenApp() {
-        String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
-        executeCmd(switchApp);
-        waitFor(500);
-        executeCmd(switchApp);
-        waitFor(1000);
-    }
-
     @Override
     public void stopApp() {
         String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
@@ -156,6 +141,22 @@ public class AppiumDriver implements DeviceDriver {
     private void clearAppData() {
         String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
         this.executeCmd(command);
+        waitFor(1000);
+    }
+
+    @Override
+    public void pauseApp() {
+        String[] pressHomeKey = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_HOME"};
+        executeCmd(pressHomeKey);
+        waitFor(500);
+    }
+
+    @Override
+    public void reopenApp() {
+        String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
+        executeCmd(switchApp);
+        waitFor(500);
+        executeCmd(switchApp);
         waitFor(1000);
     }
 
@@ -211,7 +212,7 @@ public class AppiumDriver implements DeviceDriver {
         while (findElementTimes <= findElementLimitTimes && result == null) {
             try {
                 result = waitForElement(xPath, 1);
-            }catch (TimeoutException e) {
+            } catch (TimeoutException e) {
                 scrollToDirection(scrollView, direction);
             }
             findElementTimes++;
@@ -368,22 +369,25 @@ public class AppiumDriver implements DeviceDriver {
         }
     }
 
-    private static String parseActivityName(InputStream is) {
+    private static List<String> convertInputStreamToStringList(InputStream is) {
         List<String> result = new ArrayList<>();
-        InputStreamReader reader = new InputStreamReader(is);
-        BufferedReader bReader = new BufferedReader(reader);
+        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
         String line;
         try {
-            line = bReader.readLine();
-        } catch (IOException e) {
+            while ((line = bReader.readLine()) != null) {
+                result.add(line);
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return result;
+    }
 
-        if (line != null) {
-            String activityName = line.substring(result.indexOf("/") + 1, result.indexOf("}"));
-            String[] str = activityName.split(" ");
-            return str[0].replace(".", "");
-        }
-        return "";
+    public static String parseActivityName(InputStream is) {
+        List<String> result = convertInputStreamToStringList(is);
+        String firstLing =result.get(0);
+        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
+        String[] str = activityName.split(" ");
+        return str[0].replace(".", "");
     }
 }

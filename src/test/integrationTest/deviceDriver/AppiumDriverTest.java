@@ -2,19 +2,22 @@ package integrationTest.deviceDriver;
 
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
+import com.google.common.io.CharSource;
 import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.apache.commons.io.input.ReaderInputStream;
+import org.junit.*;
 import org.openqa.selenium.By;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -142,6 +145,17 @@ public class AppiumDriverTest {
     @Test
     public void assertActivityTest() {
         appiumDriver.assertActivity("TaskListActivity");
+    }
+
+    @Test
+    public void parseActivityNameTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException {
+        Method method = AppiumDriver.class.getDeclaredMethod("parseActivityName", InputStream.class);
+        method.setAccessible(true);
+        String input = "\" Run #8: ActivityRecord{1801877 u0 org.dmfs.tasks/.EditTaskActivity t19018}\\n\" +\n";
+        InputStream targetStream =
+                new ReaderInputStream(CharSource.wrap(input).openStream(), StandardCharsets.UTF_8.name());
+        Object[] arguments =new Object[]{targetStream};
+        Assert.assertEquals("EditTaskActivity",method.invoke(appiumDriver, arguments));
     }
 
     @Test
