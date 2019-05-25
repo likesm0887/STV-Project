@@ -21,7 +21,7 @@ public class EditTaskEndToEndTest {
 
     @Before
     public void setUp() {
-        Config config = new Config("Android Emulator", "emulator-5554", 9, 5000, "emulator-5554", "emulator-5554");
+        Config config = new Config("Android Emulator", "emulator-5554", 9, 5000, "emulator-5554", "emulator-5554", false);
         driver = new AppiumDriver(config);
         driver.startService();
 

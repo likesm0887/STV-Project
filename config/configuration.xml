@@ -7,4 +7,5 @@
         <AppiumPort>5000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
         <ScripPath>./script/deleteList.txt</ScripPath>
+        <TestAnomaly>false</TestAnomaly>
 </configuration>

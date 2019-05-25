@@ -27,7 +27,7 @@ public class ScriptManagerTest {
     public void setUp() {
         try {
             mockDriver = context.mock(DeviceDriver.class);
-            Config config = new Config("", "", 0, 0, SIMPLE_TEST_DATA, SIMPLE_SCRIPT);
+            Config config = new Config("", "", 0, 0, SIMPLE_TEST_DATA, SIMPLE_SCRIPT, false);
             sm = new ScriptManager(config, mockDriver);
         } catch (Exception e) {
             e.printStackTrace();

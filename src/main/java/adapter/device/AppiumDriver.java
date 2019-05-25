@@ -99,7 +99,7 @@ public class AppiumDriver implements DeviceDriver {
         cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "org.dmfs.tasks");
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
-        cap.setCapability("newCommandTimeout", 10000);
+        cap.setCapability("autoLaunch", "false");
         return cap;
     }
 
@@ -148,6 +148,22 @@ public class AppiumDriver implements DeviceDriver {
         waitFor(1000);
     }
 
+    @Override
+    public void pauseApp() {
+        String[] pressHomeKey = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_HOME"};
+        executeCmd(pressHomeKey);
+        waitFor(500);
+    }
+
+    @Override
+    public void reopenApp() {
+        String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
+        executeCmd(switchApp);
+        waitFor(500);
+        executeCmd(switchApp);
+        waitFor(1000);
+    }
+
     private MobileElement findElement(String xPath) {
         return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
@@ -188,19 +204,7 @@ public class AppiumDriver implements DeviceDriver {
     public void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset) {
         MobileElement element = waitForElement(xPath);
         element.swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
-        // TODO: swipe the task
-//        int x = element.getLocation().x;
-//        int y = element.getLocation().y;
-//        int width = element.getSize().width;
-//        int height = element.getSize().height;
-//        new TouchAction(driver)
-//                .longPress(x + width / 2, y + height / 2, 300)
-//                .waitAction(300)
-//                .moveTo(x + width + 1000, y + height / 2)
-//                .release()
-//                .perform();
     }
-
 
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
@@ -303,7 +307,7 @@ public class AppiumDriver implements DeviceDriver {
     public void waitFor(int millis) {
         try {
             sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
 
         }
     }
