@@ -36,4 +36,6 @@ public interface DeviceDriver {
     void assertText(String xPath, String expectedText);
     void assertView(String expectActivity);
     void assertElementCount(String xPath, int expectedCount);
+
+    String getActivityName();
 }

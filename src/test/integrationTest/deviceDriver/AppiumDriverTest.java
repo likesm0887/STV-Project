@@ -3,7 +3,7 @@ package integrationTest.deviceDriver;
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
 import com.google.common.io.CharSource;
-import entity.Exception.AssertException;
+import entity.exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
@@ -162,6 +162,7 @@ public class AppiumDriverTest {
     public void pressPercentage() {
         appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
         appiumDriver.waitFor(3000);
+        appiumDriver.waitAndScrollToElement("//*[@index='10']//android.widget.SeekBar", SwipeElementDirection.DOWN);
         appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
         appiumDriver.waitFor(3000);
     }

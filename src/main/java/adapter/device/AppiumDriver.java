@@ -5,7 +5,7 @@ import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import entity.Config;
-import entity.Exception.AssertException;
+import entity.exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
@@ -159,7 +159,7 @@ public class AppiumDriver implements DeviceDriver {
     public void reopenApp() {
         String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
         executeCmd(switchApp);
-        waitFor(500);
+        waitFor(1000);
         executeCmd(switchApp);
         waitFor(1000);
     }
@@ -259,15 +259,12 @@ public class AppiumDriver implements DeviceDriver {
             case UP:
                 driver.swipe(x + width / 2, y + (int) (height * 0.2), x + width / 2, y + (int) (height * 0.8), DEFAULT_SWIPE_DURATION);
                 break;
-
             case LEFT:
                 driver.swipe(x + (int) (width * 0.8), y + height / 2, x + (int) (width * 0.2), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
-
             case RIGHT:
                 driver.swipe(x + (int) (width * 0.2), y + height / 2, x + (int) (width * 0.8), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
-
             case DOWN:
                 driver.swipe(x + width / 2, y + (int) (height * 0.8), x + width / 2, y + (int) (height * 0.2), DEFAULT_SWIPE_DURATION);
                 break;
@@ -365,11 +362,10 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     private String convertActivityToView(String activity) {
-
         return viewAndActivityMap.inverse().get(activity);
     }
 
-    private String getActivityName() {
+    public String getActivityName() {
         String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
                 "activity", "activities", "|", "grep", "\"Run\\ #\""};
         InputStream inputStream = this.executeCmdExtractOutput(command);

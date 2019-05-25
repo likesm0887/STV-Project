@@ -33,7 +33,7 @@ public class CommandTest {
 
     @Test
     public void DriverTypeTextElementWhenTypeTextCommandExecute() {
-        String text = "my bitch";
+        String text = "Test";
 
         TypeTextCommand typeTextCommand = new TypeTextCommand(mockDeviceDriver, xPath, text);
 

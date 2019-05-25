@@ -1,7 +1,6 @@
-package useCase;
+package entity;
 
 import adapter.device.DeviceDriver;
-import entity.ScriptRunner;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JUnit4Mockery;
@@ -9,10 +8,13 @@ import org.junit.Before;
 import org.junit.Test;
 import useCase.command.CommandFactory;
 import useCase.command.ICommand;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScriptRunnerTest {
+import static org.junit.Assert.*;
+
+public class AnomalyScriptRunnerTest {
     private Mockery context = new JUnit4Mockery();
     private DeviceDriver mockDriver;
     private String xPath = "//*[@class='a']";
@@ -30,12 +32,15 @@ public class ScriptRunnerTest {
 
     @Test
     public void scriptExecute() {
-        ScriptRunner scriptRunner = new ScriptRunner(commands, "");
-        context.checking(new Expectations() {{
+        ScriptRunner scriptRunner = new AnomalyScriptRunner(commands, "", mockDriver);
+        context.checking(new Expectations(){{
             oneOf(mockDriver).waitAndTypeText(xPath, "");
+            exactly(2).of(mockDriver).getActivityName(); will(returnValue("activity"));
+            oneOf(mockDriver).pauseApp();
+            oneOf(mockDriver).reopenApp();
+            exactly(2).of(mockDriver).rotate();
             oneOf(mockDriver).restartApp();
         }});
-
         scriptRunner.executeCommands();
     }
 }
