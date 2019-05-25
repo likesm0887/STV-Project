@@ -1,7 +1,6 @@
 package useCase.command;
 
 import adapter.device.DeviceDriver;
-import org.apache.xmlbeans.impl.xb.xsdschema.FieldDocument;
 
 public class CommandFactory {
     private DeviceDriver deviceDriver;
