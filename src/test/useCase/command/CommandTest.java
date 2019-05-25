@@ -65,6 +65,7 @@ public class CommandTest {
 
         context.checking(new Expectations() {{
             oneOf(mockDeviceDriver).waitAndScrollToElement(xPath, swipeElementDirection);
+            oneOf(mockDeviceDriver).waitAndClickElement(xPath);
         }});
 
         scrollToCalenderYearAndClickCommand.execute();
