@@ -6,6 +6,6 @@
         <AndroidVersion>9</AndroidVersion>
         <AppiumPort>5000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
-        <ScripPath>./script/deleteList.txt</ScripPath>
+        <ScripPath>./script/UseCaseCoverage</ScripPath>
         <TestAnomaly>false</TestAnomaly>
 </configuration>
