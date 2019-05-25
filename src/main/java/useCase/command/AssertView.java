@@ -2,17 +2,17 @@ package useCase.command;
 
 import adapter.device.DeviceDriver;
 
-public class AssertActivityCommand extends Command {
-    private String exceptActivity;
+public class AssertView extends Command {
+    private String exceptView;
 
-    public AssertActivityCommand(DeviceDriver deviceDriver, String exceptActivity) {
+    public AssertView(DeviceDriver deviceDriver, String exceptView) {
         super(deviceDriver, "");
-        this.exceptActivity = exceptActivity;
+        this.exceptView = exceptView;
     }
 
     @Override
     public void execute() {
-        deviceDriver.assertActivity(exceptActivity);
+        deviceDriver.assertView(exceptView);
     }
 
 

@@ -139,12 +139,12 @@ public class AppiumDriverTest {
 
     @Test (expected = AssertException.class)
     public void assertActivityFailTest() {
-        appiumDriver.assertActivity("errorActivity");
+        appiumDriver.assertView("errorActivity");
     }
 
     @Test
     public void assertActivityTest() {
-        appiumDriver.assertActivity("TaskListActivity");
+        appiumDriver.assertView("TaskList");
     }
 
     @Test
