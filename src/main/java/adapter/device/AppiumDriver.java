@@ -2,6 +2,8 @@ package adapter.device;
 
 import adapter.coverage.CodeCovergerator;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import entity.Config;
 import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
@@ -43,11 +45,13 @@ public class AppiumDriver implements DeviceDriver {
     private int findElementLimitTimes = 10;
     private AppiumDriverLocalService appiumDriverLocalService;
     private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
+    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
 
     public AppiumDriver(Config config) {
         this.config = config;
         defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
+        CreateViewAndActivityMatchTable();
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -340,13 +344,29 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void assertActivity(String expectActivity) {
-        String actualActivity = getActivityName();
-        if (!expectActivity.equals(actualActivity)) {
+    public void assertView(String expectView) {
+        String actualView = convertActivityToView(getActivityName());
+        if (!expectView.equals(actualView)) {
             throw new AssertException(
-                    "\nActual activity: " + actualActivity + "\n" +
-                            "Expect: " + expectActivity + "\n");
+                    "\nActual View: " + actualView + "(Activity:" + convertViewToActivity(actualView) + ")" +"\n" +
+                            "Expect: " + expectView +  "\n");
         }
+    }
+
+    private void CreateViewAndActivityMatchTable() {
+        viewAndActivityMap.put("TaskList", "TaskListActivity");
+        viewAndActivityMap.put("EditTasks", "EditTasksActivity");
+        viewAndActivityMap.put("ViewTask", "ViewTaskActivity");
+        viewAndActivityMap.put("DisplayedLists", "SyncSettingsActivity");
+    }
+
+    private String convertViewToActivity(String View) {
+        return viewAndActivityMap.get(View);
+    }
+
+    private String convertActivityToView(String activity) {
+
+        return viewAndActivityMap.inverse().get(activity);
     }
 
     private String getActivityName() {
@@ -385,7 +405,7 @@ public class AppiumDriver implements DeviceDriver {
 
     public static String parseActivityName(InputStream is) {
         List<String> result = convertInputStreamToStringList(is);
-        String firstLing =result.get(0);
+        String firstLing = result.get(0);
         String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
         String[] str = activityName.split(" ");
         return str[0].replace(".", "");
