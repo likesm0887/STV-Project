@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 
 import java.util.List;
 
+import static java.lang.Thread.sleep;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -149,5 +150,24 @@ public class AppiumDriverTest {
         appiumDriver.waitFor(3000);
         appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
         appiumDriver.waitFor(3000);
+    }
+
+    @Test
+    public void pauseAndResume() {
+        // Click float add button
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
+
+        appiumDriver.pauseApp();
+        appiumDriver.reopenApp();
+
+        appiumDriver.waitAndTypeText("//*[@index='0' and contains(@class, 'android.widget.EditText')]", "Title");
+        appiumDriver.waitAndClickElement("//*[@resource-id='org.dmfs.tasks:id/editor_action_save']");
+
+        appiumDriver.pauseApp();
+        appiumDriver.reopenApp();
+
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.TextView' and @text='My tasks']");
+        appiumDriver.assertExist("//*[@class='android.widget.LinearLayout' and ./android.widget.TextView[@text='Title']]");
     }
 }
