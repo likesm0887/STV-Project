@@ -352,13 +352,13 @@ public class AppiumDriver implements DeviceDriver {
 
     private void CreateViewAndActivityMatchTable() {
         viewAndActivityMap.put("TaskList", "TaskListActivity");
-        viewAndActivityMap.put("EditTasks", "EditTasksActivity");
+        viewAndActivityMap.put("EditTasks", "EditTaskActivity");
         viewAndActivityMap.put("ViewTask", "ViewTaskActivity");
         viewAndActivityMap.put("DisplayedLists", "SyncSettingsActivity");
     }
 
-    private String convertViewToActivity(String View) {
-        return viewAndActivityMap.get(View);
+    private String convertViewToActivity(String view) {
+        return viewAndActivityMap.get(view);
     }
 
     private String convertActivityToView(String activity) {
