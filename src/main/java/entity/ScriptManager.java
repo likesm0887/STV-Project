@@ -89,6 +89,7 @@ public class ScriptManager {
     private void performScript(ScriptRunner scriptRunner) {
         deviceDriver.restartAppAndCleanData();
         scriptRunner.executeCommands();
+        deviceDriver.stopApp();
     }
 
     public String summary() {

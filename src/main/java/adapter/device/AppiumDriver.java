@@ -1,6 +1,6 @@
 package adapter.device;
 
-import adapter.coverage.CodeCovergerator;
+import adapter.coverage.CodeCoverGenerator;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -44,7 +44,7 @@ public class AppiumDriver implements DeviceDriver {
     private int defaultTimeout;
     private int findElementLimitTimes = 10;
     private AppiumDriverLocalService appiumDriverLocalService;
-    private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
+    private CodeCoverGenerator codeCovergenerator = new CodeCoverGenerator(config);
     private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
 
     public AppiumDriver(Config config) {
@@ -136,7 +136,7 @@ public class AppiumDriver implements DeviceDriver {
         String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
         this.executeCmd(stopTestBroadcastCmd);
         waitFor(2000);
-        codeCovergerator.pullCodeCoverage();
+        codeCovergenerator.pullCodeCoverage();
         String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
         this.executeCmd(stopCmd);
         waitFor(500);
