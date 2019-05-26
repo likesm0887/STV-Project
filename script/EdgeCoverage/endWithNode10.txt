@@ -1,0 +1,10 @@
+# 8
+TaskList    Click   menu_btn
+# 2
+TaskList    Click   menu_show_completed_tasks
+# 8
+TaskList    Click   menu_btn
+# 9
+TaskList    Click   menu_displayed_lists
+# 10
+DisplayedLists    Click   folder{My tasks}

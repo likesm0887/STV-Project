@@ -1,13 +1,9 @@
 package entity;
 
 public class ScriptInformation {
-
     private String scriptName = "";
-
     private boolean executionResult = false;
-
     private double executionTime = 0.0;
-
     private String errorMessage = "";
 
     public ScriptInformation(String scriptName) {
@@ -27,10 +23,7 @@ public class ScriptInformation {
     }
 
     public String resultStatus() {
-        if (this.executionResult)
-            return  "PASS" ;
-        else
-            return  "FAILED";
+        return this.executionResult ? "PASS" : "FAILED";
     }
 
     public String summary() {

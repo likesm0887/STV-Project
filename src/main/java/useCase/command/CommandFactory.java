@@ -40,6 +40,8 @@ public class CommandFactory {
                 return this.createAssertActivityCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
+            case "PressBackKey":
+                return this.createPressBackKeyCommand();
         }
 
         throw new RuntimeException("Unexpected command type");
@@ -115,5 +117,9 @@ public class CommandFactory {
 
     private Command createAssertActivityCommand(String activity) {
         return new AssertView(deviceDriver, activity);
+    }
+
+    private Command createPressBackKeyCommand() {
+        return new PressBackKeyCommand(deviceDriver);
     }
 }

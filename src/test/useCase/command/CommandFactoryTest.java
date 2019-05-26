@@ -94,4 +94,11 @@ public class CommandFactoryTest {
 
         assertTrue(assertActivityCommand instanceof AssertView);
     }
+
+    @Test
+    public void createPressBackKeyCommand() {
+        Command pressBackCommand = commandFactory.createCommand("PressBackKey", "", "");
+
+        assertTrue(pressBackCommand instanceof PressBackKeyCommand);
+    }
 }
