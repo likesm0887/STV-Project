@@ -17,7 +17,11 @@ public class TestData {
     public TestDatum getTestDatum(String viewName, String componentName) {
         if (wholeTestData.get(viewName) == null)
             throw new RuntimeException("The view \"" + viewName +"\" doesn't exist");
-        return wholeTestData.get(viewName).get(componentName);
+        TestDatum testDatum = wholeTestData.get(viewName).get(componentName);
+        if (testDatum != null)
+            return testDatum;
+        else
+            throw new RuntimeException("Element '" + componentName + "'" + "is not belong to " + viewName);
     }
 
     public String toString() {

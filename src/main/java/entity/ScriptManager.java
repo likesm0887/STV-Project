@@ -71,6 +71,7 @@ public class ScriptManager {
     }
 
     public void execute() {
+        deviceDriver.startService();
         scripts.forEach((path, scriptRunner) -> {
             try {
                 scriptResult.scriptStarted(path.toString());
@@ -82,6 +83,7 @@ public class ScriptManager {
                 e.printStackTrace();
             }
         });
+        deviceDriver.stopService();
     }
 
     private void performScript(ScriptRunner scriptRunner) {

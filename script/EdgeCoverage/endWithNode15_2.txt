@@ -1,0 +1,13 @@
+# 8
+TaskList    Click   menu_btn
+# 9
+TaskList    Click   menu_displayed_lists
+# 15
+DisplayedLists    Click    folder_setting{0}
+# 17
+DisplayedLists    Click    list_color_setting
+# 17
+DisplayedLists    Click    color_set_1
+# 15
+DisplayedLists    Click    pick_color{4}
+DisplayedLists    Click    list_save_btn
