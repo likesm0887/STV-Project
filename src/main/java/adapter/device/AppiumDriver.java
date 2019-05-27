@@ -271,7 +271,6 @@ public class AppiumDriver implements DeviceDriver {
         }
     }
 
-
     @Override
     public void deleteCharacter(String xPath, int times) {
         this.waitAndClickElement(xPath);

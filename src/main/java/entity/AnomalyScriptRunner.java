@@ -19,7 +19,6 @@ public class AnomalyScriptRunner extends ScriptRunner {
 
     protected void afterCommand() {
         String currentActivity = driver.getActivityName();
-        System.out.println(currentActivity);
         if (!previousActivities.contains(currentActivity)) {
             driver.pauseApp();
             driver.reopenApp();
