@@ -68,3 +68,5 @@ EditTasks   TypeText{www.hyperlink.com}   URL_editText
 
 #save
 EditTasks   Click   save_task_btn
+
+assertExists{needs action}

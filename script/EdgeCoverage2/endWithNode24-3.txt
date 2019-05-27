@@ -1,0 +1,10 @@
+# 20
+TaskList    Click   folder{My tasks}
+# 21
+TaskList	Click	quick_add_btn{0}
+# 24
+TaskList	Click   quick_add_edit_btn
+# 28
+EditTasks	Click	status_dropdown
+# 24
+EditTasks	Click	status_options_in_process

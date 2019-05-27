@@ -1,0 +1,16 @@
+# 20
+TaskList    Click   float_add_btn
+PressBackKey
+# 25
+EditTasks	Click	start_time
+EditTasks	Click	time_clock_minutes
+EditTasks	Click	time_clock_pick_minutes{00}
+EditTasks	Click	time_clock_hours
+EditTasks	Click	time_clock_pick_hours{12}
+EditTasks	Click	time_ok_btn
+# 33
+EditTasks   Click   time_toggle_mode
+EditTasks   Click   time_AMPM_dropdown
+EditTasks   Click   time_options_PM
+#24
+EditTasks   Click   time_ok_btn

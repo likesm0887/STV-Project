@@ -1,0 +1,11 @@
+# 20
+TaskList    Click   folder{My tasks}
+# 21
+TaskList	Click	quick_add_btn{0}
+# 24
+TaskList	Click   quick_add_edit_btn
+EditTasks	TypeText{Edge Coverage}	title_editText
+# 30
+EditTasks   Click   save_task_btn
+# 24
+ViewTask    Click   edit_btn
