@@ -150,4 +150,23 @@ public class AppiumDriverTest {
         appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
         appiumDriver.waitFor(3000);
     }
+
+    // todo: check the reason why driver can't find element
+    //  under the situation given correct xpath
+    @Test
+    public void shouldAssertTextInCurrentActivity() {
+
+        appiumDriver.assertTextExist("My tasks");
+    }
+
+    @Test(expected = AssertException.class)
+    public void shouldAssertTextNotInCurrentActivity() {
+        appiumDriver.assertTextExist("Not in current Activity");
+    }
+
+    @Test
+    public void shouldTypeTextRandomlyOnTextField() {
+        appiumDriver.assertTextExist("Tasks");
+
+    }
 }

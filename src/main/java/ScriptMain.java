@@ -58,7 +58,7 @@ public class ScriptMain {
         try {
             scriptGenerator.executeInstruction(instruction);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         storeInstruction(scriptGenerator);
@@ -79,7 +79,7 @@ public class ScriptMain {
             try {
                 scriptGenerator.executeInstruction(instruction);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
 

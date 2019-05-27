@@ -18,7 +18,6 @@ public class BatchInstructionHandler extends AbstractInstructionHandler {
         return copy;
     }
 
-
     protected void storeInstruction(String instruction) {
         this.instructions.add(instruction);
         this.batchInstructions.add(instruction);

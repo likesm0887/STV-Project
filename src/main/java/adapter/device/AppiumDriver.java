@@ -3,7 +3,6 @@ package adapter.device;
 import adapter.coverage.CodeCovergerator;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import entity.Config;
-import entity.Exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
@@ -22,33 +21,36 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 import static java.lang.Thread.sleep;
 
 public class AppiumDriver implements DeviceDriver {
     private final int DEFAULT_SWIPE_DURATION = 300;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
-    private AndroidDriver driver;
-    private Config config;
     private int defaultTimeout;
-    private int findElementLimitTimes = 10;
+
+
     private AppiumDriverLocalService appiumDriverLocalService;
+    private AndroidDriver driver;
+    private AppiumAsserter appiumAsserter;
+
+
+    private Config config;
     private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
+
+
 
     public AppiumDriver(Config config) {
         this.config = config;
         defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
+        appiumAsserter = new AppiumAsserter(this, this.config);
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -145,11 +147,11 @@ public class AppiumDriver implements DeviceDriver {
         waitFor(1000);
     }
 
-    private MobileElement findElement(String xPath) {
+    public MobileElement findElement(String xPath) {
         return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
 
-    private List<MobileElement> findElements(String xPath) {
+    public List<MobileElement> findElements(String xPath) {
         return this.driver.findElements(By.xpath(xPath));
     }
 
@@ -162,6 +164,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public MobileElement waitForElement(String xPath) {
+
         return waitForElement(xPath, defaultTimeout);
     }
 
@@ -173,12 +176,12 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void waitAndClickElement(String xPath) {
-        waitForElement(xPath, defaultTimeout).click();
+        waitForElement(xPath).click();
     }
 
     @Override
     public void waitAndTypeText(String xPath, String text) {
-        waitForElement(xPath, defaultTimeout).sendKeys(text);
+        waitForElement(xPath).sendKeys(text);
     }
 
     @Override
@@ -198,16 +201,16 @@ public class AppiumDriver implements DeviceDriver {
 //                .perform();
     }
 
-
-
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
+        final int FIND_ELEMENT_LIMIT_TIMES = 10;
+
         int findElementTimes = 0;
         WebElement scrollView = findScrollRootElement();
 
         WebElement result = null;
         // findElements.size
-        while (findElementTimes <= findElementLimitTimes && result == null) {
+        while (findElementTimes <= FIND_ELEMENT_LIMIT_TIMES && result == null) {
             try {
                 result = waitForElement(xPath, 1);
             }catch (TimeoutException e) {
@@ -268,7 +271,6 @@ public class AppiumDriver implements DeviceDriver {
         }
     }
 
-
     @Override
     public void deleteCharacter(String xPath, int times) {
         this.waitAndClickElement(xPath);
@@ -308,81 +310,26 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void assertExist(String xPath) {
-        try {
-            waitForElement(xPath, 2);
-        } catch (Exception e) {
-            throw new AssertException("Element does not exist");
-        }
+        appiumAsserter.assertExist(xPath, "Element does not exist");
     }
 
     @Override
     public void assertText(String xPath, String expectedText) {
-        assertExist(xPath);
-        MobileElement element = findElement(xPath);
-        if (!element.getText().equals(expectedText)) {
-            throw new AssertException(
-                    "\nActual text: " + element.getText() + "\n" +
-                            "Expect: " + expectedText + "\n");
-        }
+        appiumAsserter.assertText(xPath, expectedText);
     }
 
     @Override
     public void assertElementCount(String xPath, int expectedCount) {
-        assertExist(xPath);
-        int actual = findElements(xPath).size();
-        if (actual != expectedCount) {
-            throw new AssertException(
-                    "\nActual count: " + actual + "\n" +
-                            "Expected: " + expectedCount + "\n");
-        }
+        appiumAsserter.assertElementCount(xPath, expectedCount);
+    }
+
+    @Override
+    public void assertTextExist(String text) {
+        appiumAsserter.assertTextInCurrentActivity(text);
     }
 
     @Override
     public void assertActivity(String expectActivity) {
-        String actualActivity = getActivityName();
-        if (!expectActivity.equals(actualActivity)) {
-            throw new AssertException(
-                    "\nActual activity: " + actualActivity + "\n" +
-                            "Expect: " + expectActivity + "\n");
-        }
-    }
-
-    private String getActivityName() {
-        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
-                "activity", "activities", "|", "grep", "\"Run\\ #\""};
-        InputStream inputStream = this.executeCmdExtractOutput(command);
-        return parseActivityName(inputStream);
-    }
-
-    private InputStream executeCmdExtractOutput(String... cmd) {
-        ProcessBuilder proc = new ProcessBuilder(cmd);
-        try {
-            Process process = proc.start();
-            process.waitFor();
-            return process.getInputStream();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("get Activity error");
-        }
-    }
-
-    private static String parseActivityName(InputStream is) {
-        List<String> result = new ArrayList<>();
-        InputStreamReader reader = new InputStreamReader(is);
-        BufferedReader bReader = new BufferedReader(reader);
-        String line;
-        try {
-            line = bReader.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (line != null) {
-            String activityName = line.substring(result.indexOf("/") + 1, result.indexOf("}"));
-            String[] str = activityName.split(" ");
-            return str[0].replace(".", "");
-        }
-        return "";
+        appiumAsserter.assertActivity(expectActivity);
     }
 }
