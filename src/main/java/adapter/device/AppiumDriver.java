@@ -209,31 +209,22 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
         int findElementTimes = 0;
-        WebElement scrollView = findScrollRootElement();
 
-        WebElement result = null;
-        // findElements.size
-        while (findElementTimes <= findElementLimitTimes && result == null) {
-            try {
-                result = waitForElement(xPath, 1);
-            } catch (TimeoutException e) {
-                scrollToDirection(scrollView, direction);
-            }
+        MobileElement scrollView = findScrollRootElement();
+
+        List<MobileElement> result = new ArrayList<>();
+        while (result.size() == 0 && findElementTimes < this.findElementLimitTimes) {
+            result = findElements(xPath);
+            scrollToDirection(scrollView, direction);
             findElementTimes++;
         }
 
-        if (result == null)
+        if (result.size() == 0)
             throw new ElementNotFoundException(xPath, "", "");
     }
 
-    private WebElement findScrollRootElement() {
-        WebElement element = null;
-        try {
-            element = findElement("//*[@class='android.widget.ScrollView']");
-        } catch (TimeoutException e) {
-            element = findElement("//*[@class='android.widget.ListView']");
-        }
-        return element;
+    private MobileElement findScrollRootElement() {
+        return waitForElement("//*[@class='android.widget.ScrollView' or @class='android.widget.ListView']");
     }
 
     @Override
@@ -249,7 +240,7 @@ public class AppiumDriver implements DeviceDriver {
                 .perform();
     }
 
-    private void scrollToDirection(WebElement scrollView, SwipeElementDirection direction) {
+    private void scrollToDirection(MobileElement scrollView, SwipeElementDirection direction) {
         int x = scrollView.getLocation().x;
         int y = scrollView.getLocation().y;
         int width = scrollView.getSize().width;
@@ -257,16 +248,16 @@ public class AppiumDriver implements DeviceDriver {
 
         switch (direction) {
             case UP:
-                driver.swipe(x + width / 2, y + (int) (height * 0.2), x + width / 2, y + (int) (height * 0.8), DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + width / 2, y + (int) (height * 0.1), x + width / 2, y + (int) (height * 0.9), DEFAULT_SWIPE_DURATION);
                 break;
             case LEFT:
-                driver.swipe(x + (int) (width * 0.8), y + height / 2, x + (int) (width * 0.2), y + height / 2, DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + (int) (width * 0.9), y + height / 2, x + (int) (width * 0.1), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
             case RIGHT:
-                driver.swipe(x + (int) (width * 0.2), y + height / 2, x + (int) (width * 0.8), y + height / 2, DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + (int) (width * 0.1), y + height / 2, x + (int) (width * 0.9), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
             case DOWN:
-                driver.swipe(x + width / 2, y + (int) (height * 0.8), x + width / 2, y + (int) (height * 0.2), DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + width / 2, y + (int) (height * 0.9), x + width / 2, y + (int) (height * 0.1), DEFAULT_SWIPE_DURATION);
                 break;
         }
     }

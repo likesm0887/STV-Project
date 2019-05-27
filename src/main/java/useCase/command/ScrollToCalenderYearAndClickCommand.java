@@ -8,12 +8,7 @@ public class ScrollToCalenderYearAndClickCommand extends Command {
 
     public ScrollToCalenderYearAndClickCommand(DeviceDriver deviceDriver, String xPath, String direction) {
         super(deviceDriver, xPath);
-        try {
-            this.direction = SwipeElementDirection.valueOf(direction.toUpperCase());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        this.direction = SwipeElementDirection.valueOf(direction.toUpperCase());
     }
 
     @Override

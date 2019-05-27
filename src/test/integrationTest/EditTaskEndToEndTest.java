@@ -24,6 +24,7 @@ public class EditTaskEndToEndTest {
         Config config = new Config("Android Emulator", "emulator-5554", 9, 5000, "emulator-5554", "emulator-5554", false);
         driver = new AppiumDriver(config);
         driver.startService();
+        driver.restartAppAndCleanData();
 
         TestDataParser testDataParser = new TestDataParser("./TestData/TestData.xlsx");
 
@@ -44,6 +45,7 @@ public class EditTaskEndToEndTest {
     @After
     public void tearDown() {
         scriptGenerator.writeScriptFile("script");
+        driver.stopApp();
         driver.stopService();
     }
 
