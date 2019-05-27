@@ -14,16 +14,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ScriptManager {
     private Config config;
     private TestData testData;
     private DeviceDriver deviceDriver;
-    private Map<Path, ScriptRunner> scripts = new HashMap<>();
+    private Map<Path, ScriptRunner> scripts = new LinkedHashMap<>();
     private ScriptResult scriptResult = new ScriptResult(new ScriptExecutionTimer());
 
     public ScriptManager(Config config, DeviceDriver driver) throws Exception {
@@ -81,6 +79,7 @@ public class ScriptManager {
                 scriptResult.scriptFailed(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
+                scriptResult.scriptFailed("");
             }
         });
         deviceDriver.stopService();
