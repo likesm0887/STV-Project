@@ -1,14 +1,12 @@
 package entity;
 
 public class ScriptExecutionTimer implements ExecutionTimer {
-
     private long startTime;
     private long stopTime;
 
     @Override
     public void startCounter() {
         startTime = System.nanoTime();
-
     }
 
     @Override

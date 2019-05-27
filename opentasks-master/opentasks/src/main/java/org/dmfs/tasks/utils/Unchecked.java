@@ -21,7 +21,7 @@ import org.dmfs.jems.single.Single;
 
 
 /**
- * 'Unchecks' an Exception, i.e. turns a {@link Fragile} into a {@link Single} by rethrowing
+ * 'Unchecks' an exception, i.e. turns a {@link Fragile} into a {@link Single} by rethrowing
  * the possible {@link Exception} as {@link RuntimeException}.
  * <p>
  * Note: This should be used with care for obvious reasons, only at appropriate places.
@@ -50,7 +50,7 @@ public final class Unchecked<T> implements Single<T>
         }
         catch (Exception e)
         {
-            throw new RuntimeException("Exception in Unchecked", e);
+            throw new RuntimeException("exception in Unchecked", e);
         }
     }
 }

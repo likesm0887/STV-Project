@@ -1,7 +1,9 @@
 package adapter.device;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import entity.Config;
-import entity.Exception.AssertException;
+
 import io.appium.java_client.MobileElement;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,17 +18,19 @@ public class AppiumAsserter {
     private Config config;
     private AppiumDriver appiumDriver;
 
+    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
 
     public AppiumAsserter(AppiumDriver appiumDriver, Config config) {
         this.appiumDriver = appiumDriver;
         this.config = config;
+        CreateViewAndActivityMatchTable();
     }
 
     public void assertText(String xPath, String expectedText) {
         assertExist(xPath);
         MobileElement element = this.appiumDriver.findElement(xPath);
         if (!element.getText().equals(expectedText)) {
-            throw new AssertException(
+            throw new entity.exception.AssertException(
                     "\nActual text: " + element.getText() + "\n" +
                             "Expect: " + expectedText + "\n");
         }
@@ -36,7 +40,7 @@ public class AppiumAsserter {
         assertExist(xPath);
         int actual = this.appiumDriver.findElements(xPath).size();
         if (actual != expectedCount) {
-            throw new AssertException(
+            throw new entity.exception.AssertException(
                     "\nActual count: " + actual + "\n" +
                             "Expected: " + expectedCount + "\n");
         }
@@ -59,25 +63,51 @@ public class AppiumAsserter {
         try {
             this.appiumDriver.waitForElement(xPath, 2);
         } catch (Exception e) {
-            throw new AssertException(errorMessage);
+            throw new entity.exception.AssertException(errorMessage);
         }
+    }
+
+    public String getActivityName() {
+        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
+                "activity", "activities", "|", "grep", "\"Run\\ #\""};
+        InputStream inputStream = this.executeCmdExtractOutput(command);
+        return parseActivityName(inputStream);
     }
 
 
     public void assertActivity(String expectActivity) {
         String actualActivity = getActivityName();
         if (!expectActivity.equals(actualActivity)) {
-            throw new AssertException(
+            throw new entity.exception.AssertException(
                     "\nActual activity: " + actualActivity + "\n" +
                             "Expect: " + expectActivity + "\n");
         }
     }
 
-    private String getActivityName() {
-        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
-                "activity", "activities", "|", "grep", "\"Run\\ #\""};
-        InputStream inputStream = this.executeCmdExtractOutput(command);
-        return parseActivityName(inputStream);
+
+    public void assertView(String expectView) {
+        String actualView = convertActivityToView(getActivityName());
+        if (!expectView.equals(actualView)) {
+            throw new entity.exception.AssertException(
+                    "\nActual View: " + actualView + "(Activity:" + convertViewToActivity(actualView) + ")" +"\n" +
+                            "Expect: " + expectView +  "\n");
+        }
+    }
+
+    private void CreateViewAndActivityMatchTable() {
+        viewAndActivityMap.put("TaskList", "TaskListActivity");
+        viewAndActivityMap.put("EditTasks", "EditTaskActivity");
+        viewAndActivityMap.put("ViewTask", "ViewTaskActivity");
+        viewAndActivityMap.put("DisplayedLists", "SyncSettingsActivity");
+    }
+
+
+    private String convertViewToActivity(String view) {
+        return viewAndActivityMap.get(view);
+    }
+
+    private String convertActivityToView(String activity) {
+        return viewAndActivityMap.inverse().get(activity);
     }
 
     private InputStream executeCmdExtractOutput(String... cmd) {
@@ -93,22 +123,25 @@ public class AppiumAsserter {
         }
     }
 
-    private static String parseActivityName(InputStream is) {
+    private List<String> convertInputStreamToStringList(InputStream is) {
         List<String> result = new ArrayList<>();
-        InputStreamReader reader = new InputStreamReader(is);
-        BufferedReader bReader = new BufferedReader(reader);
+        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
         String line;
         try {
-            line = bReader.readLine();
-        } catch (IOException e) {
+            while ((line = bReader.readLine()) != null) {
+                result.add(line);
+            }
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        return result;
+    }
 
-        if (line != null) {
-            String activityName = line.substring(result.indexOf("/") + 1, result.indexOf("}"));
-            String[] str = activityName.split(" ");
-            return str[0].replace(".", "");
-        }
-        return "";
+    public String parseActivityName(InputStream is) {
+        List<String> result = convertInputStreamToStringList(is);
+        String firstLing = result.get(0);
+        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
+        String[] str = activityName.split(" ");
+        return str[0].replace(".", "");
     }
 }

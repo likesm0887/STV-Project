@@ -34,16 +34,11 @@ public class ScriptReportGenerator implements ReportGenerator {
         return spendingTimePrefix + spendingTime + statusPrefix + decorateStatus(status);
     }
 
-
-
-
-
     private String decorateStatus(String status) {
         if (status.contains("PASS") || status.contains("pass"))
             return colorHelper.paintingGreen(status);
         return colorHelper.paintingRed(status);
     }
-
 
     @Override
     public String generateScriptSummary(List<ScriptInformation> scriptInformationList) {

@@ -1,0 +1,10 @@
+# 8
+TaskList    Click   menu_btn
+# 9
+TaskList    Click   menu_displayed_lists
+# 11
+DisplayedLists    Click   add_list_btn
+# 13
+DisplayedLists    TypeText{New List}   list_editText
+# 14
+DisplayedLists    Click    list_ok_btn

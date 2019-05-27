@@ -1,5 +1,6 @@
 LoadScript{./script/UseCaseCoverage/addTask.txt}
 ViewTask    Click    edit_btn
+AssertView{EditTasks}
 EditTasks   TypeText{update task}    title_editText
 EditTasks   Click    status_dropdown
 EditTasks   Click    status_options_in_process

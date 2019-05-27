@@ -12,6 +12,8 @@ public interface DeviceDriver {
     void stopApp();
     void restartApp();
     void restartAppAndCleanData();
+    void pauseApp();
+    void reopenApp();
 
     MobileElement waitForElement(String xPath);
     MobileElement waitForElement(String xPath, int timeOutInSeconds);
@@ -32,8 +34,9 @@ public interface DeviceDriver {
 
     void assertExist(String xPath);
     void assertText(String xPath, String expectedText);
-    void assertActivity(String expectActivity);
+    void assertView(String expectActivity);
     void assertElementCount(String xPath, int expectedCount);
 
     void assertTextExist(String text);
+    String getActivityName();
 }

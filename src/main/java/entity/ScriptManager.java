@@ -6,7 +6,7 @@ import adapter.device.DeviceDriver;
 import adapter.parser.ScriptParser;
 import adapter.parser.TestDataParser;
 import adapter.scriptGenerator.ICommandMapper;
-import entity.Exception.AssertException;
+import entity.exception.AssertException;
 import useCase.command.CommandFactory;
 import useCase.command.ICommand;
 
@@ -15,48 +15,23 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 
 public class ScriptManager {
+    private Config config;
     private TestData testData;
     private DeviceDriver deviceDriver;
-    private List<Path> scriptFiles;
-    private Map<Path, ScriptRunner> scripts = new HashMap<>();
+    private Map<Path, ScriptRunner> scripts = new LinkedHashMap<>();
     private ScriptResult scriptResult = new ScriptResult(new ScriptExecutionTimer());
 
     public ScriptManager(Config config, DeviceDriver driver) throws Exception {
+        this.config = config;
         this.deviceDriver = driver;
         TestDataParser testDataParser = new TestDataParser(config.getTestDataPath());
         testDataParser.parse();
         testData = testDataParser.getTestData();
-        scriptFiles = getAllFilesPath(config.getScriptPath());
-        scriptFiles.forEach(path -> transferToScriptObject(path));
-    }
-
-    private void transferToScriptObject(Path path) {
-        System.out.println(path.toString());
-        List<Instruction> instructions = transferScriptFileToInstruction(path.toString());
-        List<ICommand> commands = transferInstructionToCommand(instructions);
-        ScriptRunner scriptRunner = new ScriptRunner(commands, path.toString());
-        scripts.put(path.getFileName(), scriptRunner);
-    }
-
-    private List<Instruction> transferScriptFileToInstruction(String path) {
-        List<Instruction> instructions = null;
-        try {
-            instructions = new ScriptParser().parse(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return instructions;
-    }
-
-    private List<ICommand> transferInstructionToCommand(List<Instruction> instructions) {
-        ICommandMapper commandMapper = new CommandMapper(testData, new CommandFactory(deviceDriver));
-        return commandMapper.toCommandList(instructions);
+        List<Path> scriptFiles = getAllFilesPath(config.getScriptPath());
+        scriptFiles.forEach(this::loadScript);
     }
 
     public List<Path> getAllFilesPath(String rootPath) throws IOException {
@@ -66,32 +41,54 @@ public class ScriptManager {
                 .collect(Collectors.toList());
     }
 
-    public boolean isExist(String scriptPath) {
-        for (Map.Entry<Path, ScriptRunner> entry : scripts.entrySet()) {
-            if (entry.getValue().getSourceFilePath().equalsIgnoreCase(scriptPath))
-                return true;
+    private void loadScript(Path path) {
+        System.out.println(path.toString());
+        List<Instruction> instructions = getInstructionsFromScriptFile(path.toString());
+        List<ICommand> commands = convertInstructionToCommand(instructions);
+        ScriptRunner scriptRunner = createScriptRunner(commands, path.toString());
+        scripts.put(path.getFileName(), scriptRunner);
+    }
+
+    private List<Instruction> getInstructionsFromScriptFile(String path) {
+        try {
+            return new ScriptParser().parse(path);
+        } catch (Exception e) {
+            throw new RuntimeException("Parse script '" + "' failed", e);
         }
-        return false;
+    }
+
+    private List<ICommand> convertInstructionToCommand(List<Instruction> instructions) {
+        ICommandMapper commandMapper = new CommandMapper(testData, new CommandFactory(deviceDriver));
+        return commandMapper.toCommandList(instructions);
+    }
+
+    private ScriptRunner createScriptRunner(List<ICommand> commands, String sourcePath) {
+        if (config.isTestAnomaly())
+            return new AnomalyScriptRunner(commands, sourcePath, deviceDriver);
+        return new ScriptRunner(commands, sourcePath);
     }
 
     public void execute() {
-
-        for (Map.Entry<Path, ScriptRunner> entry : scripts.entrySet()) {
+        deviceDriver.startService();
+        scripts.forEach((path, scriptRunner) -> {
             try {
-                scriptResult.scriptStarted(entry.getKey().toString());
-                performScript(entry.getValue());
+                scriptResult.scriptStarted(path.toString());
+                performScript(scriptRunner);
                 scriptResult.scriptEnded();
             } catch (AssertException e) {
                 scriptResult.scriptFailed(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace();
+                scriptResult.scriptFailed("");
             }
-        }
+        });
+        deviceDriver.stopService();
     }
 
     private void performScript(ScriptRunner scriptRunner) {
-        scriptRunner.executeCommands();
         deviceDriver.restartAppAndCleanData();
+        scriptRunner.executeCommands();
+        deviceDriver.stopApp();
     }
 
     public String summary() {

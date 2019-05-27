@@ -1,0 +1,12 @@
+# 8
+TaskList    Click   menu_btn
+# 9
+TaskList    Click   menu_displayed_lists
+# 11
+DisplayedLists    Click   add_list_btn
+# 9
+DisplayedLists    Click   list_cancel_btn
+# 11
+DisplayedLists    Click   add_list_btn
+# 12
+DisplayedLists    Click   list_ok_btn

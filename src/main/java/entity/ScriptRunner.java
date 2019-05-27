@@ -2,7 +2,9 @@ package entity;
 
 import useCase.command.ICommand;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ScriptRunner {
     private List<ICommand> commands;
@@ -14,12 +16,13 @@ public class ScriptRunner {
     }
 
     public void executeCommands() {
-        for (ICommand command : commands)
-            command.execute();
+        commands.forEach(each -> {
+            each.execute();
+            afterCommand();
+        });
     }
 
-    public String getSourceFilePath() {
-        return sourcePath;
+    protected void afterCommand() {
+
     }
 }
-

@@ -90,9 +90,16 @@ public class CommandFactoryTest {
 
     @Test
     public void createAssertActivityCommand() {
-        Command assertActivityCommand = commandFactory.createCommand("AssertActivity","","Activity");
+        Command assertActivityCommand = commandFactory.createCommand("AssertView","","Activity");
 
-        assertTrue(assertActivityCommand instanceof AssertActivityCommand);
+        assertTrue(assertActivityCommand instanceof AssertView);
+    }
+
+    @Test
+    public void createPressBackKeyCommand() {
+        Command pressBackCommand = commandFactory.createCommand("PressBackKey", "", "");
+
+        assertTrue(pressBackCommand instanceof PressBackKeyCommand);
     }
 
     @Test

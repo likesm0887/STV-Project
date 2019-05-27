@@ -36,7 +36,7 @@ public class CommandFactory {
                 return this.createAssertTextCommand(xPath, parameter);
             case "AssertCount":
                 return this.createAssertCounts(xPath, parameter);
-            case "AssertActivity":
+            case "AssertView":
                 return this.createAssertActivityCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
@@ -44,6 +44,8 @@ public class CommandFactory {
                 return this.createAssertTextExistCommand(parameter);
             case "TypeTextRandomly":
                 return this.createTypeTextRandomlyCommand(xPath);
+            case "PressBackKey":
+                return this.createPressBackKeyCommand();
         }
 
         throw new RuntimeException("Unexpected command type");
@@ -126,7 +128,11 @@ public class CommandFactory {
     }
 
     private Command createAssertActivityCommand(String activity) {
-        return new AssertActivityCommand(deviceDriver, activity);
+        return new AssertView(deviceDriver, activity);
+    }
+
+    private Command createPressBackKeyCommand() {
+        return new PressBackKeyCommand(deviceDriver);
     }
 
 

@@ -27,7 +27,7 @@ public class ScriptManagerTest {
     public void setUp() {
         try {
             mockDriver = context.mock(DeviceDriver.class);
-            Config config = new Config("", "", 0, 0, SIMPLE_TEST_DATA, SIMPLE_SCRIPT);
+            Config config = new Config("", "", 0, 0, SIMPLE_TEST_DATA, SIMPLE_SCRIPT, false);
             sm = new ScriptManager(config, mockDriver);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,8 +55,8 @@ public class ScriptManagerTest {
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.ImageButton']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
             oneOf(mockDriver).waitAndTypeText("//*[@resource-id='android:id/input']", "456 ");
-            oneOf(mockDriver).stopApp();
             oneOf(mockDriver).restartApp();
+            oneOf(mockDriver).restartAppAndCleanData();
         }});
 
         sm.execute();
@@ -66,7 +66,7 @@ public class ScriptManagerTest {
     @Test
     public void formatInformationAfterExecuteScript() {
         context.checking(new Expectations() {{
-            oneOf(mockDriver).launchApp();
+            oneOf(mockDriver).restartAppAndCleanData();
             will(throwException(new AssertFailedException("you cannot withdraw nothing!")));
         }});
 

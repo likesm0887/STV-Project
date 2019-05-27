@@ -49,9 +49,9 @@ EditTasks   Click   time_zone_options{Taipei}
 EditTasks   Click   complete_date
 EditTasks   Click   calendar_ok_btn
 
-#priority high
+#priority medium
 EditTasks   Click   priority_dropdown
-EditTasks   Click   priority_options_high
+EditTasks   Click   priority_options_medium
 
 #privacy public
 EditTasks   Click   privacy_dropdown
@@ -62,3 +62,7 @@ EditTasks   TypeText{www.hyperlink.com}   URL_editText
 
 #save
 EditTasks   Click   save_task_btn
+
+assertExists{cancelled}
+assertExists{medium}
+assertExists{public}

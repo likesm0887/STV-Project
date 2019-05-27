@@ -1,0 +1,8 @@
+# 20
+TaskList    Click   folder{My tasks}
+# 21
+TaskList	Click	quick_add_btn{0}
+# 24
+TaskList	Click   quick_add_edit_btn
+# 29
+EditTasks   Scroll{down}    URL_editText

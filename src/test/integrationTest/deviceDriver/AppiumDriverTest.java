@@ -2,16 +2,20 @@ package integrationTest.deviceDriver;
 
 import adapter.ConfigReader;
 import adapter.device.AppiumDriver;
-import entity.Exception.AssertException;
+import com.google.common.io.CharSource;
+import entity.exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.apache.commons.io.input.ReaderInputStream;
+import org.junit.*;
 import org.openqa.selenium.By;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -135,27 +139,26 @@ public class AppiumDriverTest {
 
     @Test (expected = AssertException.class)
     public void assertActivityFailTest() {
-        appiumDriver.assertActivity("errorActivity");
+        appiumDriver.assertView("errorActivity");
     }
 
     @Test
-    public void assertActivityTest() {
-        appiumDriver.assertActivity("TaskListActivity");
+    public void assertView() {
+        appiumDriver.assertView("TaskList");
     }
 
     @Test
     public void pressPercentage() {
         appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
         appiumDriver.waitFor(3000);
+        appiumDriver.waitAndScrollToElement("//*[@index='10']//android.widget.SeekBar", SwipeElementDirection.DOWN);
         appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
         appiumDriver.waitFor(3000);
     }
 
-    // todo: check the reason why driver can't find element
-    //  under the situation given correct xpath
+
     @Test
     public void shouldAssertTextInCurrentActivity() {
-
         appiumDriver.assertTextExist("My tasks");
     }
 
@@ -167,6 +170,24 @@ public class AppiumDriverTest {
     @Test
     public void shouldTypeTextRandomlyOnTextField() {
         appiumDriver.assertTextExist("Tasks");
+    }
 
+    @Test
+    public void pauseAndResume() {
+        // Click float add button
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
+
+        appiumDriver.pauseApp();
+        appiumDriver.reopenApp();
+
+        appiumDriver.waitAndTypeText("//*[@index='0' and contains(@class, 'android.widget.EditText')]", "Title");
+        appiumDriver.waitAndClickElement("//*[@resource-id='org.dmfs.tasks:id/editor_action_save']");
+
+        appiumDriver.pauseApp();
+        appiumDriver.reopenApp();
+
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.ImageButton']");
+        appiumDriver.waitAndClickElement("//*[@class='android.widget.TextView' and @text='My tasks']");
+        appiumDriver.assertExist("//*[@class='android.widget.LinearLayout' and ./android.widget.TextView[@text='Title']]");
     }
 }

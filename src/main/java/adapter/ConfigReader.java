@@ -12,10 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ConfigReader {
-    public Map<String, String> getConfigMap() {
-        return configMap;
-    }
-
     public Config getConfig() {
 
         readConfig();
@@ -25,7 +21,8 @@ public class ConfigReader {
                 Integer.parseInt(configMap.get("AndroidVersion")),
                 Integer.parseInt(configMap.get("AppiumPort")),
                 configMap.get("TestDataPath"),
-                configMap.get("ScripPath")
+                configMap.get("ScripPath"),
+                Boolean.parseBoolean(configMap.get("TestAnomaly"))
                 );
         return config;
     }
@@ -43,7 +40,6 @@ public class ConfigReader {
         while (cntConfigList < listConfig.length) {
             String CONFIG_FILE_PATH = listConfig[cntConfigList];
             pathConfigFile = new File(CONFIG_DIR_PATH + CONFIG_FILE_PATH);
-
 
             try {
                 Document document = (new SAXReader()).read(pathConfigFile);

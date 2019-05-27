@@ -1,8 +1,11 @@
 package adapter.device;
 
-import adapter.coverage.CodeCovergerator;
+import adapter.coverage.CodeCoverGenerator;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import entity.Config;
+import entity.exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
@@ -21,12 +24,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-
 
 import static java.lang.Thread.sleep;
 
@@ -42,7 +48,9 @@ public class AppiumDriver implements DeviceDriver {
 
 
     private Config config;
-    private CodeCovergerator codeCovergerator = new CodeCovergerator(config);
+
+    private CodeCoverGenerator codeCovergenerator = new CodeCoverGenerator(config);
+//    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
 
 
 
@@ -51,6 +59,7 @@ public class AppiumDriver implements DeviceDriver {
         defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
         appiumAsserter = new AppiumAsserter(this, this.config);
+//        CreateViewAndActivityMatchTable();
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -98,7 +107,7 @@ public class AppiumDriver implements DeviceDriver {
         cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "org.dmfs.tasks");
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
-        cap.setCapability("newCommandTimeout", 10000);
+        cap.setCapability("autoLaunch", "false");
         return cap;
     }
 
@@ -135,7 +144,7 @@ public class AppiumDriver implements DeviceDriver {
         String[] stopTestBroadcastCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "broadcast", "-a", "\"test\""};
         this.executeCmd(stopTestBroadcastCmd);
         waitFor(2000);
-        codeCovergerator.pullCodeCoverage();
+        codeCovergenerator.pullCodeCoverage();
         String[] stopCmd = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "am", "force-stop", "org.dmfs.tasks"};
         this.executeCmd(stopCmd);
         waitFor(500);
@@ -144,6 +153,22 @@ public class AppiumDriver implements DeviceDriver {
     private void clearAppData() {
         String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "pm", "clear", "org.dmfs.tasks"};
         this.executeCmd(command);
+        waitFor(1000);
+    }
+
+    @Override
+    public void pauseApp() {
+        String[] pressHomeKey = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_HOME"};
+        executeCmd(pressHomeKey);
+        waitFor(500);
+    }
+
+    @Override
+    public void reopenApp() {
+        String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
+        executeCmd(switchApp);
+        waitFor(1000);
+        executeCmd(switchApp);
         waitFor(1000);
     }
 
@@ -188,17 +213,6 @@ public class AppiumDriver implements DeviceDriver {
     public void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset) {
         MobileElement element = waitForElement(xPath);
         element.swipe(direction, offset, offset, DEFAULT_SWIPE_DURATION);
-        // TODO: swipe the task
-//        int x = element.getLocation().x;
-//        int y = element.getLocation().y;
-//        int width = element.getSize().width;
-//        int height = element.getSize().height;
-//        new TouchAction(driver)
-//                .longPress(x + width / 2, y + height / 2, 300)
-//                .waitAction(300)
-//                .moveTo(x + width + 1000, y + height / 2)
-//                .release()
-//                .perform();
     }
 
     @Override
@@ -206,31 +220,22 @@ public class AppiumDriver implements DeviceDriver {
         final int FIND_ELEMENT_LIMIT_TIMES = 10;
 
         int findElementTimes = 0;
-        WebElement scrollView = findScrollRootElement();
 
-        WebElement result = null;
-        // findElements.size
-        while (findElementTimes <= FIND_ELEMENT_LIMIT_TIMES && result == null) {
-            try {
-                result = waitForElement(xPath, 1);
-            }catch (TimeoutException e) {
-                scrollToDirection(scrollView, direction);
-            }
+        MobileElement scrollView = findScrollRootElement();
+
+        List<MobileElement> result = new ArrayList<>();
+        while (result.size() == 0 && findElementTimes < FIND_ELEMENT_LIMIT_TIMES) {
+            result = findElements(xPath);
+            scrollToDirection(scrollView, direction);
             findElementTimes++;
         }
 
-        if (result == null)
+        if (result.size() == 0)
             throw new ElementNotFoundException(xPath, "", "");
     }
 
-    private WebElement findScrollRootElement() {
-        WebElement element = null;
-        try {
-            element = findElement("//*[@class='android.widget.ScrollView']");
-        } catch (TimeoutException e) {
-            element = findElement("//*[@class='android.widget.ListView']");
-        }
-        return element;
+    private MobileElement findScrollRootElement() {
+        return waitForElement("//*[@class='android.widget.ScrollView' or @class='android.widget.ListView']");
     }
 
     @Override
@@ -246,7 +251,7 @@ public class AppiumDriver implements DeviceDriver {
                 .perform();
     }
 
-    private void scrollToDirection(WebElement scrollView, SwipeElementDirection direction) {
+    private void scrollToDirection(MobileElement scrollView, SwipeElementDirection direction) {
         int x = scrollView.getLocation().x;
         int y = scrollView.getLocation().y;
         int width = scrollView.getSize().width;
@@ -254,19 +259,16 @@ public class AppiumDriver implements DeviceDriver {
 
         switch (direction) {
             case UP:
-                driver.swipe(x + width / 2, y + (int) (height * 0.2), x + width / 2, y + (int) (height * 0.8), DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + width / 2, y + (int) (height * 0.1), x + width / 2, y + (int) (height * 0.9), DEFAULT_SWIPE_DURATION);
                 break;
-
             case LEFT:
-                driver.swipe(x + (int) (width * 0.8), y + height / 2, x + (int) (width * 0.2), y + height / 2, DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + (int) (width * 0.9), y + height / 2, x + (int) (width * 0.1), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
-
             case RIGHT:
-                driver.swipe(x + (int) (width * 0.2), y + height / 2, x + (int) (width * 0.8), y + height / 2, DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + (int) (width * 0.1), y + height / 2, x + (int) (width * 0.9), y + height / 2, DEFAULT_SWIPE_DURATION);
                 break;
-
             case DOWN:
-                driver.swipe(x + width / 2, y + (int) (height * 0.8), x + width / 2, y + (int) (height * 0.2), DEFAULT_SWIPE_DURATION);
+                driver.swipe(x + width / 2, y + (int) (height * 0.9), x + width / 2, y + (int) (height * 0.1), DEFAULT_SWIPE_DURATION);
                 break;
         }
     }
@@ -303,7 +305,7 @@ public class AppiumDriver implements DeviceDriver {
     public void waitFor(int millis) {
         try {
             sleep(millis);
-        } catch (InterruptedException e) {
+        } catch (InterruptedException ignored) {
 
         }
     }
@@ -328,8 +330,49 @@ public class AppiumDriver implements DeviceDriver {
         appiumAsserter.assertTextInCurrentActivity(text);
     }
 
-    @Override
-    public void assertActivity(String expectActivity) {
-        appiumAsserter.assertActivity(expectActivity);
+
+    public void assertView(String expectView) {
+        appiumAsserter.assertView(expectView);
+
     }
+
+    public String getActivityName() {
+        return appiumAsserter.getActivityName();
+    }
+
+//
+//    private InputStream executeCmdExtractOutput(String... cmd) {
+//        ProcessBuilder proc = new ProcessBuilder(cmd);
+//        try {
+//            Process process = proc.start();
+//            process.waitFor();
+//            return process.getInputStream();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException("get Activity error");
+//        }
+//    }
+//
+//    private static List<String> convertInputStreamToStringList(InputStream is) {
+//        List<String> result = new ArrayList<>();
+//        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
+//        String line;
+//        try {
+//            while ((line = bReader.readLine()) != null) {
+//                result.add(line);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return result;
+//    }
+//
+//    public static String parseActivityName(InputStream is) {
+//        List<String> result = convertInputStreamToStringList(is);
+//        String firstLing = result.get(0);
+//        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
+//        String[] str = activityName.split(" ");
+//        return str[0].replace(".", "");
+//    }
 }
