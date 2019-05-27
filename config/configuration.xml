@@ -7,5 +7,5 @@
         <AppiumPort>5000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
         <ScripPath>./script/UseCaseCoverage</ScripPath>
-        <TestAnomaly>true</TestAnomaly>
+        <TestAnomaly>false</TestAnomaly>
 </configuration>
