@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.utils;
 
 import android.content.ContentValues;
-
 import org.dmfs.iterables.elementary.Seq;
 import org.dmfs.iterators.SingletonIterator;
 import org.dmfs.jems.optional.Optional;
@@ -26,12 +25,7 @@ import org.dmfs.jems.optional.composite.Zipped;
 import org.dmfs.jems.optional.elementary.NullSafe;
 import org.dmfs.jems.single.Single;
 import org.dmfs.provider.tasks.model.TaskAdapter;
-import org.dmfs.provider.tasks.processors.tasks.instancedata.Distant;
-import org.dmfs.provider.tasks.processors.tasks.instancedata.DueDated;
-import org.dmfs.provider.tasks.processors.tasks.instancedata.Enduring;
-import org.dmfs.provider.tasks.processors.tasks.instancedata.Overridden;
-import org.dmfs.provider.tasks.processors.tasks.instancedata.StartDated;
-import org.dmfs.provider.tasks.processors.tasks.instancedata.VanillaInstanceData;
+import org.dmfs.provider.tasks.processors.tasks.instancedata.*;
 import org.dmfs.rfc5545.DateTime;
 
 import java.util.Iterator;

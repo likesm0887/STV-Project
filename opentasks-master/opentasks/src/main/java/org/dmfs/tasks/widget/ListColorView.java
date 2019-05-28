@@ -18,7 +18,6 @@ package org.dmfs.tasks.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.FieldDescriptor;
 import org.dmfs.tasks.model.adapters.FieldAdapter;

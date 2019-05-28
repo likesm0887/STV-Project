@@ -40,11 +40,23 @@ public class CommandFactory {
                 return this.createAssertActivityCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
+            case "AssertTextExistCommand":
+                return this.createAssertTextExistCommand(parameter);
+            case "TypeTextRandomly":
+                return this.createTypeTextRandomlyCommand(xPath);
             case "PressBackKey":
                 return this.createPressBackKeyCommand();
         }
 
         throw new RuntimeException("Unexpected command type");
+    }
+
+    private Command createTypeTextRandomlyCommand(String xPath) {
+        return new TypeTextRandomlyCommand(deviceDriver, xPath);
+    }
+
+    private Command createAssertTextExistCommand(String parameter) {
+        return new AssertTextExistCommand(deviceDriver, parameter);
     }
 
     private Command createMoveUpCommand(String xPath) {
@@ -122,4 +134,6 @@ public class CommandFactory {
     private Command createPressBackKeyCommand() {
         return new PressBackKeyCommand(deviceDriver);
     }
+
+
 }

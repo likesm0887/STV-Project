@@ -20,7 +20,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
-
 import org.dmfs.ngrams.NGramGenerator;
 import org.dmfs.provider.tasks.TaskDatabaseHelper.Tables;
 import org.dmfs.provider.tasks.model.TaskAdapter;
@@ -30,11 +29,7 @@ import org.dmfs.tasks.contract.TaskContract.Properties;
 import org.dmfs.tasks.contract.TaskContract.TaskColumns;
 import org.dmfs.tasks.contract.TaskContract.Tasks;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**

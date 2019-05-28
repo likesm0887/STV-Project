@@ -17,7 +17,6 @@
 package org.dmfs.tasks.model.constraints;
 
 import android.text.format.Time;
-
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.adapters.FieldAdapter;
 

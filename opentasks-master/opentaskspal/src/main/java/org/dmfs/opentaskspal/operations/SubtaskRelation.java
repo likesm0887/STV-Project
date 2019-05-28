@@ -18,12 +18,7 @@ package org.dmfs.opentaskspal.operations;
 
 import android.content.ContentProviderOperation;
 import android.support.annotation.NonNull;
-
-import org.dmfs.android.contentpal.InsertOperation;
-import org.dmfs.android.contentpal.Operation;
-import org.dmfs.android.contentpal.RowSnapshot;
-import org.dmfs.android.contentpal.SoftRowReference;
-import org.dmfs.android.contentpal.TransactionContext;
+import org.dmfs.android.contentpal.*;
 import org.dmfs.android.contentpal.operations.Insert;
 import org.dmfs.jems.optional.Optional;
 import org.dmfs.opentaskspal.tables.PropertiesTable;

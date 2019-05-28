@@ -28,7 +28,6 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-
 import org.dmfs.android.bolts.color.Color;
 import org.dmfs.android.bolts.color.colors.PrimaryColor;
 import org.dmfs.android.bolts.color.elementary.ValueColor;

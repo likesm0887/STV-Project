@@ -19,7 +19,6 @@ package org.dmfs.opentaskspal.readdata;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.Projection;
 import org.dmfs.android.contentpal.RowDataSnapshot;
 import org.dmfs.jems.single.Single;

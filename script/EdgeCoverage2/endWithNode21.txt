@@ -1,0 +1,8 @@
+# 20
+TaskList    Click   folder{My tasks}
+# 21
+TaskList	Click	quick_add_btn{0}
+# 23
+TaskList	Click   quick_add_dropdown
+# 21
+TaskList	Click	quick_add_options{My tasks}

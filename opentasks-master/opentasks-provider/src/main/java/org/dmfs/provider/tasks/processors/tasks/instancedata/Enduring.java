@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.processors.tasks.instancedata;
 
 import android.content.ContentValues;
-
 import org.dmfs.jems.optional.composite.Zipped;
 import org.dmfs.jems.optional.elementary.NullSafe;
 import org.dmfs.jems.single.Single;

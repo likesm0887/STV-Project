@@ -22,7 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-
 import org.dmfs.android.contentpal.RowDataSnapshot;
 import org.dmfs.android.contentpal.RowSnapshot;
 import org.dmfs.android.contentpal.predicates.AccountEq;

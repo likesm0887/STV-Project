@@ -28,7 +28,6 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.widget.TextView;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.utils.ManifestAppName;
 import org.dmfs.tasks.utils.permission.BasicAppPermissions;

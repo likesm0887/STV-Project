@@ -19,7 +19,6 @@ package org.dmfs.tasks.notification.signals;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-
 import org.dmfs.tasks.R;
 
 

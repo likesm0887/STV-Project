@@ -21,7 +21,6 @@ import android.content.res.Resources;
 import android.support.annotation.VisibleForTesting;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-
 import org.dmfs.jems.pair.Pair;
 import org.dmfs.jems.pair.elementary.ValuePair;
 import org.dmfs.rfc5545.DateTime;
@@ -33,9 +32,7 @@ import java.util.Formatter;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import static android.text.format.DateUtils.DAY_IN_MILLIS;
-import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
-import static android.text.format.DateUtils.WEEK_IN_MILLIS;
+import static android.text.format.DateUtils.*;
 
 
 /**

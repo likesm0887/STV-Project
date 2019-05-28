@@ -101,4 +101,17 @@ public class CommandFactoryTest {
 
         assertTrue(pressBackCommand instanceof PressBackKeyCommand);
     }
+
+    @Test
+    public void createAssertTextInCurrentActivity() {
+        Command assertTextExistCommand = commandFactory.createCommand("AssertTextExistCommand", "", "myText");
+        assertTrue(assertTextExistCommand instanceof AssertTextExistCommand);
+    }
+
+    @Test
+    public void createTypeTextRandomlyCommand() {
+        Command command = commandFactory.createCommand("TypeTextRandomly", "", "");
+        assertTrue(command instanceof TypeTextRandomlyCommand);
+    }
+
 }

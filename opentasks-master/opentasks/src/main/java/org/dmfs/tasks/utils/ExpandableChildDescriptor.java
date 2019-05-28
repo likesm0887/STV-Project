@@ -20,7 +20,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.CursorLoader;
-
 import org.dmfs.tasks.groupings.filters.AbstractFilter;
 
 import java.util.ArrayList;

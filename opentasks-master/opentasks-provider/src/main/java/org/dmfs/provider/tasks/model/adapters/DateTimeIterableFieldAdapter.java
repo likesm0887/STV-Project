@@ -19,7 +19,6 @@ package org.dmfs.provider.tasks.model.adapters;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.text.TextUtils;
-
 import org.dmfs.iterables.EmptyIterable;
 import org.dmfs.iterables.Split;
 import org.dmfs.iterables.decorators.DelegatingIterable;

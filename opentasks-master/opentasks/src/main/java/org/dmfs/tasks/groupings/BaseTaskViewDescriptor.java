@@ -24,7 +24,6 @@ import android.text.format.Time;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.TaskFieldAdapters;
 import org.dmfs.tasks.utils.DateFormatter;

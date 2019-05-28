@@ -18,14 +18,7 @@ package org.dmfs.opentaskspal.tables;
 
 import android.content.ContentProviderClient;
 import android.support.annotation.NonNull;
-
-import org.dmfs.android.contentpal.InsertOperation;
-import org.dmfs.android.contentpal.Operation;
-import org.dmfs.android.contentpal.Predicate;
-import org.dmfs.android.contentpal.RowSnapshot;
-import org.dmfs.android.contentpal.Table;
-import org.dmfs.android.contentpal.UriParams;
-import org.dmfs.android.contentpal.View;
+import org.dmfs.android.contentpal.*;
 import org.dmfs.opentaskspal.operations.TaskListTask;
 import org.dmfs.opentaskspal.predicates.TaskOnList;
 import org.dmfs.tasks.contract.TaskContract;

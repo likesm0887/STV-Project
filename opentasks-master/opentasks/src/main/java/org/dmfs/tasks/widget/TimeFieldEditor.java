@@ -31,13 +31,7 @@ import android.text.format.Time;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.TimePicker;
-
+import android.widget.*;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.FieldDescriptor;

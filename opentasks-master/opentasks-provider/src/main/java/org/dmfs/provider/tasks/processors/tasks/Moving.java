@@ -19,7 +19,6 @@ package org.dmfs.provider.tasks.processors.tasks;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.dmfs.provider.tasks.TaskDatabaseHelper;
 import org.dmfs.provider.tasks.model.CursorContentValuesTaskAdapter;
 import org.dmfs.provider.tasks.model.TaskAdapter;

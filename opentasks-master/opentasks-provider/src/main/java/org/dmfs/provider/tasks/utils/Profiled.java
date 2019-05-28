@@ -17,7 +17,6 @@
 package org.dmfs.provider.tasks.utils;
 
 import android.util.Log;
-
 import org.dmfs.jems.fragile.Fragile;
 import org.dmfs.jems.single.Single;
 

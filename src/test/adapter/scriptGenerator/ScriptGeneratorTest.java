@@ -65,11 +65,8 @@ public class ScriptGeneratorTest {
 
         assertThat(scriptGenerator.instructionSize(), equalTo(6));
 
-
         scriptGenerator.removeInstruction();
 
         assertThat(scriptGenerator.instructionSize(), equalTo(3));
     }
-
-
 }

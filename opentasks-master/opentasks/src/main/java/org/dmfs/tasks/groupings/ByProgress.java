@@ -23,7 +23,6 @@ import android.graphics.Paint;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-
 import org.dmfs.jems.optional.elementary.NullSafe;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract.Instances;

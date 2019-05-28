@@ -30,7 +30,6 @@ import android.support.v4.content.CursorLoader;
 import android.text.format.Time;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
 import org.dmfs.provider.tasks.AuthorityUtil;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract;

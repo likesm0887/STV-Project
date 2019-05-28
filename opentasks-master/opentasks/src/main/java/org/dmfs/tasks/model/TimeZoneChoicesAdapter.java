@@ -19,17 +19,10 @@ package org.dmfs.tasks.model;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.adapters.TimeZoneWrapper;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 
 /**

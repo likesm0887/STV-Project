@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorTreeAdapter;
 import android.widget.ExpandableListView;
-
 import org.dmfs.tasks.groupings.cursorloaders.EmptyCursorLoaderFactory;
 import org.dmfs.tasks.groupings.filters.AbstractFilter;
 

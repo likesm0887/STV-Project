@@ -59,8 +59,16 @@ EditTasks   Click   calendar_ok_btn
 EditTasks   Click   priority_dropdown
 EditTasks   Click   priority_options_high
 
+#privacy private
+EditTasks   Click   privacy_dropdown
+EditTasks   Click   privacy_options_private
+
 #url
 EditTasks   TypeText{www.hyperlink.com}   URL_editText
 
 #save
 EditTasks   Click   save_task_btn
+
+assertExists{done}
+assertExists{high}
+assertExists{private}

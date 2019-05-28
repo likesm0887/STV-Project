@@ -17,7 +17,6 @@
 package org.dmfs.opentaskspal.tasks;
 
 import android.content.ContentProviderOperation;
-
 import org.dmfs.android.contentpal.TransactionContext;
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;

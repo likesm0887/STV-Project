@@ -18,7 +18,6 @@ package org.dmfs.provider.tasks.model;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.dmfs.provider.tasks.TaskDatabaseHelper;
 import org.dmfs.provider.tasks.model.adapters.FieldAdapter;
 import org.dmfs.tasks.contract.TaskContract;

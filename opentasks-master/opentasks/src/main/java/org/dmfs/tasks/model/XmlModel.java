@@ -25,7 +25,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ServiceInfo;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract.Tasks;
 import org.dmfs.tasks.model.adapters.BooleanFieldAdapter;
@@ -39,7 +38,6 @@ import org.dmfs.xmlobjects.builder.AbstractObjectBuilder;
 import org.dmfs.xmlobjects.pull.ParserContext;
 import org.dmfs.xmlobjects.pull.Recyclable;
 import org.dmfs.xmlobjects.pull.XmlObjectPull;
-import org.dmfs.xmlobjects.pull.XmlObjectPullParserException;
 import org.dmfs.xmlobjects.pull.XmlPath;
 
 import java.util.HashMap;

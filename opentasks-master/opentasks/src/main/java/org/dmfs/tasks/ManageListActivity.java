@@ -31,16 +31,8 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.dmfs.android.colorpicker.ColorPickerDialogFragment;
-import org.dmfs.android.colorpicker.palettes.ArrayPalette;
-import org.dmfs.android.colorpicker.palettes.ColorFactory;
-import org.dmfs.android.colorpicker.palettes.ColorShadeFactory;
-import org.dmfs.android.colorpicker.palettes.CombinedColorFactory;
-import org.dmfs.android.colorpicker.palettes.FactoryPalette;
-import org.dmfs.android.colorpicker.palettes.Palette;
-import org.dmfs.android.colorpicker.palettes.RainbowColorFactory;
-import org.dmfs.android.colorpicker.palettes.RandomPalette;
+import org.dmfs.android.colorpicker.palettes.*;
 import org.dmfs.android.retentionmagic.annotations.Retain;
 import org.dmfs.tasks.InputTextDialogFragment.InputTextListener;
 import org.dmfs.tasks.contract.TaskContract;

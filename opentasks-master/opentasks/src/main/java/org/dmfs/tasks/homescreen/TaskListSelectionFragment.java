@@ -18,7 +18,6 @@ package org.dmfs.tasks.homescreen;
 
 import android.app.Activity;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -30,7 +29,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import org.dmfs.provider.tasks.AuthorityUtil;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract;

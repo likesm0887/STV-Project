@@ -18,7 +18,6 @@ package org.dmfs.tasks.utils;
 
 import android.support.test.runner.AndroidJUnit4;
 import android.text.format.Time;
-
 import org.dmfs.rfc5545.DateTime;
 import org.dmfs.rfc5545.Duration;
 import org.junit.Test;

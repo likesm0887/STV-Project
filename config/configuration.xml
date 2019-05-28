@@ -3,8 +3,8 @@
         <!--DeviceName option :Android Device , Android Emulator-->
         <DeviceName>Android Emulator</DeviceName>
         <SerialNumber>emulator-5554</SerialNumber>
-        <AndroidVersion>9</AndroidVersion>
-        <AppiumPort>5000</AppiumPort>
+        <AndroidVersion>8</AndroidVersion>
+        <AppiumPort>50000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
         <ScripPath>./script/UseCaseCoverage</ScripPath>
         <TestAnomaly>false</TestAnomaly>

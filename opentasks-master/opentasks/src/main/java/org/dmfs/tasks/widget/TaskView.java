@@ -22,7 +22,6 @@ import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.dmfs.tasks.model.FieldDescriptor;
 import org.dmfs.tasks.model.Model;
 

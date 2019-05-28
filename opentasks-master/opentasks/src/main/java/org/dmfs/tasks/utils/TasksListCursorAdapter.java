@@ -24,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import org.dmfs.android.widgets.ColoredShapeCheckBox;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract;

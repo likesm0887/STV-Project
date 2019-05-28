@@ -18,7 +18,6 @@ package org.dmfs.provider.tasks.processors.instances;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import org.dmfs.iterables.decorators.Sieved;
 import org.dmfs.iterables.elementary.Seq;
 import org.dmfs.jems.optional.Optional;

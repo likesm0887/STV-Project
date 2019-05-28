@@ -34,10 +34,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 import com.jmedeisis.draglinearlayout.DragLinearLayout.OnViewSwapListener;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.CheckListItem;
 import org.dmfs.tasks.model.ContentSet;

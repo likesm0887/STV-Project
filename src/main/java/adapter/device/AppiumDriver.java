@@ -39,19 +39,27 @@ import static java.lang.Thread.sleep;
 public class AppiumDriver implements DeviceDriver {
     private final int DEFAULT_SWIPE_DURATION = 300;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
-    private AndroidDriver driver;
-    private Config config;
     private int defaultTimeout;
-    private int findElementLimitTimes = 10;
+
+
     private AppiumDriverLocalService appiumDriverLocalService;
+    private AndroidDriver driver;
+    private AppiumAsserter appiumAsserter;
+
+
+    private Config config;
+
     private CodeCoverGenerator codeCovergenerator = new CodeCoverGenerator(config);
-    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
+//    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
+
+
 
     public AppiumDriver(Config config) {
         this.config = config;
         defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
-        CreateViewAndActivityMatchTable();
+        appiumAsserter = new AppiumAsserter(this, this.config);
+//        CreateViewAndActivityMatchTable();
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -164,11 +172,11 @@ public class AppiumDriver implements DeviceDriver {
         waitFor(1000);
     }
 
-    private MobileElement findElement(String xPath) {
+    public MobileElement findElement(String xPath) {
         return (MobileElement) this.driver.findElement(By.xpath(xPath));
     }
 
-    private List<MobileElement> findElements(String xPath) {
+    public List<MobileElement> findElements(String xPath) {
         return this.driver.findElements(By.xpath(xPath));
     }
 
@@ -181,6 +189,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public MobileElement waitForElement(String xPath) {
+
         return waitForElement(xPath, defaultTimeout);
     }
 
@@ -192,12 +201,12 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void waitAndClickElement(String xPath) {
-        waitForElement(xPath, defaultTimeout).click();
+        waitForElement(xPath).click();
     }
 
     @Override
     public void waitAndTypeText(String xPath, String text) {
-        waitForElement(xPath, defaultTimeout).sendKeys(text);
+        waitForElement(xPath).sendKeys(text);
     }
 
     @Override
@@ -208,13 +217,15 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
+        final int FIND_ELEMENT_LIMIT_TIMES = 10;
+
         int findElementTimes = 0;
         int offset = 50;
         MobileElement scrollView = findScrollRootElement();
         SwipeElementDirection gestureDirection = getOppositeDirection(direction);
 
         List<MobileElement> result = scrollView.findElementsByXPath(xPath);
-        while (result.size() == 0 && findElementTimes < this.findElementLimitTimes) {
+        while (result.size() == 0 && findElementTimes < FIND_ELEMENT_LIMIT_TIMES) {
             scrollView.swipe(gestureDirection, offset, offset, 600);
             result = scrollView.findElementsByXPath(xPath);
             findElementTimes++;
@@ -255,7 +266,7 @@ public class AppiumDriver implements DeviceDriver {
                 .release()
                 .perform();
     }
-
+    
     @Override
     public void deleteCharacter(String xPath, int times) {
         this.waitAndClickElement(xPath);
@@ -295,99 +306,67 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void assertExist(String xPath) {
-        try {
-            waitForElement(xPath, 2);
-        } catch (Exception e) {
-            throw new AssertException("Element does not exist");
-        }
+        appiumAsserter.assertExist(xPath, "Element does not exist");
     }
 
     @Override
     public void assertText(String xPath, String expectedText) {
-        assertExist(xPath);
-        MobileElement element = findElement(xPath);
-        if (!element.getText().equals(expectedText)) {
-            throw new AssertException(
-                    "\nActual text: " + element.getText() + "\n" +
-                            "Expect: " + expectedText + "\n");
-        }
+        appiumAsserter.assertText(xPath, expectedText);
     }
 
     @Override
     public void assertElementCount(String xPath, int expectedCount) {
-        assertExist(xPath);
-        int actual = findElements(xPath).size();
-        if (actual != expectedCount) {
-            throw new AssertException(
-                    "\nActual count: " + actual + "\n" +
-                            "Expected: " + expectedCount + "\n");
-        }
+        appiumAsserter.assertElementCount(xPath, expectedCount);
     }
 
     @Override
+    public void assertTextExist(String text) {
+        appiumAsserter.assertTextInCurrentActivity(text);
+    }
+
+
     public void assertView(String expectView) {
-        String actualView = convertActivityToView(getActivityName());
-        if (!expectView.equals(actualView)) {
-            throw new AssertException(
-                    "\nActual View: " + actualView + "(Activity:" + convertViewToActivity(actualView) + ")" +"\n" +
-                            "Expect: " + expectView +  "\n");
-        }
-    }
+        appiumAsserter.assertView(expectView);
 
-    private void CreateViewAndActivityMatchTable() {
-        viewAndActivityMap.put("TaskList", "TaskListActivity");
-        viewAndActivityMap.put("EditTasks", "EditTaskActivity");
-        viewAndActivityMap.put("ViewTask", "ViewTaskActivity");
-        viewAndActivityMap.put("DisplayedLists", "SyncSettingsActivity");
-    }
-
-    private String convertViewToActivity(String view) {
-        return viewAndActivityMap.get(view);
-    }
-
-    private String convertActivityToView(String activity) {
-        return viewAndActivityMap.inverse().get(activity);
     }
 
     public String getActivityName() {
-        String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
-                "activity", "activities", "|", "grep", "\"Run\\ #\""};
-        InputStream inputStream = this.executeCmdExtractOutput(command);
-        return parseActivityName(inputStream);
+        return appiumAsserter.getActivityName();
     }
 
-    private InputStream executeCmdExtractOutput(String... cmd) {
-        ProcessBuilder proc = new ProcessBuilder(cmd);
-        try {
-            Process process = proc.start();
-            process.waitFor();
-            return process.getInputStream();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("get Activity error");
-        }
-    }
-
-    private static List<String> convertInputStreamToStringList(InputStream is) {
-        List<String> result = new ArrayList<>();
-        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
-        String line;
-        try {
-            while ((line = bReader.readLine()) != null) {
-                result.add(line);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return result;
-    }
-
-    public static String parseActivityName(InputStream is) {
-        List<String> result = convertInputStreamToStringList(is);
-        String firstLing = result.get(0);
-        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
-        String[] str = activityName.split(" ");
-        return str[0].replace(".", "");
-    }
+//
+//    private InputStream executeCmdExtractOutput(String... cmd) {
+//        ProcessBuilder proc = new ProcessBuilder(cmd);
+//        try {
+//            Process process = proc.start();
+//            process.waitFor();
+//            return process.getInputStream();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException("get Activity error");
+//        }
+//    }
+//
+//    private static List<String> convertInputStreamToStringList(InputStream is) {
+//        List<String> result = new ArrayList<>();
+//        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
+//        String line;
+//        try {
+//            while ((line = bReader.readLine()) != null) {
+//                result.add(line);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return result;
+//    }
+//
+//    public static String parseActivityName(InputStream is) {
+//        List<String> result = convertInputStreamToStringList(is);
+//        String firstLing = result.get(0);
+//        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
+//        String[] str = activityName.split(" ");
+//        return str[0].replace(".", "");
+//    }
 }

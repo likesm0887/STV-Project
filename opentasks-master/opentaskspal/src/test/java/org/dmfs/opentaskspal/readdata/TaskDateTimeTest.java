@@ -25,9 +25,7 @@ import org.junit.Test;
 
 import java.util.TimeZone;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 import static org.dmfs.jems.mockito.doubles.TestDoubles.failingMock;
 import static org.dmfs.optional.Absent.absent;
 import static org.hamcrest.MatcherAssert.assertThat;

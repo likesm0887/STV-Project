@@ -18,7 +18,6 @@ package org.dmfs.tasks.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
 import org.dmfs.tasks.model.Model;
 import org.dmfs.tasks.model.Sources;
 

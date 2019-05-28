@@ -17,7 +17,6 @@ import static org.junit.Assert.assertThat;
 @RunWith(JMock.class)
 public class SingleInstructionHandlerTest {
 
-
     protected SingleInstructionHandler singleInstructionHandler;
     protected Mockery context = new JUnit4Mockery();
     protected ICommandMapper commandMapper;
@@ -63,6 +62,5 @@ public class SingleInstructionHandlerTest {
 
         instructions = singleInstructionHandler.getInstructions();
         assertThat(instructions.size(), equalTo(0));
-
     }
 }

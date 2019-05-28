@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.util.SparseArrayCompat;
 import android.text.TextUtils;
-
 import org.dmfs.provider.tasks.AuthorityUtil;
 import org.dmfs.tasks.ManageListActivity;
 import org.dmfs.tasks.contract.TaskContract.TaskLists;

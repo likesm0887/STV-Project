@@ -18,7 +18,6 @@ package org.dmfs.provider.tasks.model;
 
 import android.content.ContentUris;
 import android.net.Uri;
-
 import org.dmfs.tasks.contract.TaskContract;
 
 

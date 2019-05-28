@@ -25,7 +25,6 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import org.dmfs.jems.optional.elementary.NullSafe;
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract.Instances;
@@ -33,12 +32,8 @@ import org.dmfs.tasks.groupings.cursorloaders.TimeRangeCursorFactory;
 import org.dmfs.tasks.groupings.cursorloaders.TimeRangeStartCursorFactory;
 import org.dmfs.tasks.groupings.cursorloaders.TimeRangeStartCursorLoaderFactory;
 import org.dmfs.tasks.model.TaskFieldAdapters;
-import org.dmfs.tasks.utils.DateFormatter;
+import org.dmfs.tasks.utils.*;
 import org.dmfs.tasks.utils.DateFormatter.DateFormatContext;
-import org.dmfs.tasks.utils.ExpandableChildDescriptor;
-import org.dmfs.tasks.utils.ExpandableGroupDescriptor;
-import org.dmfs.tasks.utils.ExpandableGroupDescriptorAdapter;
-import org.dmfs.tasks.utils.ViewDescriptor;
 import org.dmfs.tasks.widget.ProgressBackgroundView;
 
 

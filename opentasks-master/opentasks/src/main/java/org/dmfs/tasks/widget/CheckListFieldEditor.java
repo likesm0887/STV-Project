@@ -31,7 +31,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.model.CheckListItem;
 import org.dmfs.tasks.model.ContentSet;

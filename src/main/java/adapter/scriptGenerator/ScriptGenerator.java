@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScriptGenerator {
-
-
-    public enum ExecuteMode {Single, Batch}
+    public enum ExecuteMode { Single, Batch }
 
     private InstructionHandler instructionHandler;
     private List<String> instructions = new ArrayList<>();
@@ -26,6 +24,7 @@ public class ScriptGenerator {
     }
 
     public void executeInstruction(String instruction) {
+
         this.instructionHandler.executeInstruction(instruction);
     }
 

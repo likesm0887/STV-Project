@@ -19,7 +19,6 @@ package org.dmfs.tasks.model;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import org.dmfs.tasks.model.adapters.FieldAdapter;
 import org.dmfs.tasks.model.layout.LayoutDescriptor;
 import org.dmfs.tasks.model.layout.LayoutOptions;

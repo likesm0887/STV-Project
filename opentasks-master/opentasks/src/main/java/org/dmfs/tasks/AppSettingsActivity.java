@@ -18,7 +18,6 @@ package org.dmfs.tasks;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import org.dmfs.tasks.utils.BaseActivity;
 
 

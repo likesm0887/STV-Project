@@ -22,10 +22,8 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
-
 import com.google.android.apps.dashclock.api.DashClockExtension;
 import com.google.android.apps.dashclock.api.ExtensionData;
-
 import org.dmfs.provider.tasks.AuthorityUtil;
 import org.dmfs.tasks.EditTaskActivity;
 import org.dmfs.tasks.R;

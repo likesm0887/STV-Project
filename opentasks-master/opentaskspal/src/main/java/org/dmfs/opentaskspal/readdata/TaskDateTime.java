@@ -17,7 +17,6 @@
 package org.dmfs.opentaskspal.readdata;
 
 import android.support.annotation.NonNull;
-
 import org.dmfs.android.contentpal.Projection;
 import org.dmfs.android.contentpal.RowDataSnapshot;
 import org.dmfs.android.contentpal.projections.Composite;

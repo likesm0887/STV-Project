@@ -19,7 +19,6 @@ package org.dmfs.tasks.share;
 
 import android.content.Context;
 import android.content.Intent;
-
 import org.dmfs.jems.single.Single;
 import org.dmfs.tasks.model.ContentSet;
 import org.dmfs.tasks.model.Model;

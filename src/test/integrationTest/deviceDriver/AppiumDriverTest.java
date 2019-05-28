@@ -143,19 +143,8 @@ public class AppiumDriverTest {
     }
 
     @Test
-    public void assertActivityTest() {
+    public void assertView() {
         appiumDriver.assertView("TaskList");
-    }
-
-    @Test
-    public void parseActivityNameTest() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, IOException {
-        Method method = AppiumDriver.class.getDeclaredMethod("parseActivityName", InputStream.class);
-        method.setAccessible(true);
-        String input = "\" Run #8: ActivityRecord{1801877 u0 org.dmfs.tasks/.EditTaskActivity t19018}\\n\" +\n";
-        InputStream targetStream =
-                new ReaderInputStream(CharSource.wrap(input).openStream(), StandardCharsets.UTF_8.name());
-        Object[] arguments =new Object[]{targetStream};
-        Assert.assertEquals("EditTaskActivity",method.invoke(appiumDriver, arguments));
     }
 
     @Test
@@ -165,6 +154,22 @@ public class AppiumDriverTest {
         appiumDriver.waitAndScrollToElement("//*[@index='10']//android.widget.SeekBar", SwipeElementDirection.DOWN);
         appiumDriver.pressPercentage("//*[@index='10']//android.widget.SeekBar", 80);
         appiumDriver.waitFor(3000);
+    }
+
+
+    @Test
+    public void shouldAssertTextInCurrentActivity() {
+        appiumDriver.assertTextExist("My tasks");
+    }
+
+    @Test(expected = AssertException.class)
+    public void shouldAssertTextNotInCurrentActivity() {
+        appiumDriver.assertTextExist("Not in current Activity");
+    }
+
+    @Test
+    public void shouldTypeTextRandomlyOnTextField() {
+        appiumDriver.assertTextExist("Tasks");
     }
 
     @Test
