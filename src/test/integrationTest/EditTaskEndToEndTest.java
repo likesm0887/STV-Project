@@ -327,12 +327,19 @@ public class EditTaskEndToEndTest {
 
         ClickAddCheckItem();
         CreateCheckItem("taskItem1", 0);
+        ClickBackKey();
         ClickAddCheckItem();
         CreateCheckItem("taskItem2", 1);
+        ClickBackKey();
         ClickAddCheckItem(); // todo need to enter
+//        ClickBackKey();
         MoveUpCheckItem(1);
         MoveDownCheckItem(0);
 
+    }
+
+    private void ClickBackKey() {
+        scriptGenerator.executeInstruction("PressBackKey");
     }
 
     private void MoveDownCheckItem(int index) {

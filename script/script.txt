@@ -57,8 +57,10 @@ EditTasks	TypeText{1234}	URL_editText
 EditTasks	Click	save_task_btn
 ViewTask	Click	check_list_add_item
 ViewTask	TypeText{taskItem1}	check_list_editText{0}
+PressBackKey
 ViewTask	Click	check_list_add_item
 ViewTask	TypeText{taskItem2}	check_list_editText{1}
+PressBackKey
 ViewTask	Click	check_list_add_item
 ViewTask	MoveUp	check_list_drag_handle{1}
 ViewTask	MoveDown	check_list_drag_handle{0}

@@ -209,18 +209,34 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
         int findElementTimes = 0;
-
+        int offset = 50;
         MobileElement scrollView = findScrollRootElement();
+        SwipeElementDirection gestureDirection = getOppositeDirection(direction);
 
-        List<MobileElement> result = new ArrayList<>();
+        List<MobileElement> result = scrollView.findElementsByXPath(xPath);
         while (result.size() == 0 && findElementTimes < this.findElementLimitTimes) {
-            result = findElements(xPath);
-            scrollToDirection(scrollView, direction);
+            scrollView.swipe(gestureDirection, offset, offset, 600);
+            result = scrollView.findElementsByXPath(xPath);
             findElementTimes++;
         }
 
         if (result.size() == 0)
             throw new ElementNotFoundException(xPath, "", "");
+    }
+
+    private SwipeElementDirection getOppositeDirection(SwipeElementDirection direction) {
+        switch (direction) {
+            case UP:
+                return SwipeElementDirection.DOWN;
+            case DOWN:
+                return SwipeElementDirection.UP;
+            case RIGHT:
+                return SwipeElementDirection.LEFT;
+            case LEFT:
+                return SwipeElementDirection.RIGHT;
+            default:
+                throw new RuntimeException("Can't find the opposite direction...");
+        }
     }
 
     private MobileElement findScrollRootElement() {
@@ -239,29 +255,6 @@ public class AppiumDriver implements DeviceDriver {
                 .release()
                 .perform();
     }
-
-    private void scrollToDirection(MobileElement scrollView, SwipeElementDirection direction) {
-        int x = scrollView.getLocation().x;
-        int y = scrollView.getLocation().y;
-        int width = scrollView.getSize().width;
-        int height = scrollView.getSize().height;
-
-        switch (direction) {
-            case UP:
-                driver.swipe(x + width / 2, y + (int) (height * 0.1), x + width / 2, y + (int) (height * 0.9), DEFAULT_SWIPE_DURATION);
-                break;
-            case LEFT:
-                driver.swipe(x + (int) (width * 0.9), y + height / 2, x + (int) (width * 0.1), y + height / 2, DEFAULT_SWIPE_DURATION);
-                break;
-            case RIGHT:
-                driver.swipe(x + (int) (width * 0.1), y + height / 2, x + (int) (width * 0.9), y + height / 2, DEFAULT_SWIPE_DURATION);
-                break;
-            case DOWN:
-                driver.swipe(x + width / 2, y + (int) (height * 0.9), x + width / 2, y + (int) (height * 0.1), DEFAULT_SWIPE_DURATION);
-                break;
-        }
-    }
-
 
     @Override
     public void deleteCharacter(String xPath, int times) {
