@@ -2,10 +2,7 @@ package adapter.device;
 
 import adapter.coverage.CodeCoverGenerator;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import entity.Config;
-import entity.exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
@@ -18,20 +15,15 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -40,26 +32,17 @@ public class AppiumDriver implements DeviceDriver {
     private final int DEFAULT_SWIPE_DURATION = 300;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
     private int defaultTimeout;
-
-
     private AppiumDriverLocalService appiumDriverLocalService;
     private AndroidDriver driver;
     private AppiumAsserter appiumAsserter;
-
-
     private Config config;
-
     private CodeCoverGenerator codeCovergenerator = new CodeCoverGenerator(config);
-//    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
-
-
 
     public AppiumDriver(Config config) {
         this.config = config;
         defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
         appiumAsserter = new AppiumAsserter(this, this.config);
-//        CreateViewAndActivityMatchTable();
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -90,13 +73,11 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     private URL getServerUrl() {
-        URL serverUrl = null;
         try {
-            serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
+            return new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
         } catch (MalformedURLException e) {
             throw new RuntimeException("The error format of appium server url");
         }
-        return serverUrl;
     }
 
     private DesiredCapabilities getDesiredCapabilities() {
@@ -160,14 +141,14 @@ public class AppiumDriver implements DeviceDriver {
     public void pauseApp() {
         String[] pressHomeKey = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_HOME"};
         executeCmd(pressHomeKey);
-        waitFor(500);
+        waitFor(1000);
     }
 
     @Override
     public void reopenApp() {
         String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
         executeCmd(switchApp);
-        waitFor(1000);
+        waitFor(1500);
         executeCmd(switchApp);
         waitFor(1000);
     }
@@ -321,52 +302,17 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void assertTextExist(String text) {
-        appiumAsserter.assertTextInCurrentActivity(text);
+        appiumAsserter.assertTextExist(text);
     }
 
-
+    @Override
     public void assertView(String expectView) {
         appiumAsserter.assertView(expectView);
 
     }
 
+    @Override
     public String getActivityName() {
         return appiumAsserter.getActivityName();
     }
-
-//
-//    private InputStream executeCmdExtractOutput(String... cmd) {
-//        ProcessBuilder proc = new ProcessBuilder(cmd);
-//        try {
-//            Process process = proc.start();
-//            process.waitFor();
-//            return process.getInputStream();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException("get Activity error");
-//        }
-//    }
-//
-//    private static List<String> convertInputStreamToStringList(InputStream is) {
-//        List<String> result = new ArrayList<>();
-//        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
-//        String line;
-//        try {
-//            while ((line = bReader.readLine()) != null) {
-//                result.add(line);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        return result;
-//    }
-//
-//    public static String parseActivityName(InputStream is) {
-//        List<String> result = convertInputStreamToStringList(is);
-//        String firstLing = result.get(0);
-//        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
-//        String[] str = activityName.split(" ");
-//        return str[0].replace(".", "");
-//    }
 }

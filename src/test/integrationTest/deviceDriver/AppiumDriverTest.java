@@ -29,7 +29,7 @@ public class AppiumDriverTest {
     public static void setUpClass() {
         ConfigReader configReader = new ConfigReader();
         appiumDriver = new AppiumDriver(configReader.getConfig());
-        appiumDriver.setDefaultTimeout(2);
+        appiumDriver.setDefaultTimeout(5);
         appiumDriver.startService();
         androidDriver = appiumDriver.getDriver();
     }

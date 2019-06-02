@@ -46,10 +46,10 @@ public class AppiumAsserter {
         }
     }
 
-    public void assertTextInCurrentActivity(String text) {
+    public void assertTextExist(String text) {
         String xPath = String.format("//*[@text='%s']", text);
 
-        String errorMessage = String.format("\nActual : Text %s is not in the current activity" + "\n" +
+        String errorMessage = String.format("\nActual: Text %s is not in the current activity" + "\n" +
                 "Expected: Text %s is in the current activity" + "\n", text, text);
 
         assertExist(xPath, errorMessage);
@@ -73,17 +73,6 @@ public class AppiumAsserter {
         InputStream inputStream = this.executeCmdExtractOutput(command);
         return parseActivityName(inputStream);
     }
-
-
-    public void assertActivity(String expectActivity) {
-        String actualActivity = getActivityName();
-        if (!expectActivity.equals(actualActivity)) {
-            throw new entity.exception.AssertException(
-                    "\nActual activity: " + actualActivity + "\n" +
-                            "Expect: " + expectActivity + "\n");
-        }
-    }
-
 
     public void assertView(String expectView) {
         String actualView = convertActivityToView(getActivityName());
