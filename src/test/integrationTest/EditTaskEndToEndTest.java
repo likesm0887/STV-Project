@@ -44,7 +44,7 @@ public class EditTaskEndToEndTest {
 
     @After
     public void tearDown() {
-        scriptGenerator.writeScriptFile("script");
+//        scriptGenerator.writeScriptFile("script");
         driver.stopApp();
         driver.stopService();
     }
@@ -156,7 +156,7 @@ public class EditTaskEndToEndTest {
 
         String str_year = Integer.toString(year);
 
-        String script = String.format("EditTasks\tClickCalenderYear{%s}\tcalendar_pick_year{%s}", "Down", str_year);
+        String script = String.format("EditTasks\tSelectCalenderYear{%s}\tcalendar_pick_year{%s}", "Down", str_year);
         scriptGenerator.executeInstruction(script);
     }
 
@@ -366,7 +366,7 @@ public class EditTaskEndToEndTest {
     }
 
     private void EnterTimeZone(String direction, String timeZone) {
-        String script = String.format("EditTasks\tScrollAndClickTimeZone{%s}\ttime_zone_options{%s}", direction, timeZone);
+        String script = String.format("EditTasks\tSelectTimeZone{%s}\ttime_zone_options{%s}", direction, timeZone);
         scriptGenerator.executeInstruction(script);
     }
 

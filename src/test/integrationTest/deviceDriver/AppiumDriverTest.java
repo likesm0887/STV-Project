@@ -44,6 +44,11 @@ public class AppiumDriverTest {
         appiumDriver.restartAppAndCleanData();
     }
 
+    @After
+    public void tearDown() {
+        appiumDriver.stopApp();
+    }
+
     @Test
     public void androidDriverShouldNotBeNull() {
         assertNotNull(androidDriver);

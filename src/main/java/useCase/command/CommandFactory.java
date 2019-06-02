@@ -22,10 +22,10 @@ public class CommandFactory {
                 return this.createDeleteCommand(xPath, parameter);
             case "Scroll":
                 return this.createScrollToElementCommand(xPath, parameter);
-            case "ScrollAndClickTimeZone":
-                return this.createScrollAndClickTimeZoneCommand(xPath, parameter);
-            case "ClickCalenderYear":
-                return this.createScrollToCalenderYearAndClickCommand(xPath, parameter);
+            case "SelectTimeZone":
+                return this.createSelectTimeZoneCommand(xPath, parameter);
+            case "SelectCalenderYear":
+                return this.createSelectCalenderYearCommand(xPath, parameter);
             case "MoveDown":
                 return this.createMoveDownCommand(xPath);
             case "MoveUp":
@@ -67,16 +67,16 @@ public class CommandFactory {
         return new MoveDownCommand(deviceDriver, xPath);
     }
 
-    private Command createScrollAndClickTimeZoneCommand(String xPath, String parameter) {
-        return new ScrollAndClickTimeZoneCommand(deviceDriver, xPath, parameter);
+    private Command createSelectTimeZoneCommand(String xPath, String parameter) {
+        return new SelectTimeZoneCommand(deviceDriver, xPath, parameter);
     }
 
     private Command createScrollToElementCommand(String xPath, String parameter) {
         return new ScrollToElementCommand(deviceDriver, xPath, parameter);
     }
 
-    private Command createScrollToCalenderYearAndClickCommand(String xPath, String parameter) {
-        return new ScrollToCalenderYearAndClickCommand(deviceDriver, xPath, parameter);
+    private Command createSelectCalenderYearCommand(String xPath, String parameter) {
+        return new SelectCalenderYearCommand(deviceDriver, xPath, parameter);
     }
 
     public CommandFactory(DeviceDriver deviceDriver) {

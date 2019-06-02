@@ -220,7 +220,7 @@ public class AppiumDriver implements DeviceDriver {
         final int FIND_ELEMENT_LIMIT_TIMES = 10;
 
         int findElementTimes = 0;
-        int offset = 50;
+        int offset = 70;
         MobileElement scrollView = findScrollRootElement();
         SwipeElementDirection gestureDirection = getOppositeDirection(direction);
 
@@ -266,7 +266,7 @@ public class AppiumDriver implements DeviceDriver {
                 .release()
                 .perform();
     }
-    
+
     @Override
     public void deleteCharacter(String xPath, int times) {
         this.waitAndClickElement(xPath);

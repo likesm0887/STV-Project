@@ -61,14 +61,14 @@ public class CommandTest {
     @Test
     public void DriverScrollToElementCommandExecute() {
         SwipeElementDirection swipeElementDirection = SwipeElementDirection.UP;
-        ScrollToCalenderYearAndClickCommand scrollToCalenderYearAndClickCommand = new ScrollToCalenderYearAndClickCommand(mockDeviceDriver, xPath, "up");
+        SelectCalenderYearCommand selectCalenderYearCommand = new SelectCalenderYearCommand(mockDeviceDriver, xPath, "up");
 
         context.checking(new Expectations() {{
             oneOf(mockDeviceDriver).waitAndScrollToElement(xPath, swipeElementDirection);
             oneOf(mockDeviceDriver).waitAndClickElement(xPath);
         }});
 
-        scrollToCalenderYearAndClickCommand.execute();
+        selectCalenderYearCommand.execute();
     }
 
     @Test

@@ -49,14 +49,16 @@ public class ScriptManagerTest {
     @Test
     public void executeScriptTest() {
         context.checking(new Expectations() {{
-            oneOf(mockDriver).launchApp();
+            oneOf(mockDriver).startService();
+            oneOf(mockDriver).restartAppAndCleanData();
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.TextView' and @text='list']");
             oneOf(mockDriver).waitAndClickElement("//*[@resource-id='org.dmfs.tasks:id/task_list_spinner']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.ImageButton']");
             oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
             oneOf(mockDriver).waitAndTypeText("//*[@resource-id='android:id/input']", "456 ");
             oneOf(mockDriver).restartApp();
-            oneOf(mockDriver).restartAppAndCleanData();
+            oneOf(mockDriver).stopApp();
+            oneOf(mockDriver).stopService();
         }});
 
         sm.execute();
@@ -66,8 +68,16 @@ public class ScriptManagerTest {
     @Test
     public void formatInformationAfterExecuteScript() {
         context.checking(new Expectations() {{
+            oneOf(mockDriver).startService();
+            oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.TextView' and @text='list']");
+            oneOf(mockDriver).waitAndClickElement("//*[@resource-id='org.dmfs.tasks:id/task_list_spinner']");
+            oneOf(mockDriver).waitAndClickElement("//*[@class='android.widget.ImageButton']");
+            oneOf(mockDriver).waitAndClickElement("//*[@class='android.support.v7.app.ActionBar$Tab' and @index='0']");
+            oneOf(mockDriver).waitAndTypeText("//*[@resource-id='android:id/input']", "456 ");
+            oneOf(mockDriver).restartApp();
+            oneOf(mockDriver).stopApp();
+            oneOf(mockDriver).stopService();
             oneOf(mockDriver).restartAppAndCleanData();
-            will(throwException(new AssertFailedException("you cannot withdraw nothing!")));
         }});
 
         sm.execute();
