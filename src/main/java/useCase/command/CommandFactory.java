@@ -22,10 +22,10 @@ public class CommandFactory {
                 return this.createDeleteCommand(xPath, parameter);
             case "Scroll":
                 return this.createScrollToElementCommand(xPath, parameter);
-            case "ScrollAndClickTimeZone":
-                return this.createScrollAndClickTimeZoneCommand(xPath, parameter);
-            case "ClickCalenderYear":
-                return this.createScrollToCalenderYearAndClickCommand(xPath, parameter);
+            case "SelectTimeZone":
+                return this.createSelectTimeZoneCommand(xPath, parameter);
+            case "SelectCalenderYear":
+                return this.createSelectCalenderYearCommand(xPath, parameter);
             case "MoveDown":
                 return this.createMoveDownCommand(xPath);
             case "MoveUp":
@@ -40,15 +40,17 @@ public class CommandFactory {
                 return this.createAssertActivityCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
-            case "AssertTextExistCommand":
+            case "AssertTextExist":
                 return this.createAssertTextExistCommand(parameter);
             case "TypeTextRandomly":
                 return this.createTypeTextRandomlyCommand(xPath);
             case "PressBackKey":
                 return this.createPressBackKeyCommand();
+            case "WaitFor":
+                return this.createWaitForCommand(parameter);
         }
 
-        throw new RuntimeException("Unexpected command type");
+        throw new RuntimeException("Unexpected command type: " + event);
     }
 
     private Command createTypeTextRandomlyCommand(String xPath) {
@@ -67,16 +69,16 @@ public class CommandFactory {
         return new MoveDownCommand(deviceDriver, xPath);
     }
 
-    private Command createScrollAndClickTimeZoneCommand(String xPath, String parameter) {
-        return new ScrollAndClickTimeZoneCommand(deviceDriver, xPath, parameter);
+    private Command createSelectTimeZoneCommand(String xPath, String parameter) {
+        return new SelectTimeZoneCommand(deviceDriver, xPath, parameter);
     }
 
     private Command createScrollToElementCommand(String xPath, String parameter) {
         return new ScrollToElementCommand(deviceDriver, xPath, parameter);
     }
 
-    private Command createScrollToCalenderYearAndClickCommand(String xPath, String parameter) {
-        return new ScrollToCalenderYearAndClickCommand(deviceDriver, xPath, parameter);
+    private Command createSelectCalenderYearCommand(String xPath, String parameter) {
+        return new SelectCalenderYearCommand(deviceDriver, xPath, parameter);
     }
 
     public CommandFactory(DeviceDriver deviceDriver) {
@@ -133,6 +135,10 @@ public class CommandFactory {
 
     private Command createPressBackKeyCommand() {
         return new PressBackKeyCommand(deviceDriver);
+    }
+
+    private Command createWaitForCommand(String waitingTime) {
+        return new WaitForCommand(deviceDriver, waitingTime);
     }
 
 

@@ -11,7 +11,7 @@ EditTasks	TypeText{TW}	location_editText
 EditTasks	TypeText{TW is Good}	description_editText
 EditTasks	Click	start_date
 EditTasks	Click	calendar_year_picker
-EditTasks	ClickCalenderYear{Down}	calendar_pick_year{2040}
+EditTasks	SelectCalenderYear{Down}	calendar_pick_year{2040}
 EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_previous_month
@@ -25,17 +25,17 @@ EditTasks	Click	time_clock_pick_minutes{5}
 EditTasks	Click	time_ok_btn
 EditTasks	Click	due_date
 EditTasks	Click	calendar_year_picker
-EditTasks	ClickCalenderYear{Down}	calendar_pick_year{2040}
+EditTasks	SelectCalenderYear{Down}	calendar_pick_year{2040}
 EditTasks	Click	calendar_previous_month
 EditTasks	Click	calendar_pick_date{23}
 EditTasks	Click	calendar_ok_btn
 EditTasks	Scroll{DOWN}	time_zone_dropdown
 EditTasks	Click	time_zone_dropdown
-EditTasks	ScrollAndClickTimeZone{DOWN}	time_zone_options{(GMT+08:00) Taipei}
+EditTasks	SelectTimeZone{DOWN}	time_zone_options{(GMT+08:00) Taipei}
 EditTasks	Scroll{Down}	complete_date
 EditTasks	Click	complete_date
 EditTasks	Click	calendar_year_picker
-EditTasks	ClickCalenderYear{Down}	calendar_pick_year{2040}
+EditTasks	SelectCalenderYear{Down}	calendar_pick_year{2040}
 EditTasks	Click	calendar_next_month
 EditTasks	Click	calendar_next_month
 EditTasks	Click	calendar_next_month
@@ -57,8 +57,10 @@ EditTasks	TypeText{1234}	URL_editText
 EditTasks	Click	save_task_btn
 ViewTask	Click	check_list_add_item
 ViewTask	TypeText{taskItem1}	check_list_editText{0}
+PressBackKey
 ViewTask	Click	check_list_add_item
 ViewTask	TypeText{taskItem2}	check_list_editText{1}
+PressBackKey
 ViewTask	Click	check_list_add_item
 ViewTask	MoveUp	check_list_drag_handle{1}
 ViewTask	MoveDown	check_list_drag_handle{0}

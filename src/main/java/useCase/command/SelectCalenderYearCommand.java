@@ -3,10 +3,10 @@ package useCase.command;
 import adapter.device.DeviceDriver;
 import io.appium.java_client.SwipeElementDirection;
 
-public class ScrollAndClickTimeZoneCommand extends Command {
+public class SelectCalenderYearCommand extends Command {
     private SwipeElementDirection direction;
 
-    public ScrollAndClickTimeZoneCommand(DeviceDriver deviceDriver, String xPath, String direction) {
+    public SelectCalenderYearCommand(DeviceDriver deviceDriver, String xPath, String direction) {
         super(deviceDriver, xPath);
         this.direction = SwipeElementDirection.valueOf(direction.toUpperCase());
     }

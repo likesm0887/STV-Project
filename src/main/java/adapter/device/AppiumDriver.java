@@ -2,10 +2,7 @@ package adapter.device;
 
 import adapter.coverage.CodeCoverGenerator;
 import com.gargoylesoftware.htmlunit.ElementNotFoundException;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import entity.Config;
-import entity.exception.AssertException;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.TouchAction;
@@ -18,20 +15,15 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -40,18 +32,11 @@ public class AppiumDriver implements DeviceDriver {
     private final int DEFAULT_SWIPE_DURATION = 300;
     private final String ADB_PATH = Paths.get(System.getenv("ANDROID_HOME"), "platform-tools", "adb").toString();
     private int defaultTimeout;
-
-
     private AppiumDriverLocalService appiumDriverLocalService;
     private AndroidDriver driver;
     private AppiumAsserter appiumAsserter;
-
-
     private Config config;
-
     private CodeCoverGenerator codeCovergenerator = new CodeCoverGenerator(config);
-
-
 
     public AppiumDriver(Config config) {
         this.config = config;
@@ -88,13 +73,11 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     private URL getServerUrl() {
-        URL serverUrl = null;
         try {
-            serverUrl = new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
+            return new URL("http://0.0.0.0:" + config.getAppiumPort() + "/wd/hub");
         } catch (MalformedURLException e) {
             throw new RuntimeException("The error format of appium server url");
         }
-        return serverUrl;
     }
 
     private DesiredCapabilities getDesiredCapabilities() {
@@ -158,14 +141,14 @@ public class AppiumDriver implements DeviceDriver {
     public void pauseApp() {
         String[] pressHomeKey = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_HOME"};
         executeCmd(pressHomeKey);
-        waitFor(500);
+        waitFor(1000);
     }
 
     @Override
     public void reopenApp() {
         String[] switchApp = new String[]{ADB_PATH, "-s", config.getSerialNumber(), "shell", "input", "keyevent", "KEYCODE_APP_SWITCH"};
         executeCmd(switchApp);
-        waitFor(1000);
+        waitFor(1500);
         executeCmd(switchApp);
         waitFor(1000);
     }
@@ -187,7 +170,6 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public MobileElement waitForElement(String xPath) {
-
         return waitForElement(xPath, defaultTimeout);
     }
 
@@ -218,18 +200,34 @@ public class AppiumDriver implements DeviceDriver {
         final int FIND_ELEMENT_LIMIT_TIMES = 10;
 
         int findElementTimes = 0;
-
+        int offset = 70;
         MobileElement scrollView = findScrollRootElement();
+        SwipeElementDirection gestureDirection = getOppositeDirection(direction);
 
-        List<MobileElement> result = new ArrayList<>();
+        List<MobileElement> result = scrollView.findElementsByXPath(xPath);
         while (result.size() == 0 && findElementTimes < FIND_ELEMENT_LIMIT_TIMES) {
-            result = findElements(xPath);
-            scrollToDirection(scrollView, direction);
+            scrollView.swipe(gestureDirection, offset, offset, 600);
+            result = scrollView.findElementsByXPath(xPath);
             findElementTimes++;
         }
 
         if (result.size() == 0)
             throw new ElementNotFoundException(xPath, "", "");
+    }
+
+    private SwipeElementDirection getOppositeDirection(SwipeElementDirection direction) {
+        switch (direction) {
+            case UP:
+                return SwipeElementDirection.DOWN;
+            case DOWN:
+                return SwipeElementDirection.UP;
+            case RIGHT:
+                return SwipeElementDirection.LEFT;
+            case LEFT:
+                return SwipeElementDirection.RIGHT;
+            default:
+                throw new RuntimeException("Can't find the opposite direction...");
+        }
     }
 
     private MobileElement findScrollRootElement() {
@@ -249,28 +247,6 @@ public class AppiumDriver implements DeviceDriver {
                 .perform();
     }
 
-    private void scrollToDirection(MobileElement scrollView, SwipeElementDirection direction) {
-        int x = scrollView.getLocation().x;
-        int y = scrollView.getLocation().y;
-        int width = scrollView.getSize().width;
-        int height = scrollView.getSize().height;
-
-        switch (direction) {
-            case UP:
-                driver.swipe(x + width / 2, y + (int) (height * 0.1), x + width / 2, y + (int) (height * 0.9), DEFAULT_SWIPE_DURATION);
-                break;
-            case LEFT:
-                driver.swipe(x + (int) (width * 0.9), y + height / 2, x + (int) (width * 0.1), y + height / 2, DEFAULT_SWIPE_DURATION);
-                break;
-            case RIGHT:
-                driver.swipe(x + (int) (width * 0.1), y + height / 2, x + (int) (width * 0.9), y + height / 2, DEFAULT_SWIPE_DURATION);
-                break;
-            case DOWN:
-                driver.swipe(x + width / 2, y + (int) (height * 0.9), x + width / 2, y + (int) (height * 0.1), DEFAULT_SWIPE_DURATION);
-                break;
-        }
-    }
-
     @Override
     public void deleteCharacter(String xPath, int times) {
         this.waitAndClickElement(xPath);
@@ -288,6 +264,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void pressBackKey() {
+        waitFor(500);
         driver.navigate().back();
     }
 
@@ -325,15 +302,16 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void assertTextExist(String text) {
-        appiumAsserter.assertTextInCurrentActivity(text);
+        appiumAsserter.assertTextExist(text);
     }
 
-
+    @Override
     public void assertView(String expectView) {
         appiumAsserter.assertView(expectView);
 
     }
 
+    @Override
     public String getActivityName() {
         return appiumAsserter.getActivityName();
     }

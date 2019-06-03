@@ -32,6 +32,7 @@ public class CodeCoverGenerator {
             this.coverageCounter += 1;
         }
     }
+
     //
     private boolean checkFileCanUse(File coverageFile) {
         try {
@@ -39,8 +40,7 @@ public class CodeCoverGenerator {
             BufferedReader sequenceFileBufferReader = new BufferedReader(coverageFileReader);
             return !sequenceFileBufferReader.readLine().contains("No such file or directory");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Code Coverage File is not found.");
         }
-        return false;
     }
 }
