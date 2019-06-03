@@ -5,10 +5,12 @@ TaskList    Click   quick_add_btn{0}
 # 24
 TaskList    Click   quick_add_edit_btn
 PressBackKey
-# 25
+# 26, 27
 EditTasks   Click   start_date
 EditTasks   Click   calendar_pick_date{1}
 EditTasks   Click   calendar_year_picker
-EditTasks   ClickCalenderYear{down}   calendar_pick_year{2040}
+#EditTasks   ClickCalenderYear{down}   calendar_pick_year{2040}
+EditTasks   Click   calendar_date_picker
+EditTasks   Click   calendar_year_picker
 # 24
 EditTasks   Click   calendar_ok_btn

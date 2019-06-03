@@ -1,11 +1,8 @@
 #add new task in folder "My task"
-TaskList	Click	folder{My tasks}
+TaskList    Click   folder{My tasks}
 TaskList	Click	quick_add_btn{0}
 TaskList	TypeText{Each Choice}	quick_add_editText
 TaskList	Click	quick_add_edit_btn
-
-#AssertActivity{EditTaskActivity}
-#AssertExist{save_task_btn}
 
 #select folder
 EditTasks   Click   folder_dropdown
@@ -27,6 +24,8 @@ EditTasks	TypeText{check list 1}	check_list_editText{0}
 #start date
 EditTasks	Click	start_date
 EditTasks	Click	calendar_pick_date{1}
+EditTasks   Click   calendar_year_picker
+#EditTasks   SelectCalenderYear{up} calendar_pick_year{1900}
 EditTasks	Click	calendar_ok_btn
 
 #start time
@@ -35,6 +34,11 @@ EditTasks	Click	time_clock_minutes
 EditTasks	Click	time_clock_pick_minutes{30}
 EditTasks	Click	time_clock_hours
 EditTasks	Click	time_clock_pick_hours{12}
+EditTasks   Click   time_toggle_mode
+EditTasks   Click   time_AMPM_dropdown
+EditTasks   Click   time_options_AM
+EditTasks   Click   time_AMPM_dropdown
+EditTasks   Click   time_options_PM
 EditTasks	Click	time_ok_btn
 
 EditTasks   Scroll{down}    URL_editText
@@ -46,7 +50,7 @@ EditTasks	Click	calendar_ok_btn
 
 #time zone
 EditTasks	Click	time_zone_dropdown
-EditTasks   Click   time_zone_options{Taipei}
+EditTasks   SelectTimeZone{up}   time_zone_options{GMT-11:00}
 
 #complete date
 EditTasks   Click   complete_date
@@ -73,6 +77,6 @@ EditTasks   TypeText{www.hyperlink.com}   URL_editText
 #save
 EditTasks   Click   save_task_btn
 
-AssertTextExist{in process}
-AssertTextExist{low}
-AssertTextExist{confidential}
+#AssertTextExist{in process}
+#AssertTextExist{low}
+#AssertTextExist{confidential}

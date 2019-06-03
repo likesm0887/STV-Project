@@ -25,16 +25,21 @@ EditTasks   Click   check_list_checkBox{0}
 #start date
 EditTasks	Click	start_date
 EditTasks	Click	calendar_pick_date{28}
+EditTasks   Click   calendar_year_picker
+#EditTasks   SelectCalenderYear{down} calendar_pick_year{2100}
 EditTasks	Click	calendar_ok_btn
 
 #start time
 EditTasks	Click	start_time
 EditTasks	Click	time_AM_label
+EditTasks	Click	time_PM_label
 EditTasks	Click	time_clock_minutes
 EditTasks	Click	time_clock_pick_minutes{30}
 EditTasks	Click	time_clock_hours
 EditTasks	Click	time_clock_pick_hours{12}
 EditTasks	Click	time_ok_btn
+
+EditTasks   Scroll{down}    URL_editText
 
 #datetime remove
 EditTasks	Click	start_datetime_remove
@@ -49,7 +54,7 @@ EditTasks	Click	time_cancel_btn
 
 #time zone
 EditTasks	Click	time_zone_dropdown
-EditTasks   Click   time_zone_options{Tokyo}
+EditTasks   SelectTimeZone{up}   time_zone_options{GMT+00:00}
 
 #complete date
 EditTasks   Click   complete_date
@@ -69,6 +74,6 @@ EditTasks   TypeText{www.hyperlink.com}   URL_editText
 #save
 EditTasks   Click   save_task_btn
 
-assertExists{done}
-assertExists{high}
-assertExists{private}
+#AssertTextExist{done}
+#AssertTextExist{high}
+#AssertTextExist{private}

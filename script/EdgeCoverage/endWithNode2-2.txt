@@ -4,13 +4,9 @@ TaskList    Click   folder{My tasks}
 TaskList	Click	quick_add_btn{0}
 # 22
 TaskList	TypeText{Edge Coverage}	quick_add_editText
-# 20
+# 20, 2
 TaskList	Click	quick_add_save_btn
 # 30
 TaskList    Click   task{Edge Coverage}
-# 31
-ViewTask    Click   menu_btn
-# 32
-ViewTask    Click   menu_delete_btn
-# 30
-ViewTask   Click   confirm_delete_cancel_btn
+# 2
+ViewTask   Click   return_btn
