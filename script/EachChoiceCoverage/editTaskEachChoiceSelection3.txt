@@ -24,9 +24,12 @@ EditTasks   Click   check_list_checkBox{0}
 
 #start date
 EditTasks	Click	start_date
-EditTasks	Click	calendar_year_picker
-EditTasks	Click	calendar_pick_year{2023}
-EditTasks	Click	calendar_pick_date{1}
+EditTasks   Click   calendar_year_picker
+#EditTasks   SelectCalenderYear{down} calendar_pick_year{2040}
+EditTasks   Click   calendar_date_picker
+EditTasks   Click   calendar_previous_month
+EditTasks   Click   calendar_next_month
+EditTasks	Click	calendar_pick_date{10}
 EditTasks   Click   calendar_ok_btn
 
 #start time
@@ -37,13 +40,15 @@ EditTasks	Click	time_clock_hours
 EditTasks	Click	time_clock_pick_hours{11}
 EditTasks	Click	time_ok_btn
 
+EditTasks   Scroll{down}    URL_editText
+
 #due date
 EditTasks	Click	due_date
 EditTasks	Click	calendar_ok_btn
 
 #time zone
 EditTasks	Click	time_zone_dropdown
-EditTasks   Click   time_zone_options{Taipei}
+EditTasks   SelectTimeZone{down}   time_zone_options{GMT+13:00}
 
 #complete date
 EditTasks   Click   complete_date
@@ -63,6 +68,6 @@ EditTasks   TypeText{www.hyperlink.com}   URL_editText
 #save
 EditTasks   Click   save_task_btn
 
-assertExists{cancelled}
-assertExists{medium}
-assertExists{public}
+#AssertTextExist{cancelled}
+#AssertTextExist{medium}
+#AssertTextExist{public}

@@ -170,7 +170,6 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public MobileElement waitForElement(String xPath) {
-
         return waitForElement(xPath, defaultTimeout);
     }
 
