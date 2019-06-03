@@ -1,0 +1,11 @@
+# 1
+# 3
+TaskList    Click    tab_due
+# 4
+TaskList    Click    tab_starting
+# 5
+TaskList    Click    tab_priority
+# 6
+TaskList    Click    tab_progress
+# 7
+TaskList    Click    tab_search

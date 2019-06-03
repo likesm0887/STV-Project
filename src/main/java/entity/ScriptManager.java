@@ -42,7 +42,7 @@ public class ScriptManager {
     }
 
     private void loadScript(Path path) {
-        System.out.println(path.toString());
+        System.out.println("> Load script: " + path.toString());
         List<Instruction> instructions = getInstructionsFromScriptFile(path.toString());
         List<ICommand> commands = convertInstructionToCommand(instructions);
         ScriptRunner scriptRunner = createScriptRunner(commands, path.toString());
