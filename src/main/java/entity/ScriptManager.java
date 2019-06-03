@@ -76,10 +76,10 @@ public class ScriptManager {
                 performScript(scriptRunner);
                 scriptResult.scriptEnded();
             } catch (AssertException e) {
-                scriptResult.scriptFailed(e.getMessage());
+                scriptResult.scriptAssertFailed(e.getMessage());
             } catch (Exception e) {
+                scriptResult.scriptExceptionFailed(e.getMessage());
                 e.printStackTrace();
-                scriptResult.scriptFailed("");
             }
         });
         deviceDriver.stopService();

@@ -32,27 +32,41 @@ public class ScriptResult {
     }
 
     public void scriptEnded() {
-        executionTimer.endCounter();
-        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
+        currentScriptTerminated();
+        currentScriptComplete();
+
+        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
+    }
+
+    private void currentScriptComplete() {
         currentScriptInformation().executionComplete();
-
-        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
     }
+    // assertion error
+    public void scriptAssertFailed(String errorMessage) {
+        scriptFailed(errorMessage);
 
-    public void scriptFailed() {
-        executionTimer.endCounter();
-        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
-        currentScriptInformation().executionFailed();
         System.out.println(reportGenerator.generateScriptInfoBody(currentScriptInformation()));
         System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
     }
+    // exception error
+    public void scriptExceptionFailed(String errorMessage) {
+        scriptFailed(errorMessage);
 
-    public void scriptFailed(String errorMessage) {
-        executionTimer.endCounter();
-        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
+        System.out.println(reportGenerator.generateScriptInfoExceptionBody(currentScriptInformation()));
+        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
+    }
+
+    private void scriptFailed(String errorMessage) {
+        currentScriptTerminated();
+        currentScriptFailed(errorMessage);
+    }
+
+    private void currentScriptFailed(String errorMessage) {
         currentScriptInformation().executionFailed(errorMessage);
-        System.out.println(reportGenerator.generateScriptInfoBody(currentScriptInformation()));
-        System.out.println(reportGenerator.generateScriptInfoFooter(currentScriptInformation()));
+    }
+    private void currentScriptTerminated() {
+        executionTimer.endCounter();
+        currentScriptInformation().setExecutionTime(executionTimer.elapsedTime());
     }
 
     private ScriptInformation currentScriptInformation() {

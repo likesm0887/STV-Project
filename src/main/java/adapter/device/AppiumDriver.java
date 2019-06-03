@@ -50,7 +50,6 @@ public class AppiumDriver implements DeviceDriver {
     private Config config;
 
     private CodeCoverGenerator codeCovergenerator = new CodeCoverGenerator(config);
-//    private BiMap<String, String> viewAndActivityMap = HashBiMap.create();
 
 
 
@@ -59,7 +58,6 @@ public class AppiumDriver implements DeviceDriver {
         defaultTimeout = 3;
         appiumDriverLocalService = getAppiumService();
         appiumAsserter = new AppiumAsserter(this, this.config);
-//        CreateViewAndActivityMatchTable();
     }
 
     private AppiumDriverLocalService getAppiumService() {
@@ -340,39 +338,4 @@ public class AppiumDriver implements DeviceDriver {
         return appiumAsserter.getActivityName();
     }
 
-//
-//    private InputStream executeCmdExtractOutput(String... cmd) {
-//        ProcessBuilder proc = new ProcessBuilder(cmd);
-//        try {
-//            Process process = proc.start();
-//            process.waitFor();
-//            return process.getInputStream();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException("get Activity error");
-//        }
-//    }
-//
-//    private static List<String> convertInputStreamToStringList(InputStream is) {
-//        List<String> result = new ArrayList<>();
-//        BufferedReader bReader = new BufferedReader(new InputStreamReader(is));
-//        String line;
-//        try {
-//            while ((line = bReader.readLine()) != null) {
-//                result.add(line);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//        return result;
-//    }
-//
-//    public static String parseActivityName(InputStream is) {
-//        List<String> result = convertInputStreamToStringList(is);
-//        String firstLing = result.get(0);
-//        String activityName = firstLing.substring(firstLing.indexOf("/") + 1, firstLing.indexOf("}"));
-//        String[] str = activityName.split(" ");
-//        return str[0].replace(".", "");
-//    }
 }

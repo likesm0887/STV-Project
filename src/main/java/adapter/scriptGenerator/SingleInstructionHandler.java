@@ -26,5 +26,4 @@ public class SingleInstructionHandler extends AbstractInstructionHandler {
         instructions.remove(lastElementIndex);
     }
 
-
 }

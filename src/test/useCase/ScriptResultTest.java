@@ -67,6 +67,22 @@ public class ScriptResultTest {
         }});
 
         scriptResult.scriptStarted("Add Task Quickly");
-        scriptResult.scriptFailed("Error occur");
+        scriptResult.scriptAssertFailed("Error occur");
+    }
+
+    @Test
+    public void shouldInvokeGenerateScriptFailed() {
+        TimerStub timerStub = new TimerStub();
+        ReportGenerator mockGenerator = context.mock(ReportGenerator.class);
+
+        ScriptResult scriptResult = new ScriptResult(timerStub, mockGenerator);
+
+        context.checking(new Expectations() {{
+            oneOf(mockGenerator).generateScriptInfoHeader(with(any(ScriptInformation.class)));
+            oneOf(mockGenerator).generateScriptInfoExceptionBody(with(any(ScriptInformation.class)));
+            oneOf(mockGenerator).generateScriptInfoFooter(with(any(ScriptInformation.class)));
+        }});
+        scriptResult.scriptStarted("Add Task Quickly");
+        scriptResult.scriptExceptionFailed("Timeout Exception");
     }
 }
