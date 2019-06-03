@@ -28,8 +28,8 @@
 #ViewTask    AssertExist  location_link
 
 #
-ViewTask	Click	edit_btn
+#ViewTask	Click	edit_btn
 
 
-EditTasks	Click	status_dropdown
-EditTasks	Click	status_options_cancelled
+#EditTasks	Click	status_dropdown
+#EditTasks	Click	status_options_cancelled
