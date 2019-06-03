@@ -9,7 +9,7 @@ PressBackKey
 EditTasks   Click   start_date
 EditTasks   Click   calendar_pick_date{1}
 EditTasks   Click   calendar_year_picker
-#EditTasks   ClickCalenderYear{down}   calendar_pick_year{2040}
+#EditTasks   SelectCalenderYear{down}   calendar_pick_year{2040}
 EditTasks   Click   calendar_date_picker
 EditTasks   Click   calendar_year_picker
 # 24

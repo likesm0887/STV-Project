@@ -46,11 +46,9 @@ public class CommandFactory {
                 return this.createTypeTextRandomlyCommand(xPath);
             case "PressBackKey":
                 return this.createPressBackKeyCommand();
-            case "WaitFor":
-                return this.createWaitForCommand(parameter);
         }
 
-        throw new RuntimeException("Unexpected command type");
+        throw new RuntimeException("Unexpected command type: " + event);
     }
 
     private Command createTypeTextRandomlyCommand(String xPath) {
@@ -137,7 +135,5 @@ public class CommandFactory {
         return new PressBackKeyCommand(deviceDriver);
     }
 
-    private Command createWaitForCommand(String waitingTime) {
-        return new WaitForCommand(deviceDriver, waitingTime);
-    }
+
 }
