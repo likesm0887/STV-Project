@@ -40,12 +40,14 @@ public class CommandFactory {
                 return this.createAssertActivityCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
-            case "AssertTextExistCommand":
+            case "AssertTextExist":
                 return this.createAssertTextExistCommand(parameter);
             case "TypeTextRandomly":
                 return this.createTypeTextRandomlyCommand(xPath);
             case "PressBackKey":
                 return this.createPressBackKeyCommand();
+            case "WaitFor":
+                return this.createWaitForCommand(parameter);
         }
 
         throw new RuntimeException("Unexpected command type");
@@ -135,5 +137,7 @@ public class CommandFactory {
         return new PressBackKeyCommand(deviceDriver);
     }
 
-
+    private Command createWaitForCommand(String waitingTime) {
+        return new WaitForCommand(deviceDriver, waitingTime);
+    }
 }

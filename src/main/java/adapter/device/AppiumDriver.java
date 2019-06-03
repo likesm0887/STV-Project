@@ -265,6 +265,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void pressBackKey() {
+        waitFor(500);
         driver.navigate().back();
     }
 

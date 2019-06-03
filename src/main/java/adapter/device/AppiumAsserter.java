@@ -49,8 +49,8 @@ public class AppiumAsserter {
     public void assertTextExist(String text) {
         String xPath = String.format("//*[@text='%s']", text);
 
-        String errorMessage = String.format("\nActual: Text %s is not in the current activity" + "\n" +
-                "Expected: Text %s is in the current activity" + "\n", text, text);
+        String errorMessage = String.format("\nActual text: '%s' is not in the current activity" + "\n" +
+                "Expected text: '%s' is in the current activity" + "\n", text, text);
 
         assertExist(xPath, errorMessage);
     }
