@@ -5,4 +5,5 @@ EditTasks   TypeText{update task}    title_editText
 EditTasks   Click    status_dropdown
 EditTasks   Click    status_options_in_process
 EditTasks   Click    save_task_btn
-ViewTask    Click    return_btn
+#ViewTask    Click    return_btn
+PressBackKey

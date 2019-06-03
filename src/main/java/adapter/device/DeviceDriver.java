@@ -14,6 +14,10 @@ public interface DeviceDriver {
     void restartAppAndCleanData();
     void pauseApp();
     void reopenApp();
+    void pressBackKey();
+    void rotate();
+    void waitFor(int millis);
+    String getActivityName();
 
     MobileElement waitForElement(String xPath);
     MobileElement waitForElement(String xPath, int timeOutInSeconds);
@@ -23,20 +27,12 @@ public interface DeviceDriver {
     void waitAndSwipeElement(String xPath, SwipeElementDirection direction, int offset);
     void waitAndScrollToElement(String xPath, SwipeElementDirection direction);
     void waitAndDragElement(String xPath, int xOffset, int yOffset);
-
     void deleteCharacter(String xPath, int times);
-
     void pressPercentage(String xPath, int percent);
-
-    void pressBackKey();
-    void rotate();
-    void waitFor(int millis);
 
     void assertExist(String xPath);
     void assertText(String xPath, String expectedText);
     void assertView(String expectActivity);
     void assertElementCount(String xPath, int expectedCount);
-
     void assertTextExist(String text);
-    String getActivityName();
 }

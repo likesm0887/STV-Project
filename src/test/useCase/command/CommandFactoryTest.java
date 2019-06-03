@@ -104,7 +104,7 @@ public class CommandFactoryTest {
 
     @Test
     public void createAssertTextInCurrentActivity() {
-        Command assertTextExistCommand = commandFactory.createCommand("AssertTextExistCommand", "", "myText");
+        Command assertTextExistCommand = commandFactory.createCommand("AssertTextExist", "", "myText");
         assertTrue(assertTextExistCommand instanceof AssertTextExistCommand);
     }
 
@@ -114,4 +114,9 @@ public class CommandFactoryTest {
         assertTrue(command instanceof TypeTextRandomlyCommand);
     }
 
+    @Test
+    public void createWaitForCommand() {
+        Command waitForCommand = commandFactory.createCommand("WaitFor", "", "5");
+        assertTrue(waitForCommand instanceof WaitForCommand);
+    }
 }

@@ -1,0 +1,14 @@
+LoadScript{./script/UseCaseCoverage/editTask.txt}
+LoadScript{./script/UseCaseCoverage/quickAddTask.txt}
+TaskList    Click   tab_search
+TaskList    TypeText{Not Found}    search_editText
+TaskList    Click   folder{Not Found}
+AssertTextExist{0 tasks}
+
+TaskList    Click   search_clear_btn
+TaskList    TypeText{task}    search_editText
+TaskList    Click   folder{task}
+AssertTextExist{2 tasks}
+TaskList    Click   folder{task}
+AssertTextExist{Add Task}
+AssertTextExist{update task}
