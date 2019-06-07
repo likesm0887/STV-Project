@@ -70,4 +70,4 @@ EditTasks   TypeText{www.hyperlink.com}   URL_editText
 #save
 EditTasks   Click   save_task_btn
 
-#AssertTextExist{needs action}
+AssertTextExist{needs action}
