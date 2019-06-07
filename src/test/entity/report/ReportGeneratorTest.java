@@ -1,6 +1,7 @@
 package entity.report;
 
 import entity.ScriptInformation;
+import org.hamcrest.Factory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +46,17 @@ public class ReportGeneratorTest {
         assertThat(rg.generateScriptInfoBody(scriptInformation),
                 allOf(containsString("Assert Error"),
                         containsString("This is a error")));
+    }
+
+    @Test
+    public void generateScriptInfoException() {
+        scriptInformation.executionFailed("Throw Timeout Checked Exception");
+
+        String result = rg.generateScriptInfoExceptionBody(scriptInformation);
+
+        assertThat(result,
+                allOf(containsString("Exception Error"),
+                        containsString("Throw Timeout Checked Exception")));
     }
 
     @Test

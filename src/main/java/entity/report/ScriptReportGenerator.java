@@ -28,6 +28,13 @@ public class ScriptReportGenerator implements ReportGenerator {
     }
 
     @Override
+    public String generateScriptInfoExceptionBody(ScriptInformation scriptInformation) {
+        final String errorMessage = scriptInformation.getErrorMessage() + "\n";
+        final String exceptionErrorPrefix = "> Exception Error: ";
+        return exceptionErrorPrefix + errorMessage;
+    }
+
+    @Override
     public String generateScriptInfoFooter(ScriptInformation scriptInformation) {
         String spendingTime = transformTimeToSecond(scriptInformation.getExecutionTime()) + "s\n";
         String status = scriptInformation.resultStatus() + "\n";
@@ -48,6 +55,7 @@ public class ScriptReportGenerator implements ReportGenerator {
 
         return header + body + footer;
     }
+
 
     private String generateFooter(List<ScriptInformation> scriptInformationList) {
         String header = "+--------------------------------------------------------------------+-----------------+-----------------+\n";

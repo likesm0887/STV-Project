@@ -12,4 +12,6 @@ public interface ReportGenerator {
     String generateScriptInfoBody(ScriptInformation scriptInformation);
 
     String generateScriptSummary(List<ScriptInformation> scriptInformationList);
+
+    String generateScriptInfoExceptionBody(ScriptInformation scriptInformation);
 }

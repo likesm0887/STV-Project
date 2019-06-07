@@ -42,7 +42,7 @@ public class ScriptManager {
     }
 
     private void loadScript(Path path) {
-        System.out.println(path.toString());
+        System.out.println("> Load script: " + path.toString());
         List<Instruction> instructions = getInstructionsFromScriptFile(path.toString());
         List<ICommand> commands = convertInstructionToCommand(instructions);
         ScriptRunner scriptRunner = createScriptRunner(commands, path.toString());
@@ -76,10 +76,10 @@ public class ScriptManager {
                 performScript(scriptRunner);
                 scriptResult.scriptEnded();
             } catch (AssertException e) {
-                scriptResult.scriptFailed(e.getMessage());
+                scriptResult.scriptAssertFailed(e.getMessage());
             } catch (Exception e) {
+                scriptResult.scriptExceptionFailed(e.getMessage());
                 e.printStackTrace();
-                scriptResult.scriptFailed("");
             }
         });
         deviceDriver.stopService();

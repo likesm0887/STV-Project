@@ -315,4 +315,5 @@ public class AppiumDriver implements DeviceDriver {
     public String getActivityName() {
         return appiumAsserter.getActivityName();
     }
+
 }
