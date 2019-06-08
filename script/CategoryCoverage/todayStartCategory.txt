@@ -1,0 +1,17 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select start date today and save task
+EditTasks    TypeText{Start Today Task}    title_editText
+EditTasks    Scroll{down}    start_date
+EditTasks    Click    start_date
+EditTasks    Click    calendar_ok_btn
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to start page
+TaskList    Click    tab_starting
+TaskList    Click    today_folder
+
+AssertTextExist{Start Today Task}

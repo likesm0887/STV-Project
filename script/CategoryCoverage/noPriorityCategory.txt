@@ -1,0 +1,17 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select no priority and save task
+EditTasks    TypeText{No Priority Task}    title_editText
+EditTasks    Scroll{down}    priority_dropdown
+EditTasks    Click    priority_dropdown
+EditTasks    Click    priority_options_none
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to priority page
+TaskList    Click    tab_priority
+TaskList    Click    no_priority_folder
+
+AssertTextExist{No Priority Task}

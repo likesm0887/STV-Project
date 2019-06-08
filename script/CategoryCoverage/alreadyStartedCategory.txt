@@ -1,0 +1,19 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select start date last month and save task
+EditTasks    TypeText{Already Started Task}    title_editText
+EditTasks    Scroll{down}    start_date
+EditTasks    Click    start_date
+EditTasks    Click    calendar_previous_month
+EditTasks    Click    calendar_pick_date{10}
+EditTasks    Click    calendar_ok_btn
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to start page
+TaskList    Click    tab_starting
+TaskList    Click    already_started_folder
+
+AssertTextExist{Already Started Task}

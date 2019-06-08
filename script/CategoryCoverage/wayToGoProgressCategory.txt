@@ -1,0 +1,18 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# move progress bar to 40% and save task
+EditTasks    TypeText{Way To Go Task}    title_editText
+EditTasks    Scroll{down}    percent_complete_bar
+EditTasks    PressPercentage{40}    percent_complete_bar
+EditTasks    Click    save_task_btn
+
+# assert progress 40%
+AssertTextExist{40%}
+ViewTask    Click    return_btn
+
+# go to progress page
+TaskList    Click    tab_progress
+TaskList    Click    way_to_go_folder
+
+AssertTextExist{Way To Go Task}

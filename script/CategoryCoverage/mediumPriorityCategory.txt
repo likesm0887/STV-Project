@@ -1,0 +1,19 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select medium priority and save task
+EditTasks    TypeText{Medium Priority Task}    title_editText
+EditTasks    Scroll{down}    priority_dropdown
+EditTasks    Click    priority_dropdown
+EditTasks    Click    priority_options_medium
+EditTasks    Click    save_task_btn
+
+# assert priority medium in ViewTask
+AssertTextExist{medium}
+ViewTask    Click    return_btn
+
+# go to priority page
+TaskList    Click    tab_priority
+TaskList    Click    medium_priority_folder
+
+AssertTextExist{Medium Priority Task}

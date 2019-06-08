@@ -1,0 +1,19 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select low priority and save task
+EditTasks    TypeText{Low Priority Task}    title_editText
+EditTasks    Scroll{down}    priority_dropdown
+EditTasks    Click    priority_dropdown
+EditTasks    Click    priority_options_low
+EditTasks    Click    save_task_btn
+
+# assert priority low in ViewTask
+AssertTextExist{low}
+ViewTask    Click    return_btn
+
+# go to priority page
+TaskList    Click    tab_priority
+TaskList    Click    low_priority_folder
+
+AssertTextExist{Low Priority Task}
