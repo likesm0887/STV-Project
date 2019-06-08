@@ -19,10 +19,10 @@ EditTasks	TypeText{A place}	location_editText
 EditTasks	TypeText{each choice method}	description_editText
 
 #check list
-EditTasks	TypeText{check list 1}	check_list_editText{0}
+#EditTasks	TypeText{check list 1}	check_list_editText{0}
 
 #start date
-EditTasks	Scroll{down}    start_date
+#EditTasks	Scroll{down}    start_date
 EditTasks	Click	start_date
 EditTasks	Click	calendar_pick_date{1}
 EditTasks	Click	calendar_year_picker
@@ -43,7 +43,7 @@ EditTasks   Click   time_AMPM_dropdown
 EditTasks   Click   time_options_PM
 EditTasks	Click	time_ok_btn
 
-EditTasks	Scroll{down}	URL_editText
+EditTasks	Scroll{down}	time_zone_dropdown
 
 #due date
 EditTasks	Click	due_date

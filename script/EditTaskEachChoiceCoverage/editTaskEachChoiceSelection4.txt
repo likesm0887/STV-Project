@@ -4,10 +4,6 @@ TaskList	Click	quick_add_btn{0}
 TaskList	TypeText{Each Choice}	quick_add_editText
 TaskList	Click	quick_add_edit_btn
 
-#select folder
-EditTasks   Click   folder_dropdown
-EditTasks   Click   folder{My tasks}
-
 #select Status needs action
 EditTasks	Click	status_dropdown
 EditTasks	Click	status_options_needs_action
@@ -18,9 +14,11 @@ EditTasks	TypeText{A place}	location_editText
 #Description input
 EditTasks	TypeText{each choice method}	description_editText
 
+EditTasks    Scroll{down}    check_list_editText{0}
+
 #check list
-EditTasks	TypeText{check list 1}	check_list_editText{0}
-EditTasks   Click   check_list_checkBox{0}
+#EditTasks	TypeText{check list 1}	check_list_editText{0}
+#EditTasks   Click   check_list_checkBox{0}
 
 #start date
 EditTasks	Click	start_date
@@ -34,7 +32,7 @@ EditTasks	Click	time_clock_hours
 EditTasks	Click	time_clock_pick_hours{1}
 EditTasks	Click	time_ok_btn
 
-EditTasks   Scroll{down}    URL_editText
+EditTasks    Scroll{down}    due_date
 
 #due date
 EditTasks	Click	due_date

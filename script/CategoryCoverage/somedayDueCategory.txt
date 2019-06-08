@@ -1,0 +1,19 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select due date 20th of next month and save task
+EditTasks    TypeText{Due Someday Task}    title_editText
+EditTasks    Scroll{down}    due_date
+EditTasks    Click    due_date
+EditTasks    Click    calendar_next_month
+EditTasks    Click    calendar_pick_date{20}
+EditTasks    Click    calendar_ok_btn
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to due page
+TaskList    Click    tab_due
+TaskList    Click    someday_folder
+
+AssertTextExist{Due Someday Task}

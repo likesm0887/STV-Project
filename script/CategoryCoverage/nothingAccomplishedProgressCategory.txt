@@ -1,0 +1,16 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# move progress bar to 0% and save task
+EditTasks    TypeText{Nothing Accomplished Task}    title_editText
+EditTasks    Scroll{down}    percent_complete_bar
+EditTasks    PressPercentage{0}    percent_complete_bar
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to progress page
+TaskList    Click    tab_progress
+TaskList    Click    nothing_accomplished_folder
+
+AssertTextExist{Nothing Accomplished Task}

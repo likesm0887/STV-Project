@@ -1,6 +1,0 @@
-LoadScript{./script/EachChoiceCoverage/editTaskEachChoiceSelection4.txt}
-
-ViewTask    Click   return_btn
-TaskList    Click   tab_starting
-TaskList    Click   folder{Today}
-#TaskList    AssertText{Each Choice} task{Each Choice}
