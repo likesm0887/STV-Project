@@ -14,6 +14,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -88,6 +89,7 @@ public class AppiumDriver implements DeviceDriver {
         cap.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "org.dmfs.tasks");
         cap.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "org.dmfs.tasks.TaskListActivity");
         cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "uiautomator2");
+        cap.setCapability("newCommandTimeout", 10000);
         cap.setCapability("autoLaunch", "false");
         return cap;
     }
@@ -263,8 +265,14 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
-    public void pressBackKey() {
+    public void pressEnter() {
         waitFor(500);
+        driver.pressKeyCode(66);
+    }
+
+    @Override
+    public void pressBackKey() {
+        waitFor(1000);
         driver.navigate().back();
     }
 

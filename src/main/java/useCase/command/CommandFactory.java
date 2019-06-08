@@ -46,6 +46,8 @@ public class CommandFactory {
                 return this.createTypeTextRandomlyCommand(xPath);
             case "PressBackKey":
                 return this.createPressBackKeyCommand();
+            case "PressEnter":
+                return this.createPressEnterCommand();
             case "WaitFor":
                 return this.createWaitForCommand(parameter);
         }
@@ -136,7 +138,10 @@ public class CommandFactory {
     private Command createPressBackKeyCommand() {
         return new PressBackKeyCommand(deviceDriver);
     }
-
+    private Command createPressEnterCommand()
+    {
+        return new PressEnterCommand(deviceDriver);
+    }
     private Command createWaitForCommand(String waitingTime) {
         return new WaitForCommand(deviceDriver, waitingTime);
     }

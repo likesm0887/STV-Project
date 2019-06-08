@@ -15,6 +15,7 @@ public interface DeviceDriver {
     void pauseApp();
     void reopenApp();
     void pressBackKey();
+    void pressEnter();
     void rotate();
     void waitFor(int millis);
     String getActivityName();

@@ -9,6 +9,7 @@ import io.appium.java_client.SwipeElementDirection;
 import io.appium.java_client.android.AndroidDriver;
 import org.apache.commons.io.input.ReaderInputStream;
 import org.junit.*;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.openqa.selenium.By;
 
 import java.io.IOException;
@@ -127,7 +128,7 @@ public class AppiumDriverTest {
         appiumDriver.assertExist("//*[@class='android.widget.TextView' and @text='My tasks']");
     }
 
-    @Test (expected = AssertException.class)
+    @Test(expected = AssertException.class)
     public void assertExistFailTest() {
         appiumDriver.assertExist("//*[@class='android.widget.TextView' and @text='My tasks123']");
     }
@@ -137,12 +138,17 @@ public class AppiumDriverTest {
         appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks");
     }
 
-    @Test (expected = AssertException.class)
+    @Test(expected = AssertException.class)
     public void assertTextFailTest() {
         appiumDriver.assertText("//*[@class='android.widget.TextView' and @text='My tasks']", "My tasks123");
     }
 
-    @Test (expected = AssertException.class)
+    @Test
+    public void pressEnterTest() {
+        appiumDriver.pressEnter();
+    }
+
+    @Test(expected = AssertException.class)
     public void assertActivityFailTest() {
         appiumDriver.assertView("errorActivity");
     }
