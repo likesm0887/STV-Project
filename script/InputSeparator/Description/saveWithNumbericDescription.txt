@@ -1,0 +1,21 @@
+LoadScript{./script/InputSeparator/createTask.txt}
+
+#negative number
+EditTasks    Scroll{Down}    description_editText
+EditTasks    TypeText{-1}    description_editText
+EditTasks    Click    save_task_btn
+AssertTextExist{-1}
+
+#positive number
+ViewTask    Click    edit_btn
+EditTasks    Scroll{Down}    description_editText
+EditTasks    TypeText{1}    description_editText
+EditTasks    Click    save_task_btn
+AssertTextExist{1}
+
+#zero number
+ViewTask    Click    edit_btn
+EditTasks    Scroll{Down}    description_editText
+EditTasks    TypeText{0}    description_editText
+EditTasks    Click    save_task_btn
+AssertTextExist{0}

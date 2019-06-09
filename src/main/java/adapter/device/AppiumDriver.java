@@ -199,7 +199,7 @@ public class AppiumDriver implements DeviceDriver {
 
     @Override
     public void waitAndScrollToElement(String xPath, SwipeElementDirection direction) {
-        final int FIND_ELEMENT_LIMIT_TIMES = 10;
+        final int FIND_ELEMENT_LIMIT_TIMES = 25;
 
         int findElementTimes = 0;
         int offset = 70;
@@ -208,7 +208,7 @@ public class AppiumDriver implements DeviceDriver {
 
         List<MobileElement> result = scrollView.findElementsByXPath(xPath);
         while (result.size() == 0 && findElementTimes < FIND_ELEMENT_LIMIT_TIMES) {
-            scrollView.swipe(gestureDirection, offset, offset, 600);
+            scrollView.swipe(gestureDirection, offset, offset, 1500);
             result = scrollView.findElementsByXPath(xPath);
             findElementTimes++;
         }

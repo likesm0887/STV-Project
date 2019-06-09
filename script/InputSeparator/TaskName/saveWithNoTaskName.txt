@@ -1,0 +1,4 @@
+#   save with no task name
+TaskList	Click	float_add_btn
+EditTasks	Click	save_task_btn
+AssertTextExist{Empty task not saved.}
