@@ -8,6 +8,8 @@ TaskList    Click   menu_displayed_lists
 DisplayedLists    Click    folder_setting{0}
 # 18
 DisplayedLists    Click    list_delete_list_btn
+
+WaitFor{1}
 # 15
 DisplayedLists    Click    confirm_delete_cancel_btn
 # 18
