@@ -1,0 +1,18 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select start date someday and save task
+EditTasks    TypeText{Start Someday Task}    title_editText
+EditTasks    Scroll{down}    start_date
+EditTasks    Click    start_date
+SelectSomeday
+EditTasks    Click    calendar_ok_btn
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to start page
+TaskList    Click    tab_starting
+TaskList    Click    someday_folder
+
+AssertTextExist{Start Someday Task}
