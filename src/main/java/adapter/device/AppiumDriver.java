@@ -284,9 +284,9 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void selectTomorrow() {
         waitFor(500);
-        LocalDate localDate =  LocalDate.now();
+        LocalDate localDate = LocalDate.now();
         LocalDate tomorrow = localDate.plusDays(1);
-        if(!localDate.getMonth().equals(tomorrow.getMonth())){
+        if (!localDate.getMonth().equals(tomorrow.getMonth())) {
             waitAndClickElement("//*[@resource-id='android:id/next']");
         }
         waitAndClickElement("//*[@class='android.view.View' and @text='" + tomorrow.getDayOfMonth() + "']");
@@ -295,9 +295,9 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void selectSomeday() {
         waitFor(500);
-        LocalDate localDate =  LocalDate.now();
+        LocalDate localDate = LocalDate.now();
         LocalDate someday = localDate.plusDays(2);
-        if(!localDate.getMonth().equals(someday.getMonth())){
+        if (!localDate.getMonth().equals(someday.getMonth())) {
             waitAndClickElement("//*[@resource-id='android:id/next']");
         }
         waitAndClickElement("//*[@class='android.view.View' and @text='" + someday.getDayOfMonth() + "']");
