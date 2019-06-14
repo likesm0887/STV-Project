@@ -25,6 +25,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
@@ -274,6 +279,28 @@ public class AppiumDriver implements DeviceDriver {
     public void pressBackKey() {
         waitFor(1000);
         driver.navigate().back();
+    }
+
+    @Override
+    public void selectTomorrow() {
+        waitFor(500);
+        LocalDate localDate = LocalDate.now();
+        LocalDate tomorrow = localDate.plusDays(1);
+        if (!localDate.getMonth().equals(tomorrow.getMonth())) {
+            waitAndClickElement("//*[@resource-id='android:id/next']");
+        }
+        waitAndClickElement("//*[@class='android.view.View' and @text='" + tomorrow.getDayOfMonth() + "']");
+    }
+
+    @Override
+    public void selectSomeday() {
+        waitFor(500);
+        LocalDate localDate = LocalDate.now();
+        LocalDate someday = localDate.plusDays(2);
+        if (!localDate.getMonth().equals(someday.getMonth())) {
+            waitAndClickElement("//*[@resource-id='android:id/next']");
+        }
+        waitAndClickElement("//*[@class='android.view.View' and @text='" + someday.getDayOfMonth() + "']");
     }
 
     @Override

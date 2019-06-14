@@ -30,6 +30,10 @@ public class CommandFactory {
                 return this.createMoveDownCommand(xPath);
             case "MoveUp":
                 return this.createMoveUpCommand(xPath);
+            case "SelectTomorrow":
+                return this.createSelectTomorrow();
+            case "SelectSomeday":
+                return this.createSelectSomeday();
             case "AssertExist":
                 return this.createAssertExistCommand(xPath);
             case "AssertText":
@@ -117,6 +121,14 @@ public class CommandFactory {
 
     private Command createDeleteCommand(String xPath, String times) {
         return new DeleteCommand(deviceDriver, xPath, times);
+    }
+
+    private Command createSelectTomorrow() {
+        return new SelectTomorrowCommand(deviceDriver);
+    }
+
+    private Command createSelectSomeday() {
+        return new SelectSomedayCommand(deviceDriver);
     }
 
     private Command createAssertExistCommand(String xPath) {
