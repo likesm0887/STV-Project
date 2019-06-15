@@ -6,6 +6,7 @@ TaskList    Click   folder{My tasks}
 TaskList    Click   quick_add_btn{0}
 # 24
 TaskList    Click   quick_add_edit_btn
+WaitFor{1}
 PressBackKey
 # 26, 27
 EditTasks   Click   start_date

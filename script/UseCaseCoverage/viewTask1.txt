@@ -24,7 +24,9 @@ TaskList    Click    menu_show_completed_tasks
 TaskList    Click    folder{My tasks}
 TaskList    Click    task{Add Task}
 
+WaitFor{1}
 AssertTextExist{done}
+WaitFor{1}
 
 # Send to
 ViewTask    Click    menu_btn
