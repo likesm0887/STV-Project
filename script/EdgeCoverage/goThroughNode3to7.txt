@@ -1,11 +1,22 @@
 # 1
+# 2
 # 3
-TaskList    Click    tab_due
+TaskList    Swipe{LEFT}    pager
 # 4
-TaskList    Click    tab_starting
+TaskList    Swipe{LEFT}    pager
 # 5
-TaskList    Click    tab_priority
+TaskList    Swipe{LEFT}    pager
 # 6
-TaskList    Click    tab_progress
+TaskList    Swipe{LEFT}    pager
 # 7
-TaskList    Click    tab_search
+TaskList    Swipe{LEFT}    pager
+# 6
+TaskList    Swipe{RIGHT}    pager
+# 5
+TaskList    Swipe{RIGHT}    pager
+# 4
+TaskList    Swipe{RIGHT}    pager
+# 3
+TaskList    Swipe{RIGHT}    pager
+# 2
+TaskList    Swipe{RIGHT}    pager

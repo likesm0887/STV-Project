@@ -34,6 +34,10 @@ public class CommandFactory {
                 return this.createSelectTomorrow();
             case "SelectSomeday":
                 return this.createSelectSomeday();
+            case "PressPercentage":
+                return this.createPressPercentageCommand(xPath, parameter);
+            case "Swipe":
+                return this.createSwipeElementCommand(xPath, parameter);
             case "AssertExist":
                 return this.createAssertExistCommand(xPath);
             case "AssertText":
@@ -42,8 +46,6 @@ public class CommandFactory {
                 return this.createAssertCounts(xPath, parameter);
             case "AssertView":
                 return this.createAssertActivityCommand(parameter);
-            case "PressPercentage":
-                return this.createPressPercentageCommand(xPath, parameter);
             case "AssertTextExist":
                 return this.createAssertTextExistCommand(parameter);
             case "TypeTextRandomly":
@@ -150,13 +152,17 @@ public class CommandFactory {
     private Command createPressBackKeyCommand() {
         return new PressBackKeyCommand(deviceDriver);
     }
+
     private Command createPressEnterCommand()
     {
         return new PressEnterCommand(deviceDriver);
     }
+
     private Command createWaitForCommand(String waitingTime) {
         return new WaitForCommand(deviceDriver, waitingTime);
     }
 
-
+    private Command createSwipeElementCommand(String xPath, String direction) {
+        return new SwipeElementCommand(deviceDriver, xPath, direction);
+    }
 }
