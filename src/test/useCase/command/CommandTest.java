@@ -47,12 +47,11 @@ public class CommandTest {
     @Test
     public void DriverSwipeElementWhenSwipeElementCommandExecute() {
         SwipeElementDirection swipeElementDirection = SwipeElementDirection.UP;
-        int offset = 10;
 
-        SwipeElementCommand swipeElementCommand = new SwipeElementCommand(mockDeviceDriver, xPath, swipeElementDirection, offset);
+        SwipeElementCommand swipeElementCommand = new SwipeElementCommand(mockDeviceDriver, xPath, "up");
 
         context.checking(new Expectations() {{
-            oneOf(mockDeviceDriver).waitAndSwipeElement(xPath, swipeElementDirection, offset);
+            oneOf(mockDeviceDriver).waitAndSwipeElement(xPath, swipeElementDirection, 10);
         }});
 
         swipeElementCommand.execute();

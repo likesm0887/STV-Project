@@ -119,4 +119,10 @@ public class CommandFactoryTest {
         Command waitForCommand = commandFactory.createCommand("WaitFor", "", "5");
         assertTrue(waitForCommand instanceof WaitForCommand);
     }
+
+    @Test
+    public void createSwipeElementCommand() {
+        Command swipeElementCommand = commandFactory.createCommand("Swipe", xPath, "right");
+        assertTrue(swipeElementCommand instanceof SwipeElementCommand);
+    }
 }

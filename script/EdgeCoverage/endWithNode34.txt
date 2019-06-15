@@ -1,0 +1,8 @@
+# 1
+# 2
+# 8
+TaskList    Click   menu_btn
+TaskList    Click   menu_refresh
+# 9
+TaskList    Click   menu_btn
+TaskList    Click   menu_settings
