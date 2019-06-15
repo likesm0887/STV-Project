@@ -2,6 +2,7 @@
 # 2
 # 24
 TaskList    Click   float_add_btn
+WaitFor{1}
 PressBackKey
 # 25
 EditTasks	Click	start_time
