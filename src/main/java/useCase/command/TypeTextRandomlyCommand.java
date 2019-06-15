@@ -16,7 +16,7 @@ public class TypeTextRandomlyCommand extends Command {
         this.deviceDriver.waitAndTypeText(xPath, randomText);
     }
 
-    private String generateRandomText() {
+    public String generateRandomText() {
         String randomText = RandomStringUtils.random(10);
         return randomText;
     }
