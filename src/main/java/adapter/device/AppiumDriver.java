@@ -213,7 +213,7 @@ public class AppiumDriver implements DeviceDriver {
 
         List<MobileElement> result = scrollView.findElementsByXPath(xPath);
         while (result.size() == 0 && findElementTimes < FIND_ELEMENT_LIMIT_TIMES) {
-            scrollView.swipe(gestureDirection, offset, offset, 1500);
+            scrollView.swipe(gestureDirection, offset, offset, 3000);
             result = scrollView.findElementsByXPath(xPath);
             findElementTimes++;
         }

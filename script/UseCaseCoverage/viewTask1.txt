@@ -1,0 +1,45 @@
+LoadScript{./script/UseCaseCoverage/addTask.txt}
+
+# edit - add start and due date
+ViewTask	Click	edit_btn
+EditTasks	Click	status_dropdown
+EditTasks	Click	status_options_in_process
+EditTasks    Click    start_date
+EditTasks    Click    calendar_ok_btn
+EditTasks    Scroll{down}    due_date
+EditTasks    Click    due_date
+EditTasks    Click    calendar_ok_btn
+EditTasks    Click    save_task_btn
+
+# press +1 day and hour, then press done button
+ViewTask    Click    +1day_btn
+ViewTask    Click    +1hour_btn
+ViewTask    Click    float_done_btn
+
+# show completed task from menu
+TaskList    Click    menu_btn
+TaskList    Click    menu_show_completed_tasks
+
+# find the task created
+TaskList    Click    folder{My tasks}
+TaskList    Click    task{Add Task}
+
+AssertTextExist{done}
+
+# Send to
+ViewTask    Click    menu_btn
+ViewTask    Click    menu_send_to_btn
+ViewTask    Click    menu_see_all_btn
+ViewTask    Scroll{down}    menu_create_task_btn
+ViewTask    Click    menu_create_task_btn
+EditTasks    Click    save_task_btn
+
+# delete task
+ViewTask    Click    menu_btn
+ViewTask    Click    menu_delete_btn
+ViewTask    Click    confirm_delete_cancel_btn
+ViewTask    Click    menu_btn
+ViewTask    Click    menu_delete_btn
+ViewTask    Click    confirm_delete_ok_btn
+
+
