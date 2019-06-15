@@ -18,13 +18,9 @@ public class AnomalyScriptRunner extends ScriptRunner {
     }
 
     protected void afterCommand() {
-        String currentActivity = driver.getActivityName();
-        if (!previousActivities.contains(currentActivity)) {
-            driver.pauseApp();
-            driver.reopenApp();
-            driver.rotate();
-            driver.rotate();
-            previousActivities.add(currentActivity);
-        }
+        driver.pauseApp();
+        driver.reopenApp();
+        driver.rotate();
+        driver.rotate();
     }
 }
