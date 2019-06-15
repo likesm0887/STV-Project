@@ -3,4 +3,6 @@ LoadScript{./script/InputSeparator/createTask.txt}
 EditTasks    Scroll{Down}    location_editText
 EditTasks    TypeText{location}    location_editText
 EditTasks    Click    save_task_btn
+WaitFor{1}
 AssertTextExist{location}
+WaitFor{1}

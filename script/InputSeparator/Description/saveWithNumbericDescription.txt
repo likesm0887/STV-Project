@@ -4,7 +4,9 @@ LoadScript{./script/InputSeparator/createTask.txt}
 EditTasks    Scroll{Down}    description_editText
 EditTasks    TypeText{-1}    description_editText
 EditTasks    Click    save_task_btn
+WaitFor{1}
 AssertTextExist{-1}
+WaitFor{1}
 
 #positive number
 ViewTask    Click    edit_btn
@@ -12,7 +14,9 @@ WaitFor{1}
 EditTasks    Scroll{Down}    description_editText
 EditTasks    TypeText{1}    description_editText
 EditTasks    Click    save_task_btn
+WaitFor{1}
 AssertTextExist{1}
+WaitFor{1}
 
 #zero number
 ViewTask    Click    edit_btn
@@ -20,4 +24,6 @@ WaitFor{1}
 EditTasks    Scroll{Down}    description_editText
 EditTasks    TypeText{0}    description_editText
 EditTasks    Click    save_task_btn
+WaitFor{1}
 AssertTextExist{0}
+WaitFor{1}

@@ -1,4 +1,2 @@
 TaskList	Click	float_add_btn
 EditTasks	TypeText{task name}	title_editText
-WaitFor{1}
-PressBackKey
