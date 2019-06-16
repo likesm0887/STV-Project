@@ -1,0 +1,6 @@
+LoadScript{./script/InputSpacePartition/createTask.txt}
+#   text
+EditTasks	TypeTextRandomly    description_editText
+EditTasks	Click	save_task_btn
+WaitFor{1}
+AssertView{ViewTask}

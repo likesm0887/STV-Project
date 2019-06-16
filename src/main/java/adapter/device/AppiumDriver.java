@@ -304,6 +304,28 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
+    public void selectMonth(int month) {
+        waitFor(500);
+        LocalDate localDate = LocalDate.now();
+
+        if (localDate.getMonthValue() == month)
+            return;
+
+        selectToMonth(localDate.getMonthValue(), month);
+    }
+
+    private void selectToMonth(int dateMonth, int month) {
+        int timesOfClick = Math.abs(dateMonth - month);
+
+        for(int i = 0; i < timesOfClick; i++) {
+            if(month > dateMonth)
+                waitAndClickElement("//*[@resource-id='android:id/next']");
+            else
+                waitAndClickElement("//*[@resource-id='android:id/prev']");
+        }
+    }
+
+    @Override
     public void rotate() {
         if (driver.getOrientation() == ScreenOrientation.PORTRAIT)
             driver.rotate(ScreenOrientation.LANDSCAPE);

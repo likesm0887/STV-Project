@@ -1,0 +1,20 @@
+LoadScript{./script/InputSpacePartition/createTask.txt}
+
+# enter 2100
+EditTasks    Scroll{down}    due_date
+
+EditTasks    Click    due_date
+EditTasks    Click    calendar_year_picker
+EditTasks    SelectCalenderYear{down}    calendar_pick_year{2100}
+
+SelectCalendarMonth{12}
+EditTasks    Click    calendar_pick_date{31}
+
+EditTasks    Click    calendar_ok_btn
+
+EditTasks    Scroll{down}    all_day_checkbox
+EditTasks    Click    all_day_checkbox
+
+EditTasks    Click    save_task_btn
+
+AssertTextExist{Mon, December 31, 2100}

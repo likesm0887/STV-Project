@@ -34,6 +34,8 @@ public class CommandFactory {
                 return this.createSelectTomorrow();
             case "SelectSomeday":
                 return this.createSelectSomeday();
+            case "SelectCalendarMonth":
+                return this.createSelectCalendarMonthCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
             case "Swipe":
@@ -61,6 +63,10 @@ public class CommandFactory {
         }
 
         throw new RuntimeException("Unexpected command type: " + event);
+    }
+
+    private Command createSelectCalendarMonthCommand(String parameter) {
+        return new SelectCalendarMonthCommand(deviceDriver,parameter);
     }
 
     private Command createTypeTextRandomlyCommand(String xPath) {

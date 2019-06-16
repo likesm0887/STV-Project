@@ -18,6 +18,7 @@ public interface DeviceDriver {
     void pressEnter();
     void selectTomorrow();
     void selectSomeday();
+    void selectMonth(int month);
     void rotate();
     void waitFor(int millis);
     String getActivityName();

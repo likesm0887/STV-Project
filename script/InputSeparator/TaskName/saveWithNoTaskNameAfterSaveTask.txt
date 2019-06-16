@@ -1,8 +1,0 @@
-LoadScript{./script/InputSeparator/TaskName/saveWithTaskName.txt}
-
-ViewTask    Click    edit_btn
-EditTasks    TypeText{ }    title_editText
-EditTasks    Click    save_task_btn
-
-# should block save action and stay at EditTasks activity
-AssertView{EditTasks}
