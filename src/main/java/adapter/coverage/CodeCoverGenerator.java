@@ -14,7 +14,7 @@ public class CodeCoverGenerator {
 
     public CodeCoverGenerator(Config config) {
         this.config = config;
-        initCodeCoverageFolder(COVERAGE_PATH);
+        //initCodeCoverageFolder(COVERAGE_PATH);
     }
 
     public void pullCodeCoverage() {
@@ -29,9 +29,9 @@ public class CodeCoverGenerator {
         } catch (Exception e) {
             e.fillInStackTrace();
         }
-        if (checkFileCanUse(coverageFile)) {
+       // if (checkFileCanUse(coverageFile)) {
             this.coverageCounter += 1;
-        }
+        //}
     }
 
     private void initCodeCoverageFolder(String path) {
