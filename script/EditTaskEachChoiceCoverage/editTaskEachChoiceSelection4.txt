@@ -23,6 +23,9 @@ EditTasks    Click    privacy_options_confidential
 #save
 EditTasks   Click   save_task_btn
 
+
+WaitFor{1}
 AssertTextExist{cancelled}
 AssertTextExist{high}
 AssertTextExist{confidential}
+WaitFor{1}

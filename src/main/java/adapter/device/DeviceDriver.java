@@ -16,6 +16,8 @@ public interface DeviceDriver {
     void reopenApp();
     void pressBackKey();
     void pressEnter();
+    void selectTomorrow();
+    void selectSomeday();
     void rotate();
     void waitFor(int millis);
     String getActivityName();

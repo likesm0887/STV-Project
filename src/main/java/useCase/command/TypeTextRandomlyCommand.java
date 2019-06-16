@@ -17,7 +17,7 @@ public class TypeTextRandomlyCommand extends Command {
     }
 
     public String generateRandomText() {
-        String randomText = RandomStringUtils.randomAlphanumeric(10);
+        String randomText = RandomStringUtils.random(10);
         return randomText;
     }
 

@@ -15,7 +15,8 @@ ViewTask    Click   menu_btn
 # 35
 ViewTask    Click   menu_send_to_btn
 # 36
-ViewTask    Click    send_to_see_all
-ViewTask    Click    send_to_create_task
+ViewTask    Click    menu_see_all_btn
+ViewTask    Scroll{down}    menu_create_task_btn
+ViewTask    Click    menu_create_task_btn
 
 EditTasks    Click    save_task_btn

@@ -35,6 +35,9 @@ EditTasks    Click    privacy_options_private
 #save
 EditTasks   Click   save_task_btn
 
+
+WaitFor{1}
 AssertTextExist{done}
 AssertTextExist{medium}
 AssertTextExist{private}
+WaitFor{1}

@@ -3,4 +3,6 @@ LoadScript{./script/InputSeparator/createTask.txt}
 EditTasks	Click	save_task_btn
 WaitFor{1}
 AssertView{ViewTask}
+WaitFor{1}
 AssertTextExist{task name}
+WaitFor{1}
