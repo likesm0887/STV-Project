@@ -1,0 +1,5 @@
+LoadScript{./script/InputSeparator/createTask.txt}
+#   text
+EditTasks	TypeTextRandomly    description_editText
+EditTasks	Click	save_task_btn
+AssertView{ViewTask}

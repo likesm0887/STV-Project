@@ -32,6 +32,8 @@ public class CommandFactory {
                 return this.createMoveUpCommand(xPath);
             case "AssertExist":
                 return this.createAssertExistCommand(xPath);
+            case "AssertNotExist":
+                return this.createAssertNotExistCommand(xPath);
             case "AssertText":
                 return this.createAssertTextCommand(xPath, parameter);
             case "AssertCount":
@@ -121,6 +123,10 @@ public class CommandFactory {
 
     private Command createAssertExistCommand(String xPath) {
         return new AssertExistCommand(deviceDriver, xPath);
+    }
+
+    private Command createAssertNotExistCommand(String xPath) {
+        return new AssertNotExistCommand(deviceDriver, xPath);
     }
 
     private Command createAssertTextCommand(String xPath, String text) {

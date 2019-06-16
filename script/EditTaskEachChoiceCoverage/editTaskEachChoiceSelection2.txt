@@ -1,79 +1,55 @@
-#add new task in folder "My task"
-TaskList	Click	folder{My tasks}
+# add new list to test list folder selection
+TaskList    Click    menu_btn
+TaskList    Click    menu_displayed_lists
+DisplayedLists    Click    add_list_btn
+DisplayedLists    TypeText{New List}    list_editText
+DisplayedLists    Click    list_ok_btn
+DisplayedLists    Click    list_save_btn
+DisplayedLists    Click    return_btn
+
+WaitFor{1}
+# add new task in folder "My tasks"
+TaskList    Click   folder{My tasks}
 TaskList	Click	quick_add_btn{0}
 TaskList	TypeText{Each Choice}	quick_add_editText
 TaskList	Click	quick_add_edit_btn
 
-#select folder
+# select "New List" folder
 EditTasks   Click   folder_dropdown
-EditTasks   Click   folder{My tasks}
+EditTasks   Click   folder{New List}
 
-#select Status done
+# select Status "in process"
 EditTasks	Click	status_dropdown
-EditTasks	Click	status_options_done
+EditTasks	Click	status_options_in_process
 
-#Location input
-EditTasks	TypeText{A place}	location_editText
+EditTasks    Scroll{down}    start_date
 
-#Description input
-EditTasks	TypeText{each choice method}	description_editText
+# select date today(in order to show timezone in view task)
+EditTasks    Click    start_date
+EditTasks    Click    calendar_ok_btn
 
-#check list
-EditTasks	TypeText{check list 1}	check_list_editText{0}
-EditTasks   Click   check_list_checkBox{0}
+EditTasks    Scroll{down}    time_zone_dropdown
 
-#start date
-EditTasks	Click	start_date
-EditTasks	Click	calendar_pick_date{28}
-EditTasks   Click   calendar_year_picker
-#EditTasks   SelectCalenderYear{down} calendar_pick_year{2100}
-EditTasks	Click	calendar_ok_btn
-
-#start time
-EditTasks	Click	start_time
-EditTasks	Click	time_AM_label
-EditTasks	Click	time_PM_label
-EditTasks	Click	time_clock_minutes
-EditTasks	Click	time_clock_pick_minutes{30}
-EditTasks	Click	time_clock_hours
-EditTasks	Click	time_clock_pick_hours{12}
-EditTasks	Click	time_ok_btn
-
-EditTasks   Scroll{down}    URL_editText
-
-#datetime remove
-EditTasks	Click	start_datetime_remove
-
-#due date
-EditTasks	Click	due_date
-EditTasks	Click	calendar_ok_btn
-
-#due time
-EditTasks	Click	due_time
-EditTasks	Click	time_cancel_btn
-
-#time zone
+# select Timezone(GMT+00:00)
 EditTasks	Click	time_zone_dropdown
 EditTasks   SelectTimeZone{up}   time_zone_options{GMT+00:00}
 
-#complete date
-EditTasks   Click   complete_date
-EditTasks   Click   calendar_ok_btn
+EditTasks    Scroll{down}    priority_dropdown
 
-#priority high
-EditTasks   Click   priority_dropdown
-EditTasks   Click   priority_options_high
+# select Priority "low"
+EditTasks    Click    priority_dropdown
+EditTasks    Click    priority_options_low
 
-#privacy private
-EditTasks   Click   privacy_dropdown
-EditTasks   Click   privacy_options_private
+EditTasks    Scroll{down}    privacy_dropdown
 
-#url
-EditTasks   TypeText{www.hyperlink.com}   URL_editText
+# select Privacy "public"
+EditTasks    Click    privacy_dropdown
+EditTasks    Click    privacy_options_public
 
 #save
 EditTasks   Click   save_task_btn
 
-#AssertTextExist{done}
-#AssertTextExist{high}
-#AssertTextExist{private}
+AssertTextExist{New List (Local)}
+AssertTextExist{in process}
+AssertTextExist{low}
+AssertTextExist{public}

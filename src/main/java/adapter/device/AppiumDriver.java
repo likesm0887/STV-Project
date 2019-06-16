@@ -299,6 +299,11 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
+    public void assertNotExist(String xPath) {
+        appiumAsserter.assertNotExist(xPath, "Element exist");
+    }
+
+    @Override
     public void assertText(String xPath, String expectedText) {
         appiumAsserter.assertText(xPath, expectedText);
     }

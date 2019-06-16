@@ -1,0 +1,41 @@
+LoadScript{./script/InputSeparator/createTask.txt}
+
+# enter 2000
+EditTasks    Scroll{down}    due_date
+
+EditTasks    Click    due_date
+EditTasks    Click    calendar_year_picker
+EditTasks    SelectCalenderYear{Up}    calendar_pick_year{2000}
+
+# EditTask    SelectCalenderDate{12/31}
+
+EditTasks    Click    calendar_ok_btn
+EditTasks    Click    save_task_btn
+
+WaitFor{1}
+ViewTask    Click    return_btn
+
+# Task will show the pass due date
+TaskList    Click    folder{My tasks}
+AssertTextExist{Mon, Dec 31, 2000}
+
+
+
+# pass due day Task will show at Today folder at due tab
+TaskList    Click    tab_due
+TaskList    Click    folder{Today}
+AssertTextExist{Mon, Dec 31, 2000}
+
+
+# pass due day Task will show at Today folder at priority tab
+TaskList    Click    tab_priority
+TaskList    Click    folder{No priority}
+AssertTextExist{Mon, Dec 31, 2000}
+
+
+# pass due day Task will show at Today folder at progress tab
+TaskList    Click    tab_progress
+TaskList    Click    folder{Nothing accomplished}
+AssertTextExist{Mon, Dec 31, 2000}
+
+

@@ -1,0 +1,75 @@
+LoadScript{./script/InputSeparator/createTask.txt}
+
+EditTasks    Scroll{Down}    start_date
+
+# Use Each Choice
+# b1 : Hour      [12, 3, 6, 9]
+# b2 : Minute    [00, 15, 30, 45]
+# b3 : Time slot [AM, PM]
+
+
+# Select the date before setting time
+
+# Setting Date : 2018/12/31
+EditTasks    Click    start_date
+EditTasks    Click    calendar_year_picker
+EditTasks    SelectCalenderYear{Up}    calendar_pick_year{2018}
+# EditTask    SelectCalenderDate{12/31}
+EditTasks    Click    calender_ok_btn
+
+
+
+
+# Setting time 12:00 AM
+EditTasks    Click    start_time
+EditTasks    Click    time_clock_hours
+EditTasks    Click    time_clock_pick_hours{12}
+EditTasks    Click    time_clock_minutes
+EditTasks    Click    time_clock_pick_minutes{0}
+EditTasks    Click    time_AM_label
+EditTasks    Click    time_ok_btn
+EditTasks    Click    save_task_btn
+AssertTextExist{Mon, December 31, 2018, 12:00 AM}
+
+# return EditTasks view
+ViewTask    Click    edit_btn
+
+
+# Setting time 3:15 PM
+EditTasks    Click    start_time
+EditTasks    Click    time_clock_hours
+EditTasks    Click    time_clock_pick_hours{3}
+EditTasks    Click    time_clock_minutes
+EditTasks    Click    time_clock_pick_minutes{15}
+EditTasks    Click    time_PM_label
+EditTasks    Click    time_ok_btn
+EditTasks    Click    save_task_btn
+AssertTextExist{Mon, December 31, 2018, 3:15 PM}
+
+# return EditTasks view
+ViewTask    Click    edit_btn
+
+# Setting time 6:30 AM
+EditTasks    Click    start_time
+EditTasks    Click    time_clock_hours
+EditTasks    Click    time_clock_pick_hours{6}
+EditTasks    Click    time_clock_minutes
+EditTasks    Click    time_clock_pick_minutes{30}
+EditTasks    Click    time_AM_label
+EditTasks    Click    time_ok_btn
+EditTasks    Click    save_task_btn
+AssertTextExist{Mon, December 31, 2018, 6:30 AM}
+
+# return EditTasks view
+ViewTask    Click    edit_btn
+
+# Setting time 9:45 PM
+EditTasks    Click    start_time
+EditTasks    Click    time_clock_hours
+EditTasks    Click    time_clock_pick_hours{9}
+EditTasks    Click    time_clock_minutes
+EditTasks    Click    time_clock_pick_minutes{45}
+EditTasks    Click    time_AM_label
+EditTasks    Click    time_ok_btn
+EditTasks    Click    save_task_btn
+AssertTextExist{Mon, December 31, 2018, 9:45 PM}

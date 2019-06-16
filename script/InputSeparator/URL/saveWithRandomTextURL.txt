@@ -1,0 +1,7 @@
+LoadScript{./script/InputSeparator/createTask.txt}
+
+EditTasks    Scroll{Down}    URL_editText
+EditTasks    TypeText{+-*/asd/.554}    URL_editText
+EditTasks    Click    save_task_btn
+AssertTextExist{+-*/asd/.554}
+ViewTask    Click    URL_link{+-*/asd/.554}

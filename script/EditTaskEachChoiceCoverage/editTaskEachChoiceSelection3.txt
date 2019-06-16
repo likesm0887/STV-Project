@@ -1,73 +1,40 @@
-#add new task in folder "My task"
-TaskList	Click	folder{My tasks}
+# add new task in folder "My tasks"
+TaskList    Click   folder{My tasks}
 TaskList	Click	quick_add_btn{0}
 TaskList	TypeText{Each Choice}	quick_add_editText
 TaskList	Click	quick_add_edit_btn
 
-#select folder
-EditTasks   Click   folder_dropdown
-EditTasks   Click   folder{My tasks}
-
-#select Status cancelled
+# select Status "done"
 EditTasks	Click	status_dropdown
-EditTasks	Click	status_options_cancelled
+EditTasks	Click	status_options_done
 
-#Location input
-EditTasks	TypeText{A place}	location_editText
+EditTasks    Scroll{down}    start_date
 
-#Description input
-EditTasks	TypeText{each choice method}	description_editText
+# select date today(in order to show timezone in view task)
+EditTasks    Click    start_date
+EditTasks    Click    calendar_ok_btn
 
-#check list
-EditTasks	TypeText{check list 1}	check_list_editText{0}
-EditTasks   Click   check_list_checkBox{0}
+EditTasks    Scroll{down}    time_zone_dropdown
 
-#start date
-EditTasks	Click	start_date
-EditTasks   Click   calendar_year_picker
-#EditTasks   SelectCalenderYear{down} calendar_pick_year{2040}
-EditTasks   Click   calendar_date_picker
-EditTasks   Click   calendar_previous_month
-EditTasks   Click   calendar_next_month
-EditTasks	Click	calendar_pick_date{10}
-EditTasks   Click   calendar_ok_btn
-
-#start time
-EditTasks	Click	start_time
-EditTasks	Click	time_clock_minutes
-EditTasks	Click	time_clock_pick_minutes{25}
-EditTasks	Click	time_clock_hours
-EditTasks	Click	time_clock_pick_hours{11}
-EditTasks	Click	time_ok_btn
-
-EditTasks   Scroll{down}    URL_editText
-
-#due date
-EditTasks	Click	due_date
-EditTasks	Click	calendar_ok_btn
-
-#time zone
+# select Timezone(GMT+14:00)
 EditTasks	Click	time_zone_dropdown
-EditTasks   SelectTimeZone{down}   time_zone_options{GMT+13:00}
+EditTasks   SelectTimeZone{down}   time_zone_options{GMT+14:00}
 
-#complete date
-EditTasks   Click   complete_date
-EditTasks   Click   calendar_ok_btn
+EditTasks    Scroll{down}    priority_dropdown
 
-#priority medium
-EditTasks   Click   priority_dropdown
-EditTasks   Click   priority_options_medium
+# select Priority "medium"
+EditTasks    Click    priority_dropdown
+EditTasks    Click    priority_options_medium
 
-#privacy public
-EditTasks   Click   privacy_dropdown
-EditTasks   Click   privacy_options_public
+EditTasks    Scroll{down}    privacy_dropdown
 
-#url
-EditTasks   TypeText{www.hyperlink.com}   URL_editText
+# select Privacy "private"
+EditTasks    Click    privacy_dropdown
+EditTasks    Click    privacy_options_private
 
 #save
 EditTasks   Click   save_task_btn
 
-#AssertTextExist{cancelled}
-#AssertTextExist{medium}
-#AssertTextExist{public}
+AssertTextExist{done}
+AssertTextExist{medium}
+AssertTextExist{private}
