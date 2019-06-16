@@ -29,15 +29,15 @@ public class CodeCoverGenerator {
         } catch (Exception e) {
             e.fillInStackTrace();
         }
-       // if (checkFileCanUse(coverageFile)) {
+        if (checkFileCanUse(coverageFile)) {
             this.coverageCounter += 1;
-        //}
+        }
     }
 
     private void initCodeCoverageFolder(String path) {
         File file = new File(path);
         if (!file.exists()) {//判断是否待删除目录是否存在
-            throw  new RuntimeException("coverage folder is not Exist");
+            throw new RuntimeException("coverage folder is not Exist");
         }
         String[] content = file.list();//取得当前目录下所有文件和文件夹
         for (String name : content) {
