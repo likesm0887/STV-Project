@@ -6,6 +6,6 @@
         <AndroidVersion>8</AndroidVersion>
         <AppiumPort>50000</AppiumPort>
         <TestDataPath>./TestData/TestData.xlsx</TestDataPath>
-        <ScripPath>./script/UseCaseCoverage</ScripPath>
+        <ScripPath>./script/demo.txt</ScripPath>
         <TestAnomaly>false</TestAnomaly>
 </configuration>

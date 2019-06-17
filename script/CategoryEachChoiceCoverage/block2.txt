@@ -1,0 +1,53 @@
+# add new task
+TaskList    Click    float_add_btn
+
+# select due date today and save task
+EditTasks    TypeText{Block 2}    title_editText
+
+# today date
+EditTasks    Scroll{down}    start_date
+EditTasks    Click    start_date
+EditTasks    Click    calendar_ok_btn
+
+# due tomorrow date
+EditTasks    Scroll{down}    due_date
+EditTasks    Click    due_date
+SelectTomorrow
+EditTasks    Click    calendar_ok_btn
+
+# priority medium
+EditTasks    Scroll{down}    priority_dropdown
+EditTasks    Click    priority_dropdown
+EditTasks    Click    priority_options_medium
+
+# halfway there with 50%
+EditTasks    Scroll{down}    percent_complete_bar
+EditTasks    PressPercentage{50}    percent_complete_bar
+
+EditTasks    Click    save_task_btn
+
+ViewTask    Click    return_btn
+
+# go to due tab
+TaskList    Click    tab_due
+TaskList    Click    tomorrow_folder
+
+AssertTextExist{Block 2}
+
+# go to starting tab
+TaskList    Click    tab_starting
+TaskList    Click    today_folder
+
+AssertTextExist{Block 2}
+
+# go to priority tab
+TaskList    Click    tab_priority
+TaskList    Click    medium_priority_folder
+
+AssertTextExist{Block 2}
+
+# go to progress tab
+TaskList    Click    tab_progress
+TaskList    Click    halfway_there_folder
+
+AssertTextExist{Block 2}

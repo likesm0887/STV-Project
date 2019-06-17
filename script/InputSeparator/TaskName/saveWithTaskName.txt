@@ -1,6 +1,0 @@
-LoadScript{./script/InputSeparator/createTask.txt}
-#   save with have task name
-EditTasks	Click	save_task_btn
-WaitFor{1}
-AssertView{ViewTask}
-AssertTextExist{task name}

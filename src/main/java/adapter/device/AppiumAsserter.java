@@ -67,6 +67,19 @@ public class AppiumAsserter {
         }
     }
 
+    public void assertNotExist(String xPath) {
+        assertExist(xPath, "Element exist");
+    }
+
+    public void assertNotExist(String xPath, String errorMessage) {
+        try {
+            this.appiumDriver.waitForElement(xPath, 2);
+        } catch (Exception e) {
+            return;
+        }
+        throw new entity.exception.AssertException(errorMessage);
+    }
+
     public String getActivityName() {
         String[] command = {ADB_PATH, "-s", config.getSerialNumber(), "shell", "dumpsys",
                 "activity", "activities", "|", "grep", "\"Run\\ #\""};

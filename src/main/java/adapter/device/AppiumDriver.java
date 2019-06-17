@@ -213,7 +213,7 @@ public class AppiumDriver implements DeviceDriver {
 
         List<MobileElement> result = scrollView.findElementsByXPath(xPath);
         while (result.size() == 0 && findElementTimes < FIND_ELEMENT_LIMIT_TIMES) {
-            scrollView.swipe(gestureDirection, offset, offset, 1500);
+            scrollView.swipe(gestureDirection, offset, offset, 3000);
             result = scrollView.findElementsByXPath(xPath);
             findElementTimes++;
         }
@@ -304,6 +304,28 @@ public class AppiumDriver implements DeviceDriver {
     }
 
     @Override
+    public void selectMonth(int month) {
+        waitFor(500);
+        LocalDate localDate = LocalDate.now();
+
+        if (localDate.getMonthValue() == month)
+            return;
+
+        selectToMonth(localDate.getMonthValue(), month);
+    }
+
+    private void selectToMonth(int dateMonth, int month) {
+        int timesOfClick = Math.abs(dateMonth - month);
+
+        for(int i = 0; i < timesOfClick; i++) {
+            if(month > dateMonth)
+                waitAndClickElement("//*[@resource-id='android:id/next']");
+            else
+                waitAndClickElement("//*[@resource-id='android:id/prev']");
+        }
+    }
+
+    @Override
     public void rotate() {
         if (driver.getOrientation() == ScreenOrientation.PORTRAIT)
             driver.rotate(ScreenOrientation.LANDSCAPE);
@@ -323,6 +345,11 @@ public class AppiumDriver implements DeviceDriver {
     @Override
     public void assertExist(String xPath) {
         appiumAsserter.assertExist(xPath, "Element does not exist");
+    }
+
+    @Override
+    public void assertNotExist(String xPath) {
+        appiumAsserter.assertNotExist(xPath, "Element exist");
     }
 
     @Override

@@ -34,12 +34,16 @@ public class CommandFactory {
                 return this.createSelectTomorrow();
             case "SelectSomeday":
                 return this.createSelectSomeday();
+            case "SelectCalendarMonth":
+                return this.createSelectCalendarMonthCommand(parameter);
             case "PressPercentage":
                 return this.createPressPercentageCommand(xPath, parameter);
             case "Swipe":
                 return this.createSwipeElementCommand(xPath, parameter);
             case "AssertExist":
                 return this.createAssertExistCommand(xPath);
+            case "AssertNotExist":
+                return this.createAssertNotExistCommand(xPath);
             case "AssertText":
                 return this.createAssertTextCommand(xPath, parameter);
             case "AssertCount":
@@ -59,6 +63,10 @@ public class CommandFactory {
         }
 
         throw new RuntimeException("Unexpected command type: " + event);
+    }
+
+    private Command createSelectCalendarMonthCommand(String parameter) {
+        return new SelectCalendarMonthCommand(deviceDriver,parameter);
     }
 
     private Command createTypeTextRandomlyCommand(String xPath) {
@@ -135,6 +143,10 @@ public class CommandFactory {
 
     private Command createAssertExistCommand(String xPath) {
         return new AssertExistCommand(deviceDriver, xPath);
+    }
+
+    private Command createAssertNotExistCommand(String xPath) {
+        return new AssertNotExistCommand(deviceDriver, xPath);
     }
 
     private Command createAssertTextCommand(String xPath, String text) {

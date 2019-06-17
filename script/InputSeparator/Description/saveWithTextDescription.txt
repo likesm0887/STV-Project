@@ -1,5 +1,0 @@
-LoadScript{./script/InputSeparator/createTask.txt}
-#   text
-EditTasks	TypeText{Typing text in description...}	description_editText
-EditTasks	Click	save_task_btn
-AssertTextExist{Typing text in description...}

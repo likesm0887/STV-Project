@@ -42,7 +42,7 @@ public class ScriptParser {
         List<String> lineChunks = splitLineOfScript(line);
         if (lineChunks.size() == 1)
             return createUnaryInstruction(lineChunks.get(0));
-
+//        for(String a : lineChunks) System.out.println(a);
         return createTernaryInstruction(lineChunks.get(0), lineChunks.get(1), lineChunks.get(2));
     }
 

@@ -1,0 +1,23 @@
+LoadScript{./script/InputSpacePartition/createTask.txt}
+
+# enter 2019
+EditTasks    Scroll{down}    start_date
+
+EditTasks    Click    start_date
+EditTasks    Click    calendar_year_picker
+EditTasks    SelectCalenderYear{Down}    calendar_pick_year{2019}
+SelectCalendarMonth{6}
+EditTasks    Click    calendar_pick_date{20}
+EditTasks    Click    calendar_ok_btn
+
+EditTasks    Click    start_time
+EditTasks    Click    time_clock_hours
+EditTasks    Click    time_clock_pick_hours{12}
+EditTasks    Click    time_clock_minutes
+EditTasks    Click    time_clock_pick_minutes{0}
+EditTasks    Click    time_AM_label
+EditTasks    Click    time_ok_btn
+EditTasks    Click    save_task_btn
+
+WaitFor{1}
+AssertTextExist{Thu, June 20, 2019, 12:00 AM}

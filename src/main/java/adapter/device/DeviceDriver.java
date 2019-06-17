@@ -18,6 +18,7 @@ public interface DeviceDriver {
     void pressEnter();
     void selectTomorrow();
     void selectSomeday();
+    void selectMonth(int month);
     void rotate();
     void waitFor(int millis);
     String getActivityName();
@@ -34,6 +35,7 @@ public interface DeviceDriver {
     void pressPercentage(String xPath, int percent);
 
     void assertExist(String xPath);
+    void assertNotExist(String xPath);
     void assertText(String xPath, String expectedText);
     void assertView(String expectActivity);
     void assertElementCount(String xPath, int expectedCount);

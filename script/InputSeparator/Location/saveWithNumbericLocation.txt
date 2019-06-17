@@ -1,6 +1,0 @@
-LoadScript{./script/InputSeparator/createTask.txt}
-#	input number
-EditTasks    Scroll{Down}    location_editText
-EditTasks    TypeText{-1}    location_editText
-EditTasks    Click    save_task_btn
-AssertTextExist{-1}

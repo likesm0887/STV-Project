@@ -1,0 +1,6 @@
+#   save with no task name
+TaskList	Click	float_add_btn
+EditTasks	Click	save_task_btn
+WaitFor{1}
+AssertTextExist{Empty task not saved.}
+WaitFor{1}
