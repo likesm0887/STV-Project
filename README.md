@@ -13,8 +13,7 @@
 * 進階使用能夠產生腳本執行後的Code Coverage
 
 * DEMO
-{%youtube 3-zlCvBwULs %}
-
+https://www.youtube.com/watch?v=3-zlCvBwULs 
 * AKB System Conceptial Diagram
     ![](https://i.imgur.com/NQlR781.png)
 
@@ -276,4 +275,4 @@
     3. **Save script**: 當使用者不想使用此工具，會自動詢問是否要產生新的txt腳本到script folder裡面，如果使用者選擇是就會要求使用者輸入名稱。
 
 - **Demo**
-    {%youtube cTVBHPrcw6Q %}
+    https://www.youtube.com/watch?v=cTVBHPrcw6Q
