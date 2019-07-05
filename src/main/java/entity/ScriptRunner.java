@@ -41,4 +41,26 @@ public class ScriptRunner {
     protected void afterCommand() {
 
     }
+
+//
+//
+//    private void execute1(ICommand command) {
+//
+//        while (true) {
+//            if (isExecutionComplete())
+//                break;
+//
+//
+//            try {
+//                increaseAttempt();
+//                executeCommand(command);
+//                executionComplete();
+//            } catch (StaleElementReferenceException e) {
+//                if (attemptNumberReach())
+//                    throw new RuntimeException(e);
+//            }
+//
+//        }
+//
+//    }
 }

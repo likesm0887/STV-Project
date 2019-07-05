@@ -1,7 +1,6 @@
 package entity.report;
 
 import entity.ScriptInformation;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,7 +100,4 @@ public class ScriptReportGenerator implements ReportGenerator {
             result.add(String.format(leftAlignFormat, s.getScriptName(), TimeHelper.transformToSecondFormat(s.getExecutionTime()) + " s", decorateStatus(s.resultStatus())));
         return result;
     }
-
-
-
 }
