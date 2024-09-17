@@ -45,6 +45,8 @@ https://www.youtube.com/watch?v=3-zlCvBwULs
 ## App
 - 待測App必須經過instrument
 
+[Demo](https://www.youtube.com/watch?v=cTVBHPrcw6Q&feature=youtu.be)
+
 ## 設定Config
 ![](https://i.imgur.com/UMwmlwN.png)
 - DeviceName, SerialNumber, AndroidVersion：為Android裝置設定，需要對映裝置名稱、序列號碼、和版本
